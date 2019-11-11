@@ -1,0 +1,34 @@
+.Towa-Dsgvo-Plugin {
+  position: fixed;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  -webkit-box-pack: center;
+          justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  z-index: 900;
+}
+
+.Towa-Dsgvo-Plugin::before {
+  content: "";
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+}
+
+.Towa-Dsgvo-Plugin__wrapper {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1440px;
+  background: #FFF;
+  padding: 20px 40px;
+}
+

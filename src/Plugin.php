@@ -116,7 +116,7 @@ public function  render_footer():void {
 	}
 
 	private function load_dependencies(): void {
-			$dependencies = new DependencyManager($this->config->getSubConfig('Settings'));
+			$dependencies = new DependencyManager($this->config->getSubConfig('Settings.submenu_pages.0.dependencies'));
 			add_action( 'init', [ $dependencies, 'register' ] );
 	}
 

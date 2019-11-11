@@ -26,23 +26,21 @@ $towa_dsgvo_plugin_settings = [
 			'capability'   => 'manage_options',
 			'menu_slug'    => 'towa-dsgvo-plugin',
 			'view'         => TOWA_DSGVO_PLUGIN_DIR . 'views/admin-page.twig',
-            'redirect'     => false,
+			'redirect'     => false,
 			'dependencies' => [
 				'styles'   => [
-				    [
-				        'handle'    => 'towa-dsgvo-plugin-css',
-                        'src'       =>  TOWA_DSGVO_PLUGIN_URL . 'css/frontend.css',
-                        'deps'      =>  '',
-                        'ver'       =>  '1.0.0',
-                        'media'     =>  'all'
-
-                    ]
-                ],
+					[
+						'handle'    => 'towa-dsgvo-plugin-css',
+						'src'       =>  TOWA_DSGVO_PLUGIN_URL . 'dist/css/main.css',
+						'deps'      =>  '',
+						'ver'       =>  '1.0.0',
+						'media'     =>  'all'
+					]
+				],
 				'scripts'  => [
 					[
 						'handle'    => 'towa-dsgvo-plugin-js',
-						'src'       => TOWA_DSGVO_PLUGIN_URL . 'js/admin-page.js',
-						'deps'      => [ 'jquery' ],
+						'src'       => TOWA_DSGVO_PLUGIN_URL . 'dist/js/main.js',
 						'ver'       => '1.0.0',
 						'in_footer' => true,
 						// phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- Mixed type

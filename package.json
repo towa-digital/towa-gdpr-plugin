@@ -1,0 +1,47 @@
+{
+  "name": "towa-dsgvo-plugin",
+  "version": "1.0.0",
+  "description": "Dsgvo Compliance Plugin for Wordpress",
+  "main": "src/js/main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=5.6.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+		"production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+		"watch": "npm run development -- --watch",
+		"watch-poll": "npm run watch -- --watch-poll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/towa_gmbh/towa-dsgvo-plugin.git"
+  },
+  "keywords": [
+    "dsgvo",
+    "towa",
+    "cookie-notice"
+  ],
+  "author": "martin welte <martin.welte@towa.at>",
+  "license": "GPLv2",
+  "homepage": "https://bitbucket.org/towa_gmbh/towa-dsgvo-plugin#readme",
+  "devDependencies": {
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "browser-sync": "^2.26.7",
+    "browser-sync-webpack-plugin": "^2.0.1",
+    "cross-env": "^6.0.3",
+    "dotenv": "^8.2.0",
+    "laravel-mix": "^5.0.0",
+    "laravel-mix-purgecss": "^4.2.0",
+    "resolve-url-loader": "^3.1.0",
+    "sass": "^1.23.3",
+    "sass-loader": "^8.0.0",
+    "vue-template-compiler": "^2.6.10"
+  }
+}

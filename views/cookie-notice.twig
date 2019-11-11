@@ -1,13 +1,17 @@
 <div class="Towa-Dsgvo-Plugin">
-    {% for group in cookie_groups %}
-        {% for cookie in group.cookies %}
-            <li>
-                <h3 class="Towa-Dsgvo-Plugin__cookie__headline">{{ cookie.link.title }}</h3>
-                <p class="Towa-Dsgvo-Plugin__cookie__description">{{ cookie.description }}</p>
-                <a href="{{ cookie.link.url }}" target="_blank">{{ __('Cookie policy of','towa-dsgvo-plugin') ~ cookie.link.title }}</a>
-            </li>
-        {% endfor %}
-    {% endfor %}
+	<div class="Towa-Dsgvo-Plugin__wrapper">
+		<ul class="Towa-Dsgvo-Plugin__list">
+			{% for group in cookie_groups %}
+				{% for cookie in group.cookies %}
+				<li>
+					<h3 class="Towa-Dsgvo-Plugin__cookie__headline">{{ cookie.link.title }}</h3>
+					<p class="Towa-Dsgvo-Plugin__cookie__description">{{ cookie.description }}</p>
+					<a href="{{ cookie.link.url }}" target="_blank">{{ __('Cookie policy of','towa-dsgvo-plugin') ~ cookie.link.title }}</a>
+				</li>
+				{% endfor %}
+			{% endfor %}
+		</ul>
+	</div>
 </div>
 <script type="text/javascript">
 {% for group in cookie_groups %}
