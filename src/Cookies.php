@@ -59,11 +59,4 @@ class Cookies implements AcfGroup
             ]),
         ];
 	}
-
-	public static function get_fields()
-	{
-		return ['cookie_groups' => get_field('cookie_groups','option')];
-	}
-
-
 }

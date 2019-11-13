@@ -10,5 +10,4 @@ namespace Towa\DsgvoPlugin;
 interface AcfGroup{
     public function register(string $page);
 	public function build_fields();
-	public static function get_fields();
 }

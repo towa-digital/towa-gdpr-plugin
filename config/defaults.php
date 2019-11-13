@@ -43,21 +43,13 @@ $towa_dsgvo_plugin_settings = [
 						'src'       => TOWA_DSGVO_PLUGIN_URL . 'dist/js/main.js',
 						'ver'       => '1.0.0',
 						'in_footer' => true,
-						// phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- Mixed type
-						'is_needed' => function ( $context ): bool {
-							if ( $context ) {
-								return false;
-							}
-
-							return true;
-						},
 						'localize'  => [
-							'name' => 'pluginSlugI18n',
+							'name' => 'towaDsgvoContext',
 							// phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- Mixed type
 							'data' => function ( $context ): array {
 								return [
-									'test_localize_data' => 'test_localize_value',
-									'context'            => $context,
+									'context'						=> $context,
+									'settings'					=> get_fields('options')
 								];
 							},
 						],
@@ -71,22 +63,7 @@ $towa_dsgvo_plugin_settings = [
 		],
 	],
 	'settings'      => [
-		'setting1' => [
-			'option_group'      => 'towa-dsgvo-plugin',
-			'sanitize_callback' => null,
-			'sections'          => [
-				'section1' => [
-					'title'  => __( 'My Section Title', 'towa-dsgvo-plugin' ),
-					'view'   => TOWA_DSGVO_PLUGIN_DIR . 'views/section1.php',
-					'fields' => [
-						'field1' => [
-							'title' => __( 'My Field Title', 'towa-dsgvo-plugin' ),
-							'view'  => TOWA_DSGVO_PLUGIN_DIR . 'views/field1.php',
-						],
-					],
-				],
-			],
-		],
+
 	],
 ];
 
