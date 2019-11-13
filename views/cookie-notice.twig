@@ -1,22 +1,56 @@
-<div class="Towa-Dsgvo-Plugin">
+<div class="Towa-Dsgvo-Plugin" id="Towa-Dsgvo-Plugin">
 	<div class="Towa-Dsgvo-Plugin__wrapper">
-		<ul class="Towa-Dsgvo-Plugin__list">
-			{% for group in cookie_groups %}
-				{% for cookie in group.cookies %}
-				<li>
-					<h3 class="Towa-Dsgvo-Plugin__cookie__headline">{{ cookie.link.title }}</h3>
-					<p class="Towa-Dsgvo-Plugin__cookie__description">{{ cookie.description }}</p>
-					<a href="{{ cookie.link.url }}" target="_blank">{{ __('Cookie policy of','towa-dsgvo-plugin') ~ cookie.link.title }}</a>
-				</li>
+		<div class="Towa-Dsgvo-Plugin__left">
+			<div class="Towa-Dsgvo-Plugin__wysiwyg">
+				{{ cookie_wysiwyg|raw }}
+			</div>
+			<div class="Towa-Dsgvo-Plugin__group-panels">
+				{% for group in cookie_groups %}
+					<div class="Towa-Dsgvo-Plugin__group-panel {{loop.first ? 'active'}}" role="tabpanel" id="TowaDsgvo-{{loop.index}}">
+						<h2 class="Towa-Dsgvo-Plugin__group-title">{{group.title}}</h2>
+						<p class="Towa-Dsgvo-pluing__group-description">{{group.description}}</p>
+						<ul class="Towa-Dsgvo-Plugin__cookies">
+							{% for cookie in group.cookies %}
+							<li>
+								<div class="Towa-Dsgvo-Plugin__switch-wrapper">
+									<label class="Towa-Dsgvo-Plugin__cookie__headline">{{ cookie.link.title }}</label>
+									<div class="Towa-Dsgvo-Plugin__switch">
+										<input class="Towa-Dsgvo-Plugin__cookie__checkbox"  data-cookiename="{{cookie.link.title}}" type="checkbox"/>
+										<span class="slider"></span>
+									</div>
+								</div>
+								<p class="Towa-Dsgvo-Plugin__cookie__description">{{ cookie.description }}</p>
+								<a href="{{ cookie.link.url }}" target="_blank">{{ __('Cookie policy of','towa-dsgvo-plugin') ~ cookie.link.title }}</a>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
 				{% endfor %}
-			{% endfor %}
-		</ul>
-	</div>
+			</div>
+			<div class="Towa-Dsgvo-Plugin__buttons">
+				<button class="Towa-Dsgvo-Plugin__save {{ custom_save_classes }}">{{ save_label }}</button>
+				<button class="Towa-Dsgvo-Plugin__decline-all {{ custom_decline_classes }}">{{ decline_label }}</button>
+				<button class="Towa-Dsgvo-Plugin__accept-all {{ custom_accept_classes }}">{{ accept_label }}</button>
+			</div>
+		</div>
+		<div class="Towa-Dsgvo-Plugin__right">
+			<nav class="Towa-Dsgvo-Plugin__groups">
+				<ul>
+					{% for group in cookie_groups %}
+					<li role="tab" aria-controls="TowaDsgvo-{{loop.index}}" class="Towa-Dsgvo-Plugin__group {{loop.first ? 'active'}}">
+						<div class="Towa-Dsgvo-Plugin__switch-wrapper">
+							<label>{{group.title}}</label>
+							<div class="Towa-Dsgvo-Plugin__switch">
+								<input class="Towa-Dsgvo-Plugin__cookie-group__checkbox" data-groupname="{{group.title}}" type="checkbox" />
+								<span class="slider"></span>
+							</div>
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+			</nav>
+		</div>
+
 </div>
-<script type="text/javascript">
-{% for group in cookie_groups %}
-        {% for cookie in group.cookies %}
-            {{ cookie.javascript }}
-        {% endfor %}
-{% endfor %}
-</script>
+<div id="TowaDsgvoScripts"></div>
+
