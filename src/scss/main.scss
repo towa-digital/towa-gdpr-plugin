@@ -45,14 +45,23 @@
 		}
 	}
 	&__left{
-		padding: 20px;
+		padding: 20px 0;
 		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__wysiwyg{
+		padding: 20px;
 	}
 
 	&__group{
 		padding: 20px;
 		&.active{
 			background: $color-white;
+			.Towa-Dsgvo-Plugin__group-description{
+				display:block;
+			}
 		}
 		&-panel{
 			display: none;
@@ -61,19 +70,26 @@
 			}
 		}
 	}
+
 	&__group-title{
 		@include font-h3;
 		box-sizing: border-box;
-		border-bottom: 1px solid;
-		border-color: $color-active;
-		@supports(--css: variables){
-			border-color: var(--highlightcolor);
 	}
+	&__group-description{
+		display: none;
 	}
-	&__cookies{
-		li{
-			&:nth-child(2n){
-				// background-color: $color-light-background;
+	&__cookie{
+		display: flex;
+		align-items: center;
+		border-left: 2px solid transparent;
+		// padding-left: 20px;
+		padding: 10px 20px;
+		&.active{
+			background: rgba($color-active,0.1);
+			border-left: 2px solid $color-active;
+			@supports(--css: variables){
+				border-left: 2px solid var(--highlightcolor);
+				background: var(--highlightcolorLight);
 			}
 		}
 	}
@@ -93,6 +109,37 @@
 		position: relative;
 		display: inline-block;
 		flex-shrink: 0;
+		&.small{
+			width: 20px;
+			margin-right: 20px;
+			.slider{
+				border-radius: 50%;
+				border: 2px solid $color-ui-elements;
+				background: $color-white;
+				&::before{
+					opacity: 0;
+					transform: none;
+					background-color: $color-active;
+					height: 12px;
+					width: 12px;
+
+					@supports(--css: variables){
+						background-color: var(--highlightcolor);
+					}
+				}
+			}
+			input:checked + .slider{
+				background: $color-white;
+				border-color: $color-active;
+				@supports(--css: variables){
+					border-color: var(--highlightcolor);
+				}
+				&:before{
+					opacity: 1;
+					transform: none;
+				}
+			}
+		}
 		input{
 			opacity: 0;
 			width: 100%;
@@ -112,7 +159,7 @@
 		}
 		.slider{
 			@include util-cover;
-			background-color: #ccc;
+			background-color: $color-ui-elements;
 			-webkit-transition: .4s;
 			transition: .4s;
 			border-radius: 10px;
@@ -126,8 +173,7 @@
 				top: 2px;
 				border-radius: 50%;
 				background-color: white;
-				-webkit-transition: .4s;
-				transition: .4s;
+				transition: ease-out all .2s;
 			}
 
 		}
@@ -135,6 +181,8 @@
 	&__buttons{
 		display: flex;
 		flex-direction: row;
+		margin-top: auto;
+		padding: 0 20px;
 	}
 	&__save,&__accept-all,&__decline-all{
 		@include element-button;

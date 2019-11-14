@@ -20,9 +20,10 @@
 	border-radius: 0;
 	box-sizing: border-box;
   min-width: 220px;
-  padding: 20px 30px;
+  padding: 15px 25px;
 	border: 2px solid $color-active;
 	text-align: center;
+	font-size: 16px;
 	@include media('>=md'){
 		&:not(:last-of-type){
 			margin-right: 10px;

@@ -45,6 +45,7 @@ class AcfCookies implements AcfGroup
 			(new Repeater($this->name, 'cookie_groups', __('Cookie groups')))->build([
 				'sub_fields' => [
 					(new Text($this->name, 'title', __('Groupname', 'towa-dsgvo-plugin')))->build(),
+					(new Text($this->name, 'description', __('Group description','towa-dsgvo-plugin')))->build(),
 					(new Repeater($this->name, 'cookies', __('AcfCookies', 'towa-dsgvo-plugin')))->build([
 						'sub_fields' => [
 							(new Link($this->name, 'link', __('link to Provider', 'towa-dsgvo-plugin')))->build(),

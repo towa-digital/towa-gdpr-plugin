@@ -10,10 +10,6 @@ mix
 	.js('src/js/main.js','dist/js')
 	.sass('src/scss/main.scss','dist/css')
 
-	.babelConfig({
-		plugins: ['babel-plugin-syntax-dynamic-import']
-	})
-
 	.webpackConfig({
 		resolve: {
 			extensions: ['*', '.js', '.vue', '.json', 'scss', '.css'],

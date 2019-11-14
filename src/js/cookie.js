@@ -1,7 +1,7 @@
 
 import Cookies from 'js-cookie';
 import Cookie from './cookie';
-
+import Observable from './observable';
 export default class TowaDsgvoCookie {
 	constructor(cookie,root){
 		this.state = {};
@@ -11,44 +11,48 @@ export default class TowaDsgvoCookie {
 			javascript: this.state.javascript
 		} = cookie);
 
-		this.state.name = this.state.link.title;
-
-		this.state = {...this.state, ...{
-			self: this,
-			active: this.isCookieActive(),
-		}};
+		this.state = {
+			...this.state, ...{
+				active: this.isCookieActive(),
+				name: this.state.link.title
+			}
+		};
 
 		this.ref = {
 			root: root,
-			domEl: root.querySelector(`[data-cookiename="${this.state.name}"]`)
+			domEl: root.querySelector(`[data-cookiename="${this.state.name}"]`),
+			listEl: root.querySelector(`[data-cookiename="${this.state.name}"]`).closest('li')
 		}
+
 		this.changeEvent = new Event('cookieChanged');
 		this.init();
 	}
 
-	setUpProxyVariables(){
-		this.state = new Proxy(this.state,{
-			get(target, key) {
-				return target[key];
-			},
-			set(obj, prop, value) {
-				let returnValue = Reflect.set(...arguments);;
-				if (prop === 'active') {
-					obj.self.render();
-				}
-				return returnValue;
-			}
-		});
-	}
-
 	init(){
-		this.setUpProxyVariables();
+		this.defineObservables();
 		this.setUpListeners();
 		this.render();
 	}
 
 	render(){
-		this.ref.domEl.checked = this.state.active;
+		this.ref.domEl.checked = this.state.active.value;
+		this.setCssClass(this.ref.listEl,'active',this.state.active.value);
+	}
+
+	setCssClass(element, className, state) {
+		if (!state) {
+			element.classList.remove(className);
+		}
+		else if (!element.classList.contains(className) && state === true) {
+			element.classList.add(className);
+		}
+	}
+
+	defineObservables(){
+		this.state.active = new Observable(this.state.active, this.ref.domEl),
+		this.ref.domEl.addEventListener('render', () => {
+			this.render();
+		});
 	}
 
 	setUpListeners(){
@@ -58,7 +62,7 @@ export default class TowaDsgvoCookie {
 	}
 
 	toggle(){
-		this.state.active = !this.state.active;
+		this.state.active.value =  !this.state.active.value;
 		this.ref.root.dispatchEvent(this.changeEvent);
 	}
 
@@ -67,23 +71,23 @@ export default class TowaDsgvoCookie {
 	}
 
 	accept(){
-		this.state.active = true;
+		this.state.active.value = true;
 		Cookies.set(this.state.name,true,towaDsgvoContext.settings.cookieTime);
 		this.ref.root.dispatchEvent(this.changeEvent);
 	}
 
 	decline(){
-		this.state.active = false;
+		this.state.active.value =  false;
 		Cookies.set(this.state.name,false,towaDsgvoContext.settings.cookieTime);
 		this.ref.root.dispatchEvent(this.changeEvent);
 	}
 
 	save(){
-		this.state.active === true ? Cookies.set(this.state.name, true, towaDsgvoContext.settings.cookieTime) : Cookies.set(this.state.name, false, towaDsgvoContext.settings.cookieTime);;
+		this.state.active.value === true ? Cookies.set(this.state.name, true, towaDsgvoContext.settings.cookieTime) : Cookies.set(this.state.name, false, towaDsgvoContext.settings.cookieTime);;
 	}
 
 	setActive(value){
-		this.state.active = value;
+		this.state.active.value =  value;
 	}
 
 }

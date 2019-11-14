@@ -1,5 +1,5 @@
 import Cookie from './cookie';
-
+import Observable from './observable';
 export default class CookieGroup{
 	constructor(group,root,display){
 		this.state = {
@@ -9,6 +9,7 @@ export default class CookieGroup{
 			active: false,
 			self: this
 		}
+
 		this.ref = {
 			root: root,
 			domEl: root.querySelector(`[data-groupname="${group.title}"]`),
@@ -18,38 +19,32 @@ export default class CookieGroup{
 		this.toggleGroupClickedEvent = new CustomEvent('toggleGroupClicked',{detail:{id:this.state.id}});
 
 		if(typeof group.cookies === 'object'){
+
 			group.cookies.map(cookie => {
 				let myCookie = new Cookie(cookie,root);
 				this.state.cookies.push(myCookie);
-			})
+			});
 		}
 		this.init();
 	}
 
-	setUpProxyVariables(){
-		this.state = new Proxy(this.state, {
-			get(target, key) {
-				return target[key];
-			},
-			set(obj, prop, value) {
-					let returnValue = Reflect.set(...arguments);;
-					if ((prop === 'display') || prop === 'active'){
-						obj.self.render();
-					}
-					return returnValue;
-				}
-		});
-	}
-
 	init(){
-		this.setUpProxyVariables();
-		this.state.active = this.isGroupActive();
+		this.defineObservables();
+		this.state.active.value =  this.isGroupActive();
 		this.setUpListeners();
 		this.render();
 	}
 
+	defineObservables(){
+		this.state.display = new Observable(this.state.display, this.ref.domEl);
+		this.state.active = new Observable(this.state.active,this.ref.domEl);
+		this.ref.domEl.addEventListener('render', () => {
+			this.render();
+		});
+	}
+
 	isGroupActive(){
-		return (this.state.cookies.filter((cookie) => { return cookie.state.active === true }).length > 0);
+		return (this.state.cookies.filter((cookie) => { return cookie.state.active.value === true }).length > 0);
 	}
 
 	setCssClass(element,className,state){
@@ -62,15 +57,15 @@ export default class CookieGroup{
 	}
 
 	render(){
-		this.ref.domEl.checked = this.state.active;
-		this.setCssClass(this.ref.panel,'active',this.state.display);
-		this.setCssClass(this.ref.li,'active', this.state.display);
+		this.ref.domEl.checked = this.state.active.value;
+		this.setCssClass(this.ref.panel,'active',this.state.display.value);
+		this.setCssClass(this.ref.li,'active', this.state.display.value);
 	}
 
 	toggle(){
-		this.state.active = !this.state.active;
+		this.state.active.value =  !this.state.active.value;
 		this.state.cookies.forEach(cookie=>{
-			cookie.setActive(this.state.active);
+			cookie.setActive(this.state.active.value);
 		});
 	}
 
@@ -79,15 +74,15 @@ export default class CookieGroup{
 			this.toggle();
 		});
 		this.ref.root.addEventListener('cookieChanged',()=> {
-			this.state.active = this.isGroupActive();
+			this.state.active.value =  this.isGroupActive();
 		});
 		this.ref.li.addEventListener('click',()=>{
 			this.ref.root.dispatchEvent(this.toggleGroupClickedEvent,this.state.id);
-			this.state.display = true;
+			this.state.display.value = true;
 		});
 		this.ref.root.addEventListener('toggleGroupClicked',(event)=>{
 			if (this.state.id !== event.detail.id){
-				this.state.display = false;
+				this.state.display.value = false;
 			}
 		});
 	}

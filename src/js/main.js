@@ -1,6 +1,7 @@
+import './polyfills';
 import Cookies from 'js-cookie';
 import CookieGroup from './cookiegroup';
-
+import Observable from './observable';
 class TowaDsgvoPlugin{
 	constructor(){
 		this.refs = {
@@ -26,26 +27,18 @@ class TowaDsgvoPlugin{
 	}
 
 	init(){
-		this.setUpProxieVariables();
+		this.defineObservables();
 		this.applySettings();
 		this.setUpListeners();
 		this.render();
 		this.renderScripts();
 	}
 
-	setUpProxieVariables(){
-		this.state = new Proxy(this.state, {
-			get(target, key) {
-				return target[key];
-			},
-			set(obj, prop, value) {
-				let returnValue = Reflect.set(...arguments);
-				if (prop === 'accepted') {
-					obj.self.render();
-				}
-				return returnValue;
-			}
-		});
+	defineObservables(){
+		this.state.accepted = new Observable(this.state.accepted,this.refs.root);
+		this.refs.root.addEventListener('render',()=>{
+			this.render();
+		})
 	}
 
 	setCssClass(element, className, state) {
@@ -58,11 +51,22 @@ class TowaDsgvoPlugin{
 	}
 
 	render(){
-		this.setCssClass(this.refs.root,'show', !this.state.accepted);
+		this.setCssClass(this.refs.root,'show', !this.state.accepted.value);
+	}
+
+	convertHexColorToRgbString(hex, opacity) {
+		hex = hex.replace('#', '');
+		let r = parseInt(hex.substring(0, 2), 16);
+		let g = parseInt(hex.substring(2, 4), 16);
+		let b = parseInt(hex.substring(4, 6), 16);
+
+		return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity + ')';
 	}
 
 	applySettings(){
 		if(this.context.settings.highlight_color){
+			let highlight_color_light = this.convertHexColorToRgbString(this.context.settings.highlight_color,0.1);
+			this.refs.root.style.setProperty('--highlightcolorLight',highlight_color_light);
 			this.refs.root.style.setProperty('--highlightcolor', this.context.settings.highlight_color);
 		}
 	}
@@ -78,7 +82,7 @@ class TowaDsgvoPlugin{
 		let scriptEl = document.createElement('script');
 		this.cookieGroups.forEach(group => {
 			group.state.cookies.forEach((cookie)=>{
-				if (cookie.state.active === true){
+				if (cookie.state.active.value === true){
 					scriptEl.innerText += cookie.state.javascript;
 				}
 			})
@@ -89,7 +93,7 @@ class TowaDsgvoPlugin{
 	}
 
 	accept(){
-		this.state.accepted = true;
+		this.state.accepted.value = true;
 		Cookies.set('DsgvoAccepted',true,this.context.settings.cookieTime);
 		this.renderScripts();
 	}
@@ -121,7 +125,7 @@ class TowaDsgvoPlugin{
 		});
 		this.refs.triggerPopupLinks.forEach((link) => {
 			link.addEventListener('click',()=>{
-				this.state.accepted = false;
+				this.state.accepted.value = false;
 			});
 		});
 	}
