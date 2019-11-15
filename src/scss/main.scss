@@ -164,6 +164,7 @@
 			transition: .4s;
 			border-radius: 10px;
 			pointer-events: none;
+			box-sizing: border-box;
 			&::before{
 				position: absolute;
 				content: "";

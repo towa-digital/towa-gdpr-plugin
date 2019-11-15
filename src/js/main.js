@@ -2,6 +2,7 @@ import './polyfills';
 import Cookies from 'js-cookie';
 import CookieGroup from './cookiegroup';
 import Observable from './observable';
+import {convertHexColorToRgbString,setCssClass,deleteAllCookies} from './helpers';
 class TowaDsgvoPlugin{
 	constructor(){
 		this.refs = {
@@ -11,8 +12,7 @@ class TowaDsgvoPlugin{
 		}
 		this.context = towaDsgvoContext;
 		this.state = {
-			accepted: this.hasDsgvoAccepted(),
-			self: this
+			accepted: this.UserhasDsgvoAccepted()
 		};
 		if (typeof this.context.settings.cookie_groups === 'object'){
 			this.cookieGroups = this.context.settings.cookie_groups.map((group, index)=>{
@@ -22,13 +22,13 @@ class TowaDsgvoPlugin{
 		this.init();
 	}
 
-	hasDsgvoAccepted(){
+	UserhasDsgvoAccepted(){
 		return (Cookies.get('DsgvoAccepted') === 'true');
 	}
 
 	init(){
-		this.defineObservables();
 		this.applySettings();
+		this.defineObservables();
 		this.setUpListeners();
 		this.render();
 		this.renderScripts();
@@ -41,31 +41,13 @@ class TowaDsgvoPlugin{
 		})
 	}
 
-	setCssClass(element, className, state) {
-		if (!state) {
-			element.classList.remove(className);
-		}
-		else if (!element.classList.contains(className) && state === true) {
-			element.classList.add(className);
-		}
-	}
-
 	render(){
-		this.setCssClass(this.refs.root,'show', !this.state.accepted.value);
-	}
-
-	convertHexColorToRgbString(hex, opacity) {
-		hex = hex.replace('#', '');
-		let r = parseInt(hex.substring(0, 2), 16);
-		let g = parseInt(hex.substring(2, 4), 16);
-		let b = parseInt(hex.substring(4, 6), 16);
-
-		return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity + ')';
+		setCssClass(this.refs.root,'show', !this.state.accepted.value);
 	}
 
 	applySettings(){
 		if(this.context.settings.highlight_color){
-			let highlight_color_light = this.convertHexColorToRgbString(this.context.settings.highlight_color,0.1);
+			let highlight_color_light = convertHexColorToRgbString(this.context.settings.highlight_color,0.1);
 			this.refs.root.style.setProperty('--highlightcolorLight',highlight_color_light);
 			this.refs.root.style.setProperty('--highlightcolor', this.context.settings.highlight_color);
 		}
@@ -106,7 +88,7 @@ class TowaDsgvoPlugin{
 	}
 
 	declineAll(){
-		this.deleteAllCookies();
+		deleteAllCookies();
 		this.cookieGroups.forEach((group)=>{
 			group.declineWholeGroup();
 		});
@@ -128,17 +110,6 @@ class TowaDsgvoPlugin{
 				this.state.accepted.value = false;
 			});
 		});
-	}
-
-	deleteAllCookies(){
-		var cookies = document.cookie.split(";");
-
-		for (var i = 0; i < cookies.length; i++) {
-			var cookie = cookies[i];
-			var eqPos = cookie.indexOf("=");
-			var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-		}
 	}
 }
 new TowaDsgvoPlugin();

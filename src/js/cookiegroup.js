@@ -1,5 +1,6 @@
 import Cookie from './cookie';
 import Observable from './observable';
+import {setCssClass} from './helpers';
 export default class CookieGroup{
 	constructor(group,root,display){
 		this.state = {
@@ -7,30 +8,28 @@ export default class CookieGroup{
 			cookies: [],
 			display: display,
 			active: false,
-			self: this
 		}
-
 		this.ref = {
 			root: root,
 			domEl: root.querySelector(`[data-groupname="${group.title}"]`),
 			li: root.querySelector(`[data-groupname="${group.title}"]`).closest('li'),
 			panel: root.querySelector(`#${this.state.id}`)
 		}
-		this.toggleGroupClickedEvent = new CustomEvent('toggleGroupClicked',{detail:{id:this.state.id}});
 
 		if(typeof group.cookies === 'object'){
-
 			group.cookies.map(cookie => {
 				let myCookie = new Cookie(cookie,root);
 				this.state.cookies.push(myCookie);
 			});
 		}
+
+		this.toggleGroupClickedEvent = new CustomEvent('toggleGroupClicked',{detail:{id:this.state.id}});
 		this.init();
 	}
 
 	init(){
+		this.state.active =  this.isGroupActive();
 		this.defineObservables();
-		this.state.active.value =  this.isGroupActive();
 		this.setUpListeners();
 		this.render();
 	}
@@ -47,19 +46,10 @@ export default class CookieGroup{
 		return (this.state.cookies.filter((cookie) => { return cookie.state.active.value === true }).length > 0);
 	}
 
-	setCssClass(element,className,state){
-		if(!state){
-			element.classList.remove(className);
-		}
-		else if (!element.classList.contains(className) && state === true){
-			element.classList.add(className);
-		}
-	}
-
 	render(){
 		this.ref.domEl.checked = this.state.active.value;
-		this.setCssClass(this.ref.panel,'active',this.state.display.value);
-		this.setCssClass(this.ref.li,'active', this.state.display.value);
+		setCssClass(this.ref.panel,'active',this.state.display.value);
+		setCssClass(this.ref.li,'active', this.state.display.value);
 	}
 
 	toggle(){

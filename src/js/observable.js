@@ -1,7 +1,7 @@
 export default class Observable{
-	constructor(value,rootNode){
+	constructor(value,targetNode){
 		this.myValue = value;
-		this.rootNode = rootNode;
+		this.targetNode = targetNode;
 	}
 	get value(){
 		return this.myValue;
@@ -9,6 +9,6 @@ export default class Observable{
 	set value(value){
 		this.myValue = value;
 		let event = new Event('render');
-		this.rootNode.dispatchEvent(event);
+		this.targetNode.dispatchEvent(event);
 	}
 }

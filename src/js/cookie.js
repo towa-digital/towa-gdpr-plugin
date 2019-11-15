@@ -2,6 +2,7 @@
 import Cookies from 'js-cookie';
 import Cookie from './cookie';
 import Observable from './observable';
+import {setCssClass} from './helpers';
 export default class TowaDsgvoCookie {
 	constructor(cookie,root){
 		this.state = {};
@@ -36,16 +37,7 @@ export default class TowaDsgvoCookie {
 
 	render(){
 		this.ref.domEl.checked = this.state.active.value;
-		this.setCssClass(this.ref.listEl,'active',this.state.active.value);
-	}
-
-	setCssClass(element, className, state) {
-		if (!state) {
-			element.classList.remove(className);
-		}
-		else if (!element.classList.contains(className) && state === true) {
-			element.classList.add(className);
-		}
+		setCssClass(this.ref.listEl,'active',this.state.active.value);
 	}
 
 	defineObservables(){
