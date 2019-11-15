@@ -49,7 +49,7 @@ $towa_dsgvo_plugin_settings = [
 							'data' => function ( $context ): array {
 								return [
 									'context'						=> $context,
-									'settings'					=> get_fields('options')
+									'settings'					=> function_exists('get_fields') ? get_fields('options') : []
 								];
 							},
 						],

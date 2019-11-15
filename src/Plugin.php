@@ -21,7 +21,6 @@ use BrightNucleus\Dependency\DependencyManager;
 /**
  * Main plugin class.
  *
- * @since   0.1.0
  *
  * @package Towa\DsgvoPlugin
  * @author  Martin Welte
@@ -33,12 +32,15 @@ class Plugin
 
 	/**
 	 * Static instance of the plugin.
-	 *
-	 * @since 0.1.0
-	 *
 	 * @var self
 	 */
 	protected static $instance;
+
+	/**
+     * Transient used for settings key
+	 * @var string
+	 */
+	private const transient_key = __CLASS__.'_settings';
 
 	/**
 	 * Instantiate a Plugin object.
@@ -46,7 +48,6 @@ class Plugin
 	 * Don't call the constructor directly, use the `Plugin::get_instance()`
 	 * static method instead.
 	 *
-	 * @since 0.1.0
 	 *
 	 * @throws FailedToProcessConfigException If the Config could not be parsed correctly.
 	 *
@@ -60,28 +61,46 @@ class Plugin
 	/**
 	 * Launch the initialization process.
 	 *
-	 * @since 0.1.0
 	 */
 	public function run(): void
 	{
+        add_action('acf/save_post', [$this,'save_options_hook'], 20);
 		\add_action('plugins_loaded', [$this, 'init']);
 	}
 
+	/**
+	 * initial load of the plugin
+	 */
 	public function init(): void
 	{
 		$this->load_textdomain();
 		$this->register_menupages();
 		$this->load_dependencies();
-		if (!is_admin()) {
+		if (!is_admin() && function_exists('get_fields')) {
 			\add_action('wp_footer', [$this, 'render_footer']);
 		}
 	}
 
+	/**
+	 * @throws \Twig\Error\LoaderError
+	 * @throws \Twig\Error\RuntimeError
+	 * @throws \Twig\Error\SyntaxError
+     * Add Plugin to the Footer of Frontend
+	 */
 	public function render_footer(): void
 	{
 		$loader = new \Twig\Loader\FilesystemLoader(TOWA_DSGVO_PLUGIN_DIR . '/views/');
 		$twig = new \Twig\Environment($loader);
-		$data = get_fields('options');
+
+		$transient = get_transient(__CLASS__.'_settings');
+
+		if(!empty($transient)){
+			$data = $transient;
+		}
+		else{
+			$data = get_fields('options');
+			set_transient(__CLASS__.'_settings',$data, MONTH_IN_SECONDS);
+		}
 
 		$function = new \Twig\TwigFunction('__', function (string $string, string $textdomain) {
 			return __($string, $textdomain);
@@ -93,7 +112,10 @@ class Plugin
 		echo $template->render($data);
 	}
 
-	private function register_menupages()
+	/*
+	 * register all menu pages from Configuration file & register ACF Fields
+	 */
+	private function register_menupages():void
 	{
 		if (!function_exists('acf_add_options_page')) {
 			\add_action('admin_notices', [$this, 'my_acf_notice']);
@@ -121,13 +143,19 @@ class Plugin
 		}
 	}
 
+	/**
+	 * load dependencies automatically from config file
+	 */
 	private function load_dependencies(): void
 	{
 		$dependencies = new DependencyManager($this->config->getSubConfig('Settings.submenu_pages.0.dependencies'));
 		add_action('init', [$dependencies, 'register']);
 	}
 
-	public function my_acf_notice()
+	/**
+	 * Adds notice to Wordpress Backend if Acf is not active
+	 */
+	public function my_acf_notice(): void
 	{
 		?>
 			<div class="error">
@@ -139,7 +167,6 @@ class Plugin
 	/**
 	 * Load the plugin text domain.
 	 *
-	 * @since 0.1.0
 	 */
 	private function load_textdomain(): void
 	{
@@ -151,4 +178,15 @@ class Plugin
 
 		\load_plugin_textdomain($text_domain, false, $text_domain . '/' . $languages_dir);
 	}
+
+	/**
+	 * Hook to be run on save
+	 */
+	public function save_options_hook(): void
+    {
+        $screen = get_current_screen();
+        if(strpos($screen->id, 'towa-dsgvo-plugin') == true){
+	        delete_transient($this->transitent_key);
+        }
+    }
 }

@@ -10,9 +10,9 @@
  * @license      GPL-2.0-or-later
  *
  * @wordpress-plugin
- * Plugin Name:       Plugin Boilerplate
+ * Plugin Name:       Towa Dsgvo Plugin
  * Plugin URI:        https://github.com/towa/towa-dsgvo-plugin
- * Description:       ...
+ * Description:       DSGVO conform Plugin to control custom Javscript snippets in Frontend.
  * Version:           0.1.0
  * Author:            Martin Welte
  * Author URI:        https://towa.com
