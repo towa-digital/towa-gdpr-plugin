@@ -92,14 +92,14 @@ class Plugin
 		$loader = new \Twig\Loader\FilesystemLoader(TOWA_DSGVO_PLUGIN_DIR . '/views/');
 		$twig = new \Twig\Environment($loader);
 
-		$transient = get_transient(__CLASS__.'_settings');
+		$transient = get_transient(self::transient_key);
 
 		if(!empty($transient)){
 			$data = $transient;
 		}
 		else{
 			$data = get_fields('options');
-			set_transient(__CLASS__.'_settings',$data, MONTH_IN_SECONDS);
+			set_transient(self::transient_key,$data, MONTH_IN_SECONDS);
 		}
 
 		$function = new \Twig\TwigFunction('__', function (string $string, string $textdomain) {
@@ -108,8 +108,8 @@ class Plugin
 
 		$twig->addFunction($function);
 		$template = $twig->load('cookie-notice.twig');
-
 		echo $template->render($data);
+
 	}
 
 	/*
@@ -186,7 +186,7 @@ class Plugin
     {
         $screen = get_current_screen();
         if(strpos($screen->id, 'towa-dsgvo-plugin') == true){
-	        delete_transient($this->transitent_key);
+	        delete_transient(self::transient_key);
         }
     }
 }

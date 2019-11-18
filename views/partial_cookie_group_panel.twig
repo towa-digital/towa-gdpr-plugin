@@ -1,0 +1,25 @@
+<div class="Towa-Dsgvo-Plugin__group-panel {{loop.first ? 'active'}}" role="tabpanel" id="TowaDsgvo-{{loop.index}}">
+	<ul class="Towa-Dsgvo-Plugin__cookies">
+		{% set groupindex = loop.index %}
+		{% for cookie in group.cookies %}
+		<li class="Towa-Dsgvo-Plugin__cookie">
+			<div class="Towa-Dsgvo-Plugin__switch-wrapper">
+				<div class="Towa-Dsgvo-Plugin__switch small">
+					<input id="Towa-Dsgvo-Plugin-cookie-{{groupindex}}-{{loop.index}}" class="Towa-Dsgvo-Plugin__cookie__checkbox"
+						data-cookiename="{{cookie.name}}" type="checkbox" {{essential ? 'checked="checked" disabled="disabled"' }} />
+					<span class="slider"></span>
+				</div>
+			</div>
+			<div class="Towa-Dsgvo-Plugin__cookie-text">
+				<label for="Towa-Dsgvo-Plugin-cookie-{{groupindex}}-{{loop.index}}"
+					class="Towa-Dsgvo-Plugin__cookie__headline">{{ cookie.link.title }}</label>
+				<p class="Towa-Dsgvo-Plugin__cookie__description">{{ cookie.description }}</p>
+				{% if cookie.link.url != '#' && cookie.link.title %}
+					<a href="{{ cookie.link.url }}"
+						target="_blank">{{ __('Cookie policy of','towa-dsgvo-plugin') ~ cookie.link.title }}</a>
+				{% endif %}
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+</div>

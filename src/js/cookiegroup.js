@@ -15,16 +15,18 @@ export default class CookieGroup{
 			li: root.querySelector(`[data-groupname="${group.title}"]`).closest('li'),
 			panel: root.querySelector(`#${this.state.id}`)
 		}
+		this.toggleGroupClickedEvent = new CustomEvent('toggleGroupClicked',{detail:{id:this.state.id}});
+		this.getCookies(group,root);
+		this.init();
+	}
 
-		if(typeof group.cookies === 'object'){
+	getCookies(group,root){
+		if (typeof group.cookies === 'object') {
 			group.cookies.map(cookie => {
-				let myCookie = new Cookie(cookie,root);
+				let myCookie = new Cookie(cookie, root);
 				this.state.cookies.push(myCookie);
 			});
 		}
-
-		this.toggleGroupClickedEvent = new CustomEvent('toggleGroupClicked',{detail:{id:this.state.id}});
-		this.init();
 	}
 
 	init(){

@@ -6,16 +6,17 @@ import {setCssClass} from './helpers';
 export default class TowaDsgvoCookie {
 	constructor(cookie,root){
 		this.state = {};
+
 		({
 			description: this.state.description,
 			link: this.state.link,
-			javascript: this.state.javascript
+			javascript: this.state.javascript,
+			name: this.state.name
 		} = cookie);
 
 		this.state = {
 			...this.state, ...{
 				active: this.isCookieActive(),
-				name: this.state.link.title
 			}
 		};
 

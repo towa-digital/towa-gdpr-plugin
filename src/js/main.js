@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import CookieGroup from './cookiegroup';
 import Observable from './observable';
 import {convertHexColorToRgbString,setCssClass,deleteAllCookies} from './helpers';
+import EssentialCookieGroup from './cookiegroupEssential';
 class TowaDsgvoPlugin{
 	constructor(){
 		this.refs = {
@@ -18,6 +19,10 @@ class TowaDsgvoPlugin{
 			this.cookieGroups = this.context.settings.cookie_groups.map((group, index)=>{
 				return new CookieGroup(group,this.refs.root, (index === 0));
 			});
+		}
+		if( typeof this.context.settings.essential_group === 'object'){
+			let group = new EssentialCookieGroup(this.context.settings.essential_group, this.refs.root, false);
+			this.cookieGroups.push(group);
 		}
 		this.init();
 	}

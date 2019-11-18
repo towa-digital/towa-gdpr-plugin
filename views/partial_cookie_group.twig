@@ -1,10 +1,10 @@
-<li role="tab" aria-controls="TowaDsgvo-{{loop.index}}" class="Towa-Dsgvo-Plugin__group {{loop.first ? 'active'}}">
+<li role="tab" aria-controls="TowaDsgvo-{{loop.index}}" class="Towa-Dsgvo-Plugin__group {{loop.first ? 'active'}} {{essential ? 'essential'}}">
 	<div class="Towa-Dsgvo-Plugin__switch-wrapper">
 		<label>{{group.title}}</label>
 		<div class="Towa-Dsgvo-Plugin__switch">
-			<input class="Towa-Dsgvo-Plugin__cookie-group__checkbox" data-groupname="{{group.title}}" type="checkbox" />
+			<input class="Towa-Dsgvo-Plugin__cookie-group__checkbox" data-groupname="{{group.title}}" type="checkbox" {{essential ? 'checked="checked" disabled="disabled"' }} />
 			<span class="slider"></span>
 		</div>
 	</div>
-	<p class="Towa-Dsgvo-Plugin__group-description">{{group.description}}</p>
+	<p class="Towa-Dsgvo-Plugin__group-description">{{group.group_description}}</p>
 </li>

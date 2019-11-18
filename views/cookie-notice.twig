@@ -3,27 +3,14 @@
 		<div class="Towa-Dsgvo-Plugin__left">
 			<h2 class="Towa-Dsgvo-Plugin__left__headline">{{ __('Cookies','towa-dsgvo-plugin') }}</h2>
 			<div class="Towa-Dsgvo-Plugin__group-panels">
+				{% include './partial_cookie_group_panel.twig' with {
+						loop:{index: 0},
+						group: essential_group,
+						essential: true
+				}
+				%}
 				{% for group in cookie_groups %}
-					<div class="Towa-Dsgvo-Plugin__group-panel {{loop.first ? 'active'}}" role="tabpanel" id="TowaDsgvo-{{loop.index}}">
-						<ul class="Towa-Dsgvo-Plugin__cookies">
-							{% set groupindex = loop.index %}
-							{% for cookie in group.cookies %}
-							<li class="Towa-Dsgvo-Plugin__cookie">
-								<div class="Towa-Dsgvo-Plugin__switch-wrapper">
-									<div class="Towa-Dsgvo-Plugin__switch small">
-										<input id="Towa-Dsgvo-Plugin-cookie-{{groupindex}}-{{loop.index}}" class="Towa-Dsgvo-Plugin__cookie__checkbox"  data-cookiename="{{cookie.link.title}}" type="checkbox"/>
-										<span class="slider"></span>
-									</div>
-								</div>
-								<div class="Towa-Dsgvo-Plugin__cookie-text">
-									<label for="Towa-Dsgvo-Plugin-cookie-{{groupindex}}-{{loop.index}}" class="Towa-Dsgvo-Plugin__cookie__headline">{{ cookie.link.title }}</label>
-									<p class="Towa-Dsgvo-Plugin__cookie__description">{{ cookie.description }}</p>
-									<a href="{{ cookie.link.url }}" target="_blank">{{ __('Cookie policy of','towa-dsgvo-plugin') ~ cookie.link.title }}</a>
-								</div>
-							</li>
-							{% endfor %}
-						</ul>
-					</div>
+					{% include './partial_cookie_group_panel.twig'%}
 				{% endfor %}
 			</div>
 			<div class="Towa-Dsgvo-Plugin__buttons">
@@ -38,10 +25,17 @@
 			</div>
 			<nav class="Towa-Dsgvo-Plugin__groups">
 				<ul>
+
+					{% include 'partial_cookie_group.twig' with {
+						loop:{index:0},
+						group: essential_group,
+						essential: true
+					} %}
+
 					{% for group in cookie_groups %}
 						{% include 'partial_cookie_group.twig' with {
-							'index' : loop.index,
-							'group': group
+							index : loop.index,
+							group: group,
 						} %}
 					{% endfor %}
 				</ul>

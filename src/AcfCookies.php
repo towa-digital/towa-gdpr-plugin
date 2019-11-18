@@ -75,6 +75,7 @@ class AcfCookies implements AcfGroup
 						'min' => 1,
 						'layout' => 'block'
 					]),
+
 				]
 			]),
 			(new Repeater($this->name, 'cookie_groups', __('Cookie groups','towa-dsgvo-plugin')))->build([
@@ -86,17 +87,19 @@ class AcfCookies implements AcfGroup
 							(new Text($this->name, 'name', __('Name of Cookie', 'towa-dsgvo-plugin')))->build([
 								'wrapper' => [
 									'width' => '33%'
-								]
+								],
+								'required' => true
 							]),
 							(new Link($this->name, 'link', __('link to Provider', 'towa-dsgvo-plugin')))->build([
 								'wrapper' => [
 									'width' => '33%'
-								]
+								],
 							]),
 							(new Textarea($this->name, 'description', __('Description', 'towa-dsgvo-plugin')))->build([
 								'wrapper' => [
 									'width' => '33%'
-								]
+								],
+								'required' => true
 							]),
 							(new Textarea($this->name, 'javascript', __('javascript', 'towa-dsgvo-plugin')))->build()
 						],

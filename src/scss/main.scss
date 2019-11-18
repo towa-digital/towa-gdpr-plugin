@@ -62,6 +62,9 @@
 
 	&__group{
 		padding: 20px;
+		&.essential{
+			opacity: 0.6;
+		}
 		&.active{
 			background: $color-white;
 			.Towa-Dsgvo-Plugin__group-description{
