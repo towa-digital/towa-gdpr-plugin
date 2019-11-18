@@ -13,7 +13,8 @@ export default class CookieGroup{
 			root: root,
 			domEl: root.querySelector(`[data-groupname="${group.title}"]`),
 			li: root.querySelector(`[data-groupname="${group.title}"]`).closest('li'),
-			panel: root.querySelector(`#${this.state.id}`)
+			panel: root.querySelector(`#${this.state.id}`),
+			panelMobile: root.querySelector(`#${this.state.id}-mobile`)
 		}
 		this.toggleGroupClickedEvent = new CustomEvent('toggleGroupClicked',{detail:{id:this.state.id}});
 		this.getCookies(group,root);
@@ -51,6 +52,7 @@ export default class CookieGroup{
 	render(){
 		this.ref.domEl.checked = this.state.active.value;
 		setCssClass(this.ref.panel,'active',this.state.display.value);
+		setCssClass(this.ref.panelMobile,'active',this.state.display.value);
 		setCssClass(this.ref.li,'active', this.state.display.value);
 	}
 

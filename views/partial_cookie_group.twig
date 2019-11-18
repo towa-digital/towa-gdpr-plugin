@@ -7,4 +7,11 @@
 		</div>
 	</div>
 	<p class="Towa-Dsgvo-Plugin__group-description">{{group.group_description}}</p>
+	<div class="Towa-Dsgvo-Plugin__panel--mobile">
+		{% include 'partial_cookie_group_panel.twig' with {
+			group: group,
+			essential: essential,
+			mobile: true
+		} %}
+	</div>
 </li>

@@ -29,41 +29,63 @@
 	ul{
 		list-style: none;
 	}
+	h2.Towa-Dsgvo-Plugin__left__headline{
+		padding: 0 20px;
+		margin: 20px 0 0 20px;
+		@include media('>=md'){
+			margin: 0px ;
+		}
+	}
 	&__wrapper{
 		margin: 0 auto;
-		width: calc(100% - 40px);
+		overflow-y: scroll;
 		max-width: 1440px;
 		background: $color-white;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
+		width: calc(100% - 20px);
+		max-height: calc(100vh - 20px);
+		@include media('>=md'){
+			max-height: calc(100vh - 40px);
+			width: calc(100% - 40px);
+			flex-direction: row;
+		}
 	}
-	&__right{
+
+	&__left{
 		background-color: $color-selected-group;
 		@include media('>=lg'){
 			width: grid-span(3);
 			margin-left: auto;
 		}
 	}
-	&__left{
+	&__right{
 		padding: 20px 0;
 		flex-grow: 1;
 		display: flex;
 		flex-direction: column;
-		h2.Towa-Dsgvo-Plugin__left__headline{
-			margin: 0px ;
-			padding: 0 20px;
+	}
+	&__groups > ul{
+		margin: 20px 0 0 0;
+		@include media('>=md'){
+			margin: 20px 0;
 		}
-
 	}
 
 	&__wysiwyg{
-		padding: 20px;
+		padding: 0 10px;
+		@include media('>=md'){
+			padding: 20px;
+		}
 	}
 
 	&__group{
-		padding: 20px;
-		&.essential{
-			opacity: 0.6;
+		padding: 10px 20px;
+		@include media('>=md'){
+			padding: 20px;
+		}
+		&.essential .Towa-Dsgvo-Plugin__switch-wrapper{
+			opacity: 0.5;
 		}
 		&.active{
 			background: $color-white;
@@ -71,10 +93,23 @@
 				display:block;
 			}
 		}
-		&-panel{
-			display: none;
+
+	}
+	&__group-panel{
+		display: none;
+		@include media('>=md'){
 			&.active{
 				display: block;
+			}
+		}
+		&.mobile{
+			margin-left: -20px;
+			margin-right: -20px;
+			display: none;
+			@include media('<=md'){
+				&.active{
+					display: block;
+				}
 			}
 		}
 	}
@@ -117,6 +152,9 @@
 		position: relative;
 		display: inline-block;
 		flex-shrink: 0;
+		@include media('>=md'){
+			margin-left: 20px;
+		}
 		&.small{
 			width: 20px;
 			margin-right: 20px;
@@ -189,12 +227,23 @@
 	}
 	&__buttons{
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		margin-top: auto;
 		padding: 0 20px;
+		@include media('>=md'){
+			flex-direction: row;
+		}
 	}
 	&__save,&__accept-all,&__decline-all{
 		@include element-button;
+		&:not(:last-of-type){
+			margin-bottom: 10px;
+		}
+		@include media('>=md'){
+			&:not(:last-of-type){
+				margin-bottom: 0px;
+			}
+		}
 	}
 	&__save,&__decline-all{
 		@include button-colors-ghost;

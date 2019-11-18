@@ -1,4 +1,5 @@
-<div class="Towa-Dsgvo-Plugin__group-panel {{loop.first ? 'active'}}" role="tabpanel" id="TowaDsgvo-{{loop.index}}">
+<div class="Towa-Dsgvo-Plugin__group-panel {{mobile ? 'mobile'}} {{loop.first ? 'active'}}" role="tabpanel" id="TowaDsgvo-{{loop.index}}{{mobile ? '-mobile'}}">
+
 	<ul class="Towa-Dsgvo-Plugin__cookies">
 		{% set groupindex = loop.index %}
 		{% for cookie in group.cookies %}

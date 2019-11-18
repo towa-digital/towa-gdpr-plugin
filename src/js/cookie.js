@@ -22,6 +22,7 @@ export default class TowaDsgvoCookie {
 
 		this.ref = {
 			root: root,
+			domEls: root.querySelectorAll(`[data-cookiename="${this.state.name}"]`),
 			domEl: root.querySelector(`[data-cookiename="${this.state.name}"]`),
 			listEl: root.querySelector(`[data-cookiename="${this.state.name}"]`).closest('li')
 		}
@@ -38,19 +39,26 @@ export default class TowaDsgvoCookie {
 
 	render(){
 		this.ref.domEl.checked = this.state.active.value;
+		this.ref.domEls.forEach(domel => {
+			domel.checked = this.state.active.value;
+		});
 		setCssClass(this.ref.listEl,'active',this.state.active.value);
 	}
 
 	defineObservables(){
 		this.state.active = new Observable(this.state.active, this.ref.domEl),
-		this.ref.domEl.addEventListener('render', () => {
-			this.render();
+		this.ref.domEls.forEach(domEl=>{
+			domEl.addEventListener('render', () => {
+				this.render();
+			})
 		});
 	}
 
 	setUpListeners(){
-		this.ref.domEl.addEventListener('click',()=>{
-			this.toggle();
+		this.ref.domEls.forEach(domEl => {
+			domEl.addEventListener('click',()=>{
+				this.toggle();
+			});
 		});
 	}
 

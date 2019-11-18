@@ -1,7 +1,27 @@
 <div class="Towa-Dsgvo-Plugin" id="Towa-Dsgvo-Plugin">
 	<div class="Towa-Dsgvo-Plugin__wrapper">
 		<div class="Towa-Dsgvo-Plugin__left">
-			<h2 class="Towa-Dsgvo-Plugin__left__headline">{{ __('Cookies','towa-dsgvo-plugin') }}</h2>
+			<div class="Towa-Dsgvo-Plugin__wysiwyg">
+				{{ cookie_wysiwyg|raw }}
+			</div>
+			<nav class="Towa-Dsgvo-Plugin__groups">
+				<ul>
+
+					{% include 'partial_cookie_group.twig' with {
+								loop:{index:0},
+								group: essential_group,
+								essential: true
+							} %}
+					{% for group in cookie_groups %}
+					{% include 'partial_cookie_group.twig' with {
+									index : loop.index,
+									group: group,
+								} %}
+					{% endfor %}
+				</ul>
+			</nav>
+		</div>
+		<div class="Towa-Dsgvo-Plugin__right">
 			<div class="Towa-Dsgvo-Plugin__group-panels">
 				{% include './partial_cookie_group_panel.twig' with {
 						loop:{index: 0},
@@ -19,28 +39,7 @@
 				<button class="Towa-Dsgvo-Plugin__accept-all {{ custom_accept_classes }}">{{ accept_label }}</button>
 			</div>
 		</div>
-		<div class="Towa-Dsgvo-Plugin__right">
-			<div class="Towa-Dsgvo-Plugin__wysiwyg">
-				{{ cookie_wysiwyg|raw }}
-			</div>
-			<nav class="Towa-Dsgvo-Plugin__groups">
-				<ul>
 
-					{% include 'partial_cookie_group.twig' with {
-						loop:{index:0},
-						group: essential_group,
-						essential: true
-					} %}
-
-					{% for group in cookie_groups %}
-						{% include 'partial_cookie_group.twig' with {
-							index : loop.index,
-							group: group,
-						} %}
-					{% endfor %}
-				</ul>
-			</nav>
-		</div>
 
 </div>
 <div id="TowaDsgvoScripts"></div>
