@@ -15,14 +15,14 @@ class TowaDsgvoPlugin{
 		this.state = {
 			accepted: this.UserhasDsgvoAccepted()
 		};
-		if (typeof this.context.settings.cookie_groups === 'object'){
-			this.cookieGroups = this.context.settings.cookie_groups.map((group, index)=>{
+		if (this.context.settings.cookie_groups instanceof Object){
+			this.state.cookieGroups = this.context.settings.cookie_groups.map((group, index)=>{
 				return new CookieGroup(group,this.refs.root, (index === 0));
 			});
 		}
-		if( typeof this.context.settings.essential_group === 'object'){
+		if (this.context.settings.essential_group instanceof Object){
 			let group = new EssentialCookieGroup(this.context.settings.essential_group, this.refs.root, false);
-			this.cookieGroups.push(group);
+			this.state.cookieGroups.push(group);
 		}
 		this.init();
 	}
@@ -59,7 +59,7 @@ class TowaDsgvoPlugin{
 	}
 
 	acceptAll(){
-		this.cookieGroups.forEach(group=> {
+		this.state.cookieGroups.forEach(group=> {
 			group.acceptWholeGroup();
 		});
 		this.accept();
@@ -67,7 +67,7 @@ class TowaDsgvoPlugin{
 
 	renderScripts(){
 		let scriptEl = document.createElement('script');
-		this.cookieGroups.forEach(group => {
+		this.state.cookieGroups.forEach(group => {
 			group.state.cookies.forEach((cookie)=>{
 				if (cookie.state.active.value === true){
 					scriptEl.innerText += cookie.state.javascript;
@@ -86,7 +86,7 @@ class TowaDsgvoPlugin{
 	}
 
 	save(){
-		this.cookieGroups.forEach((group)=>{
+		this.state.cookieGroups.forEach((group)=>{
 			group.saveWholeGroup();
 		})
 		this.accept();
@@ -94,7 +94,7 @@ class TowaDsgvoPlugin{
 
 	declineAll(){
 		deleteAllCookies();
-		this.cookieGroups.forEach((group)=>{
+		this.state.cookieGroups.forEach((group)=>{
 			group.declineWholeGroup();
 		});
 		this.accept()
