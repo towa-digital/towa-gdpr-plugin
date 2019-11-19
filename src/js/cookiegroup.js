@@ -3,16 +3,17 @@ import Observable from './observable';
 import {setCssClass} from './helpers';
 export default class CookieGroup{
 	constructor(group,root,display){
+		let domEl = root.querySelector(`[data-groupname="${group.title}"]`);
 		this.state = {
-			id: root.querySelector(`[data-groupname="${group.title}"]`).closest('li').getAttribute('aria-controls'),
+			id: domEl.closest('li').getAttribute('aria-controls'),
 			cookies: [],
 			display: display,
 			active: false,
 		}
 		this.ref = {
 			root: root,
-			domEl: root.querySelector(`[data-groupname="${group.title}"]`),
-			li: root.querySelector(`[data-groupname="${group.title}"]`).closest('li'),
+			domEl: domEl,
+			li: domEl.closest('li'),
 			panel: root.querySelector(`#${this.state.id}`),
 			panelMobile: root.querySelector(`#${this.state.id}-mobile`)
 		}
@@ -22,10 +23,9 @@ export default class CookieGroup{
 	}
 
 	getCookies(group,root){
-		if (typeof group.cookies === 'object') {
-			group.cookies.map(cookie => {
-				let myCookie = new Cookie(cookie, root);
-				this.state.cookies.push(myCookie);
+		if (group.cookies instanceof Object) {
+			this.state.cookies = group.cookies.map(cookie => {
+				return new Cookie(cookie, root);
 			});
 		}
 	}
@@ -40,13 +40,10 @@ export default class CookieGroup{
 	defineObservables(){
 		this.state.display = new Observable(this.state.display, this.ref.domEl);
 		this.state.active = new Observable(this.state.active,this.ref.domEl);
-		this.ref.domEl.addEventListener('render', () => {
-			this.render();
-		});
 	}
 
 	isGroupActive(){
-		return (this.state.cookies.filter((cookie) => { return cookie.state.active.value === true }).length > 0);
+		return !!this.state.cookies.find(cookie => !!cookie.state.active.value);
 	}
 
 	render(){
@@ -64,6 +61,9 @@ export default class CookieGroup{
 	}
 
 	setUpListeners(){
+		this.ref.domEl.addEventListener('render', () => {
+			this.render();
+		});
 		this.ref.domEl.addEventListener('click', (event) => {
 			this.toggle();
 		});
