@@ -62,7 +62,7 @@ export default class TowaDsgvoCookie {
 	}
 
 	isCookieActive(){
-		return !!Cookies.get(this.state.name);
+		return !!(Cookies.get(this.state.name) === 'true');
 	}
 
 	accept(){
