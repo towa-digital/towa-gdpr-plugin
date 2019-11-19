@@ -12,7 +12,7 @@ mix
 
 	.webpackConfig({
 		resolve: {
-			extensions: ['*', '.js', '.vue', '.json', 'scss', '.css'],
+			extensions: ['*', '.js', '.json', 'scss', '.css'],
 			alias: {
 				'@': path.resolve(__dirname),
 				'@styles': path.resolve(__dirname, 'src', 'scss')
