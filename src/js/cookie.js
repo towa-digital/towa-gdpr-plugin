@@ -4,15 +4,7 @@ import Observable from './observable';
 import {setCssClass} from './helpers';
 export default class TowaDsgvoCookie {
 	constructor(cookie,root){
-		this.state = {};
-
-		({
-			description: this.state.description,
-			link: this.state.link,
-			javascript: this.state.javascript,
-			name: this.state.name
-		} = cookie);
-
+		this.state = { ...cookie };
 		this.state.active = this.isCookieActive();
 
 		this.ref = {
