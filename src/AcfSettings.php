@@ -40,7 +40,7 @@ class AcfSettings implements AcfGroup
 		}
 	}
 
-	public function build_fields()
+	public function build_fields() : array
 	{
 		return [
 			(new Wysiwyg($this->name,'cookie_wysiwyg',__('Cookie Notice general Information','towa-dsgvo-plugin')))->build(),

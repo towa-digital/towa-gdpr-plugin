@@ -8,6 +8,16 @@
 namespace Towa\DsgvoPlugin;
 
 interface AcfGroup{
-    public function register(string $page);
-	public function build_fields();
+
+	/**
+	 * Function to register Acf Field Group
+	 * @param string $page
+	 */
+  public function register(string $page);
+
+	/**
+	 * Declare all used Fields within the group
+	 * @return array
+	 */
+	public function build_fields(): array;
 }

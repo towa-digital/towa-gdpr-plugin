@@ -40,7 +40,7 @@ class AcfCookies implements AcfGroup
 		}
 	}
 
-	public function build_fields()
+	public function build_fields():array
 	{
 		return [
 			(new Group($this->name,'essential_group',__('Essential Cookies','towa-dsgvo-plugin')))->build([
