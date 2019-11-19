@@ -70,7 +70,9 @@ class AcfCookies implements AcfGroup
 									'width' => '33%'
 								]
 							]),
-							(new Textarea($this->name, 'javascript', __('javascript', 'towa-dsgvo-plugin')))->build()
+							(new Textarea($this->name, 'javascript', __('javascript', 'towa-dsgvo-plugin')))->build([
+								'instructions' => __('add custom javascript that is triggered, as soon as the User accepts the cookies','towa-dsgvo-plugin')
+							])
 						],
 						'min' => 1,
 						'layout' => 'block'
