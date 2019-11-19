@@ -1,6 +1,5 @@
 
 import Cookies from 'js-cookie';
-import Cookie from './cookie';
 import Observable from './observable';
 import {setCssClass} from './helpers';
 export default class TowaDsgvoCookie {
@@ -14,11 +13,7 @@ export default class TowaDsgvoCookie {
 			name: this.state.name
 		} = cookie);
 
-		this.state = {
-			...this.state, ...{
-				active: this.isCookieActive(),
-			}
-		};
+		this.state.active = this.isCookieActive();
 
 		this.ref = {
 			root: root,
