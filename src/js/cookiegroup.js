@@ -31,7 +31,7 @@ export default class CookieGroup{
 	}
 
 	init(){
-		this.state.active =  this.isGroupActive();
+		this.state.active = this.isGroupActive();
 		this.defineObservables();
 		this.setUpListeners();
 		this.render();
@@ -58,8 +58,8 @@ export default class CookieGroup{
 
 	toggle(){
 		this.state.active.value =  !this.state.active.value;
-		this.state.cookies.forEach(cookie=>{
-			cookie.setActive(this.state.active.value);
+		this.state.cookies.forEach(cookie => {
+			cookie.setActive(this.state.active.value,false);
 		});
 	}
 

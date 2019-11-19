@@ -12,7 +12,6 @@ export default class EssentialCookie extends TowaDsgvoCookie{
 	}
 	decline(){
 		this.state.active.value = true;
-		Cookies.set(this.state.name, true, towaDsgvoContext.settings.cookieTime);
 	}
 	setActive(){
 		this.state.active.value = true;

@@ -58,32 +58,32 @@ export default class TowaDsgvoCookie {
 	}
 
 	toggle(){
-		this.state.active.value =  !this.state.active.value;
-		this.ref.root.dispatchEvent(this.changeEvent);
+		this.setActive(!this.state.active.value);
 	}
 
 	isCookieActive(){
-		return (Cookies.get(this.state.name) === 'true') ? true : false;
+		return !!Cookies.get(this.state.name);
 	}
 
 	accept(){
-		this.state.active.value = true;
-		Cookies.set(this.state.name,true,towaDsgvoContext.settings.cookieTime);
-		this.ref.root.dispatchEvent(this.changeEvent);
+		this.setActive(true);
 	}
 
 	decline(){
-		this.state.active.value =  false;
-		Cookies.set(this.state.name,false,towaDsgvoContext.settings.cookieTime);
-		this.ref.root.dispatchEvent(this.changeEvent);
+		this.setActive(false);
 	}
 
 	save(){
-		this.state.active.value === true ? Cookies.set(this.state.name, true, towaDsgvoContext.settings.cookieTime) : Cookies.set(this.state.name, false, towaDsgvoContext.settings.cookieTime);;
+		Cookies.set(this.state.name, !!this.state.active.value, towaDsgvoContext.settings.cookieTime);
 	}
 
-	setActive(value){
+	setActive(value, notifyRoot = true){
 		this.state.active.value =  value;
+		this.ref.domEl.dispatchEvent(this.changeEvent);
+		if(notifyRoot){
+			this.ref.root.dispatchEvent(this.changeEvent);
+		}
+		Cookies.set(this.state.name, value, towaDsgvoContext.settings.cookieTime);
 	}
 
 }
