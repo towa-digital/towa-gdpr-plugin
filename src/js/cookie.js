@@ -11,9 +11,9 @@ export default class TowaDsgvoCookie {
 			root: root,
 			domEls: root.querySelectorAll(`[data-cookiename="${this.state.name}"]`),
 			domEl: root.querySelector(`[data-cookiename="${this.state.name}"]`),
-			listEl: root.querySelector(`[data-cookiename="${this.state.name}"]`).closest('li')
+			listEls: Array.from(root.querySelectorAll(`[data-cookiename="${this.state.name}"]`)).map(item => item.closest('li') )
 		}
-
+		
 		this.changeEvent = new Event('cookieChanged');
 		this.init();
 	}
@@ -29,7 +29,9 @@ export default class TowaDsgvoCookie {
 		this.ref.domEls.forEach(domel => {
 			domel.checked = this.state.active.value;
 		});
-		setCssClass(this.ref.listEl,'active',this.state.active.value);
+		this.ref.listEls.forEach(listelement => {
+			setCssClass(listelement,'active',this.state.active.value);
+		})
 	}
 
 	defineObservables(){
