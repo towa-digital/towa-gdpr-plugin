@@ -2,7 +2,7 @@
 /**
  * Base unit test case
  *
- * @package      Towa\DsgvoPlugin\Tests
+ * @package      Towa\GdprPlugin\Tests
  * @author       Martin Welte
  * @copyright    2019 Towa
  * @license      GPL-2.0+
@@ -10,7 +10,7 @@
 
 declare( strict_types = 1 );
 
-namespace Towa\DsgvoPlugin\Tests;
+namespace Towa\GdprPlugin\Tests;
 
 use Brain\Monkey;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 /**
  * Abstract base class for all test case implementations.
  *
- * @package Towa\DsgvoPlugin\Tests
+ * @package Towa\GdprPlugin\Tests
  * @since   1.0.0
  */
 abstract class TestCase extends PHPUnitTestCase {

@@ -2,7 +2,7 @@
 /**
  * Plugin configuration file
  *
- * @package      Towa\DsgvoPlugin
+ * @package      Towa\GdprPlugin
  * @author       Martin Welte
  * @copyright    2019 Towa
  * @license      GPL-2.0+
@@ -10,28 +10,28 @@
 
 declare( strict_types = 1 );
 
-namespace Towa\DsgvoPlugin;
+namespace Towa\GdprPlugin;
 
-$towa_dsgvo_plugin_plugin = array(
-	'textdomain'    => 'towa-dsgvo-plugin',
+$towa_gdpr_plugin_plugin = array(
+	'textdomain'    => 'towa-gdpr-plugin',
 	'languages_dir' => 'languages',
 );
 
-$towa_dsgvo_plugin_settings = array(
+$towa_gdpr_plugin_settings = array(
 	'submenu_pages' => array(
 		array(
 			'parent_slug'  => 'options-general.php',
-			'page_title'   => __( 'Towa DSGVO Settings', 'towa-dsgvo-plugin' ),
-			'menu_title'   => __( 'Towa DSGVO', 'towa-dsgvo-plugin' ),
+			'page_title'   => __( 'Towa GDPR Settings', 'towa-gdpr-plugin' ),
+			'menu_title'   => __( 'Towa GDPR', 'towa-gdpr-plugin' ),
 			'capability'   => 'manage_options',
-			'menu_slug'    => 'towa-dsgvo-plugin',
-			'view'         => TOWA_DSGVO_PLUGIN_DIR . 'views/admin-page.twig',
+			'menu_slug'    => 'towa-gdpr-plugin',
+			'view'         => TOWA_GDPR_PLUGIN_DIR . 'views/admin-page.twig',
 			'redirect'     => false,
 			'dependencies' => array(
 				'styles'   => array(
 					array(
-						'handle' => 'towa-dsgvo-plugin-css',
-						'src'    => TOWA_DSGVO_PLUGIN_URL . 'dist/css/main.css',
+						'handle' => 'towa-gdpr-plugin-css',
+						'src'    => TOWA_GDPR_PLUGIN_URL . 'dist/css/main.css',
 						'deps'   => '',
 						'ver'    => '1.0.0',
 						'media'  => 'all',
@@ -39,12 +39,12 @@ $towa_dsgvo_plugin_settings = array(
 				),
 				'scripts'  => array(
 					array(
-						'handle'    => 'towa-dsgvo-plugin-js',
-						'src'       => TOWA_DSGVO_PLUGIN_URL . 'dist/js/main.js',
+						'handle'    => 'towa-gdpr-plugin-js',
+						'src'       => TOWA_GDPR_PLUGIN_URL . 'dist/js/main.js',
 						'ver'       => '1.0.0',
 						'in_footer' => true,
 						'localize'  => array(
-							'name' => 'towaDsgvoContext',
+							'name' => 'towaGdprContext',
 							// phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- Mixed type
 							'data' => function ( $context ): array {
 								return array(
@@ -67,9 +67,9 @@ $towa_dsgvo_plugin_settings = array(
 
 return array(
 	'Towa' => array(
-		'DsgvoPlugin' => array(
-			'Plugin'   => $towa_dsgvo_plugin_plugin,
-			'Settings' => $towa_dsgvo_plugin_settings,
+		'GdprPlugin' => array(
+			'Plugin'   => $towa_gdpr_plugin_plugin,
+			'Settings' => $towa_gdpr_plugin_settings,
 		),
 	),
 );

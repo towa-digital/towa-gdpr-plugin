@@ -3215,7 +3215,7 @@ if (window.NodeList && !NodeList.prototype.forEach) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TowaDsgvoCookie; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TowaGdprCookie; });
 /* harmony import */ var core_js_modules_es7_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es7.object.get-own-property-descriptors */ "./node_modules/core-js/modules/es7.object.get-own-property-descriptors.js");
 /* harmony import */ var core_js_modules_es7_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es7_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.symbol */ "./node_modules/core-js/modules/es6.symbol.js");
@@ -3264,11 +3264,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-var TowaDsgvoCookie =
+var TowaGdprCookie =
 /*#__PURE__*/
 function () {
-  function TowaDsgvoCookie(cookie, root) {
-    _classCallCheck(this, TowaDsgvoCookie);
+  function TowaGdprCookie(cookie, root) {
+    _classCallCheck(this, TowaGdprCookie);
 
     this.state = _objectSpread({}, cookie);
     this.state.active = this.isCookieActive();
@@ -3284,7 +3284,7 @@ function () {
     this.init();
   }
 
-  _createClass(TowaDsgvoCookie, [{
+  _createClass(TowaGdprCookie, [{
     key: "init",
     value: function init() {
       this.defineObservables();
@@ -3349,7 +3349,7 @@ function () {
   }, {
     key: "save",
     value: function save() {
-      js_cookie__WEBPACK_IMPORTED_MODULE_9___default.a.set(this.state.name, !!this.state.active.value, towaDsgvoContext.settings.cookieTime);
+      js_cookie__WEBPACK_IMPORTED_MODULE_9___default.a.set(this.state.name, !!this.state.active.value, towaGdprContext.settings.cookieTime);
     }
   }, {
     key: "setActive",
@@ -3362,11 +3362,11 @@ function () {
         this.ref.root.dispatchEvent(this.changeEvent);
       }
 
-      js_cookie__WEBPACK_IMPORTED_MODULE_9___default.a.set(this.state.name, value, towaDsgvoContext.settings.cookieTime);
+      js_cookie__WEBPACK_IMPORTED_MODULE_9___default.a.set(this.state.name, value, towaGdprContext.settings.cookieTime);
     }
   }]);
 
-  return TowaDsgvoCookie;
+  return TowaGdprCookie;
 }();
 
 
@@ -3416,8 +3416,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var EssentialCookie =
 /*#__PURE__*/
-function (_TowaDsgvoCookie) {
-  _inherits(EssentialCookie, _TowaDsgvoCookie);
+function (_TowaGdprCookie) {
+  _inherits(EssentialCookie, _TowaGdprCookie);
 
   function EssentialCookie(cookie, root) {
     _classCallCheck(this, EssentialCookie);
@@ -3782,22 +3782,22 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-var TowaDsgvoPlugin =
+var TowaGdprPlugin =
 /*#__PURE__*/
 function () {
-  function TowaDsgvoPlugin() {
+  function TowaGdprPlugin() {
     var _this = this;
 
-    _classCallCheck(this, TowaDsgvoPlugin);
+    _classCallCheck(this, TowaGdprPlugin);
 
     this.refs = {
-      triggerPopupLinks: document.querySelectorAll('.Towa-Dsgvo-Link'),
-      root: document.getElementById('Towa-Dsgvo-Plugin'),
-      myScriptContainer: document.getElementById('TowaDsgvoScripts')
+      triggerPopupLinks: document.querySelectorAll('.Towa-Gdpr-Link'),
+      root: document.getElementById('Towa-Gdpr-Plugin'),
+      myScriptContainer: document.getElementById('TowaGdprScripts')
     };
-    this.context = towaDsgvoContext;
+    this.context = towaGdprContext;
     this.state = {
-      accepted: this.UserhasDsgvoAccepted()
+      accepted: this.UserhasGdprAccepted()
     };
 
     if (this.context.settings.cookie_groups instanceof Object) {
@@ -3814,10 +3814,10 @@ function () {
     this.init();
   }
 
-  _createClass(TowaDsgvoPlugin, [{
-    key: "UserhasDsgvoAccepted",
-    value: function UserhasDsgvoAccepted() {
-      return js_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.get('DsgvoAccepted') === 'true';
+  _createClass(TowaGdprPlugin, [{
+    key: "UserhasGdprAccepted",
+    value: function UserhasGdprAccepted() {
+      return js_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.get('GdprAccepted') === 'true';
     }
   }, {
     key: "init",
@@ -3878,7 +3878,7 @@ function () {
     key: "accept",
     value: function accept() {
       this.state.accepted.value = true;
-      js_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.set('DsgvoAccepted', true, this.context.settings.cookieTime);
+      js_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.set('GdprAccepted', true, this.context.settings.cookieTime);
       this.renderScripts();
     }
   }, {
@@ -3903,13 +3903,13 @@ function () {
     value: function setUpListeners() {
       var _this3 = this;
 
-      this.refs.root.querySelector('.Towa-Dsgvo-Plugin__save').addEventListener('click', function () {
+      this.refs.root.querySelector('.Towa-Gdpr-Plugin__save').addEventListener('click', function () {
         _this3.save();
       });
-      this.refs.root.querySelector('.Towa-Dsgvo-Plugin__accept-all').addEventListener('click', function () {
+      this.refs.root.querySelector('.Towa-Gdpr-Plugin__accept-all').addEventListener('click', function () {
         _this3.acceptAll();
       });
-      this.refs.root.querySelector('.Towa-Dsgvo-Plugin__decline-all').addEventListener('click', function () {
+      this.refs.root.querySelector('.Towa-Gdpr-Plugin__decline-all').addEventListener('click', function () {
         _this3.declineAll();
       });
       this.refs.triggerPopupLinks.forEach(function (link) {
@@ -3920,10 +3920,10 @@ function () {
     }
   }]);
 
-  return TowaDsgvoPlugin;
+  return TowaGdprPlugin;
 }();
 
-new TowaDsgvoPlugin();
+new TowaGdprPlugin();
 
 /***/ }),
 
@@ -4014,8 +4014,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\towa-dsgvo-plugin\wp-content\plugins\towa-dsgvo-plugin\src\js\main.js */"./src/js/main.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\towa-dsgvo-plugin\wp-content\plugins\towa-dsgvo-plugin\src\scss\main.scss */"./src/scss/main.scss");
+__webpack_require__(/*! C:\xampp\htdocs\towa-gdpr-plugin\wp-content\plugins\towa-gdpr-plugin\src\js\main.js */"./src/js/main.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\towa-gdpr-plugin\wp-content\plugins\towa-gdpr-plugin\src\scss\main.scss */"./src/scss/main.scss");
 
 
 /***/ })

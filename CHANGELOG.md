@@ -1,4 +1,4 @@
-# Change Log for Towa DSGVO Plugin
+# Change Log for Towa GDPR Plugin
 
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
@@ -16,4 +16,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 1.0.0 - 2019-??-??
 
 - Initial release.
-[Unreleased](https://bitbucket.org/towa_gmbh/towa-dsgvo-plugin/)
+[Unreleased](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/)

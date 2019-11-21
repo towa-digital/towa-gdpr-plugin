@@ -1,10 +1,10 @@
 {
-	"name": "towa/towa-dsgvo-plugin",
+	"name": "towa/towa-gdpr-plugin",
 	"type": "wordpress-plugin",
-	"description": "Test plugin",
+	"description": "Towa Gdpr Plugin for a gdpr compatible cookie notice",
 	"keywords": [
 		"plugin",
-		"towa-dsgvo-plugin"
+		"towa-gdpr-plugin"
 	],
 	"license": "GPL-2.0-or-later",
 	"authors": [
@@ -42,12 +42,12 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Towa\\DsgvoPlugin\\": "src/"
+			"Towa\\GdprPlugin\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Towa\\DsgvoPlugin\\Tests\\": "tests/"
+			"Towa\\GdprPlugin\\Tests\\": "tests/"
 		}
 	},
 	"minimum-stability": "dev",
@@ -59,8 +59,8 @@
 			"bin/php-lint",
 			"bin/xml-lint"
 		],
-		"phpcbf": "phpcbf && phpcbf ./towa-dsgvo-plugin.php -sp --standard=PHPCompatibility --runtime-set testVersion 5.2",
-		"phpcs": "phpcs && phpcs ./towa-dsgvo-plugin.php -sp --standard=PHPCompatibility --runtime-set testVersion 5.2",
+		"phpcbf": "phpcbf && phpcbf ./towa-gdpr-plugin.php -sp --standard=PHPCompatibility --runtime-set testVersion 7.2",
+		"phpcs": "phpcs && phpcs ./towa-gdpr-plugin.php -sp --standard=PHPCompatibility --runtime-set testVersion 7.2",
 		"test": [
 			"@lint",
 			"@unit",
@@ -74,9 +74,5 @@
 			"@phpcs"
 		],
 		"unit": "./vendor/bin/phpunit --testsuite unit"
-	},
-	"support": {
-		"issues": "https://github.com/GaryJones/towa-dsgvo-plugin/issues",
-		"source": "https://github.com/GaryJones/towa-dsgvo-plugin"
 	}
 }

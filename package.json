@@ -1,7 +1,7 @@
 {
-  "name": "towa-dsgvo-plugin",
+  "name": "towa-gdpr-plugin",
   "version": "1.0.0",
-  "description": "Dsgvo Compliance Plugin for Wordpress",
+  "description": "Gdpr Compliance Plugin for Wordpress",
   "main": "src/js/main.js",
   "directories": {
     "test": "tests"
@@ -24,16 +24,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/towa_gmbh/towa-dsgvo-plugin.git"
+    "url": "git+ssh://git@bitbucket.org/towa_gmbh/towa-gdpr-plugin.git"
   },
   "keywords": [
-    "dsgvo",
+    "gdpr",
     "towa",
     "cookie-notice"
   ],
   "author": "martin welte <martin.welte@towa.at>",
   "license": "GPLv2",
-  "homepage": "https://bitbucket.org/towa_gmbh/towa-dsgvo-plugin#readme",
+  "homepage": "https://bitbucket.org/towa_gmbh/towa-gdpr-plugin#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.7.1",
     "browser-sync": "^2.26.7",

@@ -2,7 +2,7 @@
 @import './media_queries.scss';
 @import './mixins.scss';
 @import './fonts.scss';
-.Towa-Dsgvo-Plugin{
+.Towa-Gdpr-Plugin{
 	position: fixed;
 	display: flex;
 	flex-direction: column;
@@ -29,7 +29,7 @@
 	ul{
 		list-style: none;
 	}
-	h2.Towa-Dsgvo-Plugin__left__headline{
+	h2.Towa-Gdpr-Plugin__left__headline{
 		padding: 0 20px;
 		margin: 20px 0 0 20px;
 		@include media('>=md'){
@@ -84,12 +84,12 @@
 		@include media('>=md'){
 			padding: 20px;
 		}
-		&.essential .Towa-Dsgvo-Plugin__switch-wrapper{
+		&.essential .Towa-Gdpr-Plugin__switch-wrapper{
 			opacity: 0.5;
 		}
 		&.active{
 			background: $color-white;
-			.Towa-Dsgvo-Plugin__group-description{
+			.Towa-Gdpr-Plugin__group-description{
 				display:block;
 			}
 		}

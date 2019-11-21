@@ -2,7 +2,7 @@
 /**
  * Unit tests for Foo
  *
- * @package      Towa\DsgvoPlugin\Tests\Unit
+ * @package      Towa\GdprPlugin\Tests\Unit
  * @author       Martin Welte
  * @copyright    2019 Towa
  * @license      GPL-2.0+
@@ -10,10 +10,10 @@
 
 declare( strict_types = 1 );
 
-namespace Towa\DsgvoPlugin\Tests\Unit;
+namespace Towa\GdprPlugin\Tests\Unit;
 
-use Towa\DsgvoPlugin\Foo as Testee;
-use Towa\DsgvoPlugin\Tests\TestCase;
+use Towa\GdprPlugin\Foo as Testee;
+use Towa\GdprPlugin\Tests\TestCase;
 
 /**
  * Foo test case.

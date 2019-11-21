@@ -2,7 +2,7 @@
 /**
  * Unit tests for Plugin
  *
- * @package      Towa\DsgvoPlugin\Tests\Unit
+ * @package      Towa\GdprPlugin\Tests\Unit
  * @author       Martin Welte
  * @copyright    2019 Towa
  * @license      GPL-2.0+
@@ -10,13 +10,13 @@
 
 declare( strict_types = 1 );
 
-namespace Towa\DsgvoPlugin\Tests\Unit;
+namespace Towa\GdprPlugin\Tests\Unit;
 
 use Brain\Monkey\Functions;
 use BrightNucleus\Config\ConfigFactory;
 use BrightNucleus\Config\ConfigInterface;
-use Towa\DsgvoPlugin\Plugin as Testee;
-use Towa\DsgvoPlugin\Tests\TestCase;
+use Towa\GdprPlugin\Plugin as Testee;
+use Towa\GdprPlugin\Tests\TestCase;
 
 /**
  * Foo test case.

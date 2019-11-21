@@ -2,7 +2,7 @@
 /**
  * Integration tests for Foo
  *
- * @package      Towa\DsgvoPlugin\Tests\Integration
+ * @package      Towa\GdprPlugin\Tests\Integration
  * @author       Martin Welte
  * @copyright    2019 Towa
  * @license      GPL-2.0+
@@ -10,9 +10,9 @@
 
 declare( strict_types = 1 );
 
-namespace Towa\DsgvoPlugin\Tests\Integration;
+namespace Towa\GdprPlugin\Tests\Integration;
 
-use Towa\DsgvoPlugin\Foo as Testee;
+use Towa\GdprPlugin\Foo as Testee;
 use WP_UnitTestCase;
 
 /**

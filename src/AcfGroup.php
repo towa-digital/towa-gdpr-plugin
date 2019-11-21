@@ -2,17 +2,17 @@
 /**
  * AcfGroup interface File
  *
- * @package Towa\DsgvoPlugin
+ * @package Towa\GdprPlugin
  * @author  Martin Welte
  * @copyright 2019 Towa
  */
 
-namespace Towa\DsgvoPlugin;
+namespace Towa\GdprPlugin;
 
 /**
  * Interface AcfGroup
  *
- * @package Towa\DsgvoPlugin
+ * @package Towa\GdprPlugin
  */
 interface AcfGroup {
 

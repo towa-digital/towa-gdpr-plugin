@@ -2,12 +2,12 @@
 /**
  * AcfCokies File
  *
- * @package Towa\DsgvoPlugin
+ * @package Towa\GdprPlugin
  * @author Martin Welte
  * @copyright 2019 Towa
  */
 
-namespace Towa\DsgvoPlugin;
+namespace Towa\GdprPlugin;
 
 use Towa\Acf\Fields\Group;
 use Towa\Acf\Fields\Link;
@@ -18,7 +18,7 @@ use Towa\Acf\Fields\Textarea;
 /**
  * Class AcfCookies: registers Acf Group for Cookies
  *
- * @package Towa\DsgvoPlugin
+ * @package Towa\GdprPlugin
  */
 class AcfCookies implements AcfGroup {
 
@@ -27,7 +27,7 @@ class AcfCookies implements AcfGroup {
 	 *
 	 * @var string
 	 */
-	private $name = 'towa_dsgvo_cookies';
+	private $name = 'towa_gdpr_cookies';
 
 	/**
 	 * Register AcfGroup
@@ -39,7 +39,7 @@ class AcfCookies implements AcfGroup {
 			\acf_add_local_field_group(
 				array(
 					'key'                   => $this->name,
-					'title'                 => __( 'Cookies', 'towa-dsgvo-plugin' ),
+					'title'                 => __( 'Cookies', 'towa-gdpr-plugin' ),
 					'fields'                => $this->build_fields(),
 					'location'              => array(
 						array(
@@ -70,48 +70,48 @@ class AcfCookies implements AcfGroup {
 	 */
 	public function build_fields():array {
 		return array(
-			( new Group( $this->name, 'essential_group', __( 'Essential Cookies', 'towa-dsgvo-plugin' ) ) )->build(
+			( new Group( $this->name, 'essential_group', __( 'Essential Cookies', 'towa-gdpr-plugin' ) ) )->build(
 				array(
 					'sub_fields' => array(
-						( new Text( $this->name, 'title', __( 'Groupname', 'towa-dsgvo-plugin' ) ) )->build(
+						( new Text( $this->name, 'title', __( 'Groupname', 'towa-gdpr-plugin' ) ) )->build(
 							array(
-								'default_value' => __( 'Essential Cookies', 'towa-dsgvo-plugin' ),
-								'placeholder'   => __( 'Essential Cookies', 'towa-dsgvo-plugin' ),
+								'default_value' => __( 'Essential Cookies', 'towa-gdpr-plugin' ),
+								'placeholder'   => __( 'Essential Cookies', 'towa-gdpr-plugin' ),
 							)
 						),
-						( new Text( $this->name, 'group_description', __( 'Group description', 'towa-dsgvo-plugin' ) ) )->build(
+						( new Text( $this->name, 'group_description', __( 'Group description', 'towa-gdpr-plugin' ) ) )->build(
 							array(
-								'default_value' => __( 'These cookies are vital for the functionality of the website', 'towa-dsgvo-plugin' ),
-								'placeholder'   => __( 'These cookies are vital for the functionality of the website', 'towa-dsgvo-plugin' ),
+								'default_value' => __( 'These cookies are vital for the functionality of the website', 'towa-gdpr-plugin' ),
+								'placeholder'   => __( 'These cookies are vital for the functionality of the website', 'towa-gdpr-plugin' ),
 							)
 						),
-						( new Repeater( $this->name, 'cookies', __( 'Cookies', 'towa-dsgvo-plugin' ) ) )->build(
+						( new Repeater( $this->name, 'cookies', __( 'Cookies', 'towa-gdpr-plugin' ) ) )->build(
 							array(
 								'sub_fields' => array(
-									( new Text( $this->name, 'name', __( 'Name of Cookie', 'towa-dsgvo-plugin' ) ) )->build(
+									( new Text( $this->name, 'name', __( 'Name of Cookie', 'towa-gdpr-plugin' ) ) )->build(
 										array(
 											'wrapper' => array(
 												'width' => '33%',
 											),
 										)
 									),
-									( new Link( $this->name, 'link', __( 'link to Provider', 'towa-dsgvo-plugin' ) ) )->build(
+									( new Link( $this->name, 'link', __( 'link to Provider', 'towa-gdpr-plugin' ) ) )->build(
 										array(
 											'wrapper' => array(
 												'width' => '33%',
 											),
 										)
 									),
-									( new Text( $this->name, 'description', __( 'Description', 'towa-dsgvo-plugin' ) ) )->build(
+									( new Text( $this->name, 'description', __( 'Description', 'towa-gdpr-plugin' ) ) )->build(
 										array(
 											'wrapper' => array(
 												'width' => '33%',
 											),
 										)
 									),
-									( new Textarea( $this->name, 'javascript', __( 'javascript', 'towa-dsgvo-plugin' ) ) )->build(
+									( new Textarea( $this->name, 'javascript', __( 'javascript', 'towa-gdpr-plugin' ) ) )->build(
 										array(
-											'instructions' => __( 'add custom javascript that is triggered, as soon as the User accepts the cookies', 'towa-dsgvo-plugin' ),
+											'instructions' => __( 'add custom javascript that is triggered, as soon as the User accepts the cookies', 'towa-gdpr-plugin' ),
 										)
 									),
 								),
@@ -123,15 +123,15 @@ class AcfCookies implements AcfGroup {
 					),
 				)
 			),
-			( new Repeater( $this->name, 'cookie_groups', __( 'Cookie groups', 'towa-dsgvo-plugin' ) ) )->build(
+			( new Repeater( $this->name, 'cookie_groups', __( 'Cookie groups', 'towa-gdpr-plugin' ) ) )->build(
 				array(
 					'sub_fields' => array(
-						( new Text( $this->name, 'title', __( 'Groupname', 'towa-dsgvo-plugin' ) ) )->build(),
-						( new Text( $this->name, 'group_description', __( 'Group description', 'towa-dsgvo-plugin' ) ) )->build(),
-						( new Repeater( $this->name, 'cookies', __( 'Cookies', 'towa-dsgvo-plugin' ) ) )->build(
+						( new Text( $this->name, 'title', __( 'Groupname', 'towa-gdpr-plugin' ) ) )->build(),
+						( new Text( $this->name, 'group_description', __( 'Group description', 'towa-gdpr-plugin' ) ) )->build(),
+						( new Repeater( $this->name, 'cookies', __( 'Cookies', 'towa-gdpr-plugin' ) ) )->build(
 							array(
 								'sub_fields' => array(
-									( new Text( $this->name, 'name', __( 'Name of Cookie', 'towa-dsgvo-plugin' ) ) )->build(
+									( new Text( $this->name, 'name', __( 'Name of Cookie', 'towa-gdpr-plugin' ) ) )->build(
 										array(
 											'wrapper'  => array(
 												'width' => '33%',
@@ -139,14 +139,14 @@ class AcfCookies implements AcfGroup {
 											'required' => true,
 										)
 									),
-									( new Link( $this->name, 'link', __( 'link to Provider', 'towa-dsgvo-plugin' ) ) )->build(
+									( new Link( $this->name, 'link', __( 'link to Provider', 'towa-gdpr-plugin' ) ) )->build(
 										array(
 											'wrapper' => array(
 												'width' => '33%',
 											),
 										)
 									),
-									( new Textarea( $this->name, 'description', __( 'Description', 'towa-dsgvo-plugin' ) ) )->build(
+									( new Textarea( $this->name, 'description', __( 'Description', 'towa-gdpr-plugin' ) ) )->build(
 										array(
 											'wrapper'  => array(
 												'width' => '33%',
@@ -154,7 +154,7 @@ class AcfCookies implements AcfGroup {
 											'required' => true,
 										)
 									),
-									( new Textarea( $this->name, 'javascript', __( 'javascript', 'towa-dsgvo-plugin' ) ) )->build(),
+									( new Textarea( $this->name, 'javascript', __( 'javascript', 'towa-gdpr-plugin' ) ) )->build(),
 								),
 								'layout'     => 'block',
 								'min'        => 1,

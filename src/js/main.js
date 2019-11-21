@@ -4,16 +4,16 @@ import CookieGroup from './cookiegroup';
 import Observable from './observable';
 import {convertHexColorToRgbString,setCssClass,deleteAllCookies} from './helpers';
 import EssentialCookieGroup from './cookiegroupEssential';
-class TowaDsgvoPlugin{
+class TowaGdprPlugin{
 	constructor(){
 		this.refs = {
-			triggerPopupLinks: document.querySelectorAll('.Towa-Dsgvo-Link'),
-			root: document.getElementById('Towa-Dsgvo-Plugin'),
-			myScriptContainer: document.getElementById('TowaDsgvoScripts')
+			triggerPopupLinks: document.querySelectorAll('.Towa-Gdpr-Link'),
+			root: document.getElementById('Towa-Gdpr-Plugin'),
+			myScriptContainer: document.getElementById('TowaGdprScripts')
 		}
-		this.context = towaDsgvoContext;
+		this.context = towaGdprContext;
 		this.state = {
-			accepted: this.UserhasDsgvoAccepted()
+			accepted: this.UserhasGdprAccepted()
 		};
 		if (this.context.settings.cookie_groups instanceof Object){
 			this.state.cookieGroups = this.context.settings.cookie_groups.map((group, index)=>{
@@ -27,8 +27,8 @@ class TowaDsgvoPlugin{
 		this.init();
 	}
 
-	UserhasDsgvoAccepted(){
-		return (Cookies.get('DsgvoAccepted') === 'true');
+	UserhasGdprAccepted(){
+		return (Cookies.get('GdprAccepted') === 'true');
 	}
 
 	init(){
@@ -81,7 +81,7 @@ class TowaDsgvoPlugin{
 
 	accept(){
 		this.state.accepted.value = true;
-		Cookies.set('DsgvoAccepted',true,this.context.settings.cookieTime);
+		Cookies.set('GdprAccepted',true,this.context.settings.cookieTime);
 		this.renderScripts();
 	}
 
@@ -101,13 +101,13 @@ class TowaDsgvoPlugin{
 	}
 
 	setUpListeners(){
-		this.refs.root.querySelector('.Towa-Dsgvo-Plugin__save').addEventListener('click',()=>{
+		this.refs.root.querySelector('.Towa-Gdpr-Plugin__save').addEventListener('click',()=>{
 			this.save();
 		});
-		this.refs.root.querySelector('.Towa-Dsgvo-Plugin__accept-all').addEventListener('click',()=>{
+		this.refs.root.querySelector('.Towa-Gdpr-Plugin__accept-all').addEventListener('click',()=>{
 			this.acceptAll();
 		});
-		this.refs.root.querySelector('.Towa-Dsgvo-Plugin__decline-all').addEventListener('click', () => {
+		this.refs.root.querySelector('.Towa-Gdpr-Plugin__decline-all').addEventListener('click', () => {
 			this.declineAll();
 		});
 		this.refs.triggerPopupLinks.forEach((link) => {
@@ -117,4 +117,4 @@ class TowaDsgvoPlugin{
 		});
 	}
 }
-new TowaDsgvoPlugin();
+new TowaGdprPlugin();

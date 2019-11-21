@@ -4,22 +4,22 @@
  *
  * This file should only use syntax available in PHP 5.2.4 or later.
  *
- * @package      Towa\DsgvoPlugin
+ * @package      Towa\GdprPlugin
  * @author       Martin Welte
  * @copyright    2019 Towa
  * @license      GPL-2.0-or-later
  *
  * @wordpress-plugin
- * Plugin Name:       Towa Dsgvo Plugin
- * Plugin URI:        https://github.com/towa/towa-dsgvo-plugin
- * Description:       DSGVO conform Plugin to control custom Javscript snippets in Frontend.
+ * Plugin Name:       Towa Gdpr Plugin
+ * Plugin URI:        https://github.com/towa/towa-gdpr-plugin
+ * Description:       GDPR conform Plugin to control custom Javscript snippets in Frontend.
  * Version:           0.1.0
  * Author:            Martin Welte
  * Author URI:        https://towa.com
- * Text Domain:       towa-dsgvo-plugin
+ * Text Domain:       towa-gdpr-plugin
  * License:           GPL-2.0-or-later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * GitHub Plugin URI: https://github.com/towa/towa-dsgvo-plugin
+ * GitHub Plugin URI: https://github.com/towa/towa-gdpr-plugin
  * Requires PHP:      7.1
  * Requires WP:       4.7
  */
@@ -30,32 +30,32 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( version_compare( PHP_VERSION, '7.1', '<' ) ) {
-	add_action( 'plugins_loaded', 'towa_dsgvo_plugin_init_deactivation' );
+	add_action( 'plugins_loaded', 'towa_gdpr_plugin_init_deactivation' );
 
 	/**
 	 * Initialise deactivation functions.
 	 */
-	function towa_dsgvo_plugin_init_deactivation() {
+	function towa_gdpr_plugin_init_deactivation() {
 		if ( current_user_can( 'activate_plugins' ) ) {
-			add_action( 'admin_init', 'towa_dsgvo_plugin_deactivate' );
-			add_action( 'admin_notices', 'towa_dsgvo_plugin_deactivation_notice' );
+			add_action( 'admin_init', 'towa_gdpr_plugin_deactivate' );
+			add_action( 'admin_notices', 'towa_gdpr_plugin_deactivation_notice' );
 		}
 	}
 
 	/**
 	 * Deactivate the plugin.
 	 */
-	function towa_dsgvo_plugin_deactivate() {
+	function towa_gdpr_plugin_deactivate() {
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 	}
 
 	/**
 	 * Show deactivation admin notice.
 	 */
-	function towa_dsgvo_plugin_deactivation_notice() {
+	function towa_gdpr_plugin_deactivation_notice() {
 		$notice = sprintf(
 			// Translators: 1: Required PHP version, 2: Current PHP version.
-			'<strong>Towa Dsgvo Plugin</strong> requires PHP %1$s to run. This site uses %2$s, so the plugin has been <strong>deactivated</strong>.',
+			'<strong>Towa Gdpr Plugin</strong> requires PHP %1$s to run. This site uses %2$s, so the plugin has been <strong>deactivated</strong>.',
 			'7.1',
 			PHP_VERSION
 		);

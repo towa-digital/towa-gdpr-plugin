@@ -1,6 +1,6 @@
-import TowaDsgvoCookie from "./cookie";
+import TowaGdprCookie from "./cookie";
 
-export default class EssentialCookie extends TowaDsgvoCookie{
+export default class EssentialCookie extends TowaGdprCookie{
 	constructor(cookie, root) {
 		super(cookie,root);
 	}

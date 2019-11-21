@@ -1,4 +1,4 @@
-# Towa DSGVO Plugin
+# Towa GDPR Plugin
 
 ## Description
 This Plugin is a cookie notice plugin conforming with the gdpr standards, implemented by the EU. 

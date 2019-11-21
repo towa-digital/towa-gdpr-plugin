@@ -2,7 +2,7 @@
 /**
  * Main plugin file
  *
- * @package      Towa\DsgvoPlugin
+ * @package      Towa\GdprPlugin
  * @author       Martin Welte
  * @copyright    2019 Towa
  * @license      GPL-2.0+
@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Towa\DsgvoPlugin;
+namespace Towa\GdprPlugin;
 
 use BrightNucleus\Config\ConfigInterface;
 use BrightNucleus\Config\ConfigTrait;
@@ -20,7 +20,7 @@ use BrightNucleus\Dependency\DependencyManager;
 /**
  * Main plugin class.
  *
- * @package Towa\DsgvoPlugin
+ * @package Towa\GdprPlugin
  * @author  Martin Welte
  */
 class Plugin {
@@ -84,7 +84,7 @@ class Plugin {
 	 * @throws \Twig\Error\SyntaxError Syntaxerror.
 	 */
 	public function render_footer(): void {
-		$loader = new \Twig\Loader\FilesystemLoader( TOWA_DSGVO_PLUGIN_DIR . '/views/' );
+		$loader = new \Twig\Loader\FilesystemLoader( TOWA_GDPR_PLUGIN_DIR . '/views/' );
 		$twig   = new \Twig\Environment( $loader );
 
 		$transient = get_transient( self::TRANSIENT_KEY );
@@ -98,7 +98,7 @@ class Plugin {
 
 		$function = new \Twig\TwigFunction(
 			'__',
-			function ( string $string, string $textdomain = 'towa-dsgvo-plugin' ) {
+			function ( string $string, string $textdomain = 'towa-gdpr-plugin' ) {
 				return __( $string, $textdomain ); //phpcs:ignore
 			}
 		);
@@ -156,7 +156,7 @@ class Plugin {
 	public function my_acf_notice(): void {
 		?>
 			<div class="error">
-					<p><?php _e( '<b>Towa DSGVO Plugin:</b> Please install and activate ACF Pro', $this->config->getKey( 'Plugin.textdomain' ) ); // phpcs:ignore ?>
+					<p><?php _e( '<b>Towa GDPR Plugin:</b> Please install and activate ACF Pro', $this->config->getKey( 'Plugin.textdomain' ) ); // phpcs:ignore ?>
 			</div>
 		<?php
 	}
@@ -179,7 +179,7 @@ class Plugin {
 	 */
 	public function save_options_hook(): void {
 			$screen = get_current_screen();
-		if ( strpos( $screen->id, 'towa-dsgvo-plugin' ) !== false ) {
+		if ( strpos( $screen->id, 'towa-gdpr-plugin' ) !== false ) {
 			delete_transient( self::TRANSIENT_KEY );
 		}
 	}

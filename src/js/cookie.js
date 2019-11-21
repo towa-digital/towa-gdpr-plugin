@@ -2,7 +2,7 @@
 import Cookies from 'js-cookie';
 import Observable from './observable';
 import {setCssClass} from './helpers';
-export default class TowaDsgvoCookie {
+export default class TowaGdprCookie {
 	constructor(cookie,root){
 		this.state = { ...cookie };
 		this.state.active = this.isCookieActive();
@@ -13,7 +13,7 @@ export default class TowaDsgvoCookie {
 			domEl: root.querySelector(`[data-cookiename="${this.state.name}"]`),
 			listEls: Array.from(root.querySelectorAll(`[data-cookiename="${this.state.name}"]`)).map(item => item.closest('li') )
 		}
-		
+
 		this.changeEvent = new Event('cookieChanged');
 		this.init();
 	}
@@ -68,7 +68,7 @@ export default class TowaDsgvoCookie {
 	}
 
 	save(){
-		Cookies.set(this.state.name, !!this.state.active.value, towaDsgvoContext.settings.cookieTime);
+		Cookies.set(this.state.name, !!this.state.active.value, towaGdprContext.settings.cookieTime);
 	}
 
 	setActive(value, notifyRoot = true){
@@ -77,7 +77,7 @@ export default class TowaDsgvoCookie {
 		if(notifyRoot){
 			this.ref.root.dispatchEvent(this.changeEvent);
 		}
-		Cookies.set(this.state.name, value, towaDsgvoContext.settings.cookieTime);
+		Cookies.set(this.state.name, value, towaGdprContext.settings.cookieTime);
 	}
 
 }

@@ -1,13 +1,13 @@
-<li role="tab" aria-controls="TowaDsgvo-{{loop.index}}" class="Towa-Dsgvo-Plugin__group {{loop.first ? 'active'}} {{essential ? 'essential'}}">
-	<div class="Towa-Dsgvo-Plugin__switch-wrapper">
+<li role="tab" aria-controls="TowaGdpr-{{loop.index}}" class="Towa-Gdpr-Plugin__group {{loop.first ? 'active'}} {{essential ? 'essential'}}">
+	<div class="Towa-Gdpr-Plugin__switch-wrapper">
 		<label>{{group.title}}</label>
-		<div class="Towa-Dsgvo-Plugin__switch">
-			<input class="Towa-Dsgvo-Plugin__cookie-group__checkbox" data-groupname="{{group.title}}" type="checkbox" {{essential ? 'checked="checked" disabled="disabled"' }} />
+		<div class="Towa-Gdpr-Plugin__switch">
+			<input class="Towa-Gdpr-Plugin__cookie-group__checkbox" data-groupname="{{group.title}}" type="checkbox" {{essential ? 'checked="checked" disabled="disabled"' }} />
 			<span class="slider"></span>
 		</div>
 	</div>
-	<p class="Towa-Dsgvo-Plugin__group-description">{{group.group_description}}</p>
-	<div class="Towa-Dsgvo-Plugin__panel--mobile">
+	<p class="Towa-Gdpr-Plugin__group-description">{{group.group_description}}</p>
+	<div class="Towa-Gdpr-Plugin__panel--mobile">
 		{% include 'partial_cookie_group_panel.twig' with {
 			group: group,
 			essential: essential,
