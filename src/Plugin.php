@@ -15,7 +15,6 @@ namespace Towa\DsgvoPlugin;
 use BrightNucleus\Config\ConfigInterface;
 use BrightNucleus\Config\ConfigTrait;
 use BrightNucleus\Config\Exception\FailedToProcessConfigException;
-use BrightNucleus\Settings\Settings;
 use BrightNucleus\Dependency\DependencyManager;
 
 /**
@@ -118,13 +117,13 @@ class Plugin {
 		} else {
 			collect( $this->config->getSubConfig( 'Settings.submenu_pages' )->getAll() )->map(
 				function ( $menupage ) {
-					array(
+					[   //phpcs:ignore
 						'page_title' => $page_title,
 						'menu_title' => $menu_title,
 						'menu_slug'  => $menu_slug,
 						'capability' => $capability,
 						'redirect'   => $redirect,
-					) = $menupage; //phpcs:ignore
+					] = $menupage; //phpcs:ignore
 
 					\acf_add_options_page(
 						array(
