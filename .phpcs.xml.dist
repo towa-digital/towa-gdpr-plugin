@@ -70,16 +70,4 @@
 		</properties>
 	</rule>
 
-	<!-- Rules: Neutron Standard, for PHP 7+ development - see
-	https://github.com/Automattic/phpcs-neutron-standard -->
-	<rule ref="NeutronStandard"/>
-	<!-- Disable alignment checks, which is direct conflict with WPCS - see
-	https://github.com/Automattic/phpcs-neutron-standard/issues/69 -->
-	<rule ref="NeutronStandard.AssignAlign.DisallowAssignAlign.Aligned">
-		<severity>0</severity>
-	</rule>
-
-	<rule ref="NeutronStandard.StrictTypes.RequireStrictTypes.StrictTypes">
-		<exclude-pattern>towa-dsgvo-plugin.php</exclude-pattern>
-	</rule>
 </ruleset>

@@ -32,7 +32,7 @@ if ( $towa_dsgvo_plugin_key && 'integration' === $towa_dsgvo_plugin_argv[ $towa_
 	\tests_add_filter(
 		'muplugins_loaded',
 		function () {
-			require dirname(__DIR__) . '/towa-dsgvo-plugin.php';
+			require dirname( __DIR__ ) . '/towa-dsgvo-plugin.php';
 		}
 	);
 

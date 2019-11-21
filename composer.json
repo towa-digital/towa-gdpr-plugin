@@ -59,6 +59,7 @@
 			"bin/php-lint",
 			"bin/xml-lint"
 		],
+		"phpcbf": "phpcbf && phpcbf ./towa-dsgvo-plugin.php -sp --standard=PHPCompatibility --runtime-set testVersion 5.2",
 		"phpcs": "phpcs && phpcs ./towa-dsgvo-plugin.php -sp --standard=PHPCompatibility --runtime-set testVersion 5.2",
 		"test": [
 			"@lint",

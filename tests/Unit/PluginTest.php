@@ -46,13 +46,13 @@ class PluginTest extends TestCase {
 	protected function setUp(): void {
 		$this->load_textdomain_callback = 'load_textdomain';
 
-		$mock_config = [
-			'Settings' => [],
-			'Plugin'   => [
+		$mock_config = array(
+			'Settings' => array(),
+			'Plugin'   => array(
 				'textdomain'    => 'apple',
 				'languages_dir' => 'banana',
-			],
-		];
+			),
+		);
 
 		$this->mock_config = ConfigFactory::createFromArray( $mock_config );
 
@@ -68,7 +68,7 @@ class PluginTest extends TestCase {
 		$plugin->run();
 
 		// Check the plugin method that loads the text domain is hooked into the right filter.
-		static::assertNotFalse( has_action( 'plugins_loaded', [ $plugin, $this->load_textdomain_callback ] ), 'Loading textdomain is not hooked in correctly.' );
+		static::assertNotFalse( has_action( 'plugins_loaded', array( $plugin, $this->load_textdomain_callback ) ), 'Loading textdomain is not hooked in correctly.' );
 	}
 
 	/**

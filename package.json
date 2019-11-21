@@ -19,6 +19,9 @@
     "watch": "npm run development -- --watch",
     "watch-poll": "npm run watch -- --watch-poll"
   },
+  "husky": {
+    "pre-commit": "composer run phpcbf"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/towa_gmbh/towa-dsgvo-plugin.git"
@@ -40,6 +43,8 @@
     "custom-event-polyfill": "^1.0.7",
     "dotenv": "^8.2.0",
     "element-closest-polyfill": "^1.0.0",
+    "eslint": "^6.6.0",
+    "husky": "^3.1.0",
     "js-cookie": "^2.2.1",
     "laravel-mix": "^5.0.0",
     "laravel-mix-purgecss": "^4.2.0",

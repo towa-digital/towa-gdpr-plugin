@@ -64,6 +64,7 @@ if ( version_compare( PHP_VERSION, '7.1', '<' ) ) {
 		<?php
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['activate'] ) ) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			unset( $_GET['activate'] );
 		}
 	}
