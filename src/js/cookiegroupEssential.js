@@ -1,24 +1,20 @@
-import CookieGroup from "./cookiegroup"
-import EssentialCookie from "./cookieEssential";
+import CookieGroup from './cookiegroup'
+import EssentialCookie from './cookieEssential'
 
-export default class EssentialCookieGroup  extends CookieGroup {
-	constructor(group, root, display){
-		super(group, root, display);
-	}
+export default class EssentialCookieGroup extends CookieGroup {
+  isGroupActive () {
+    return true
+  }
 
-	isGroupActive(){
-		return true;
-	}
+  getCookies (group, root) {
+    if (group.cookies instanceof Object) {
+      this.state.cookies = group.cookies.map(cookie => {
+        return new EssentialCookie(cookie, root)
+      })
+    }
+  }
 
-	getCookies(group,root) {
-		if (group.cookies instanceof Object) {
-			this.state.cookies = group.cookies.map(cookie => {
-				return new EssentialCookie(cookie, root);
-			});
-		}
-	}
-	toggle(){
-		this.state.active.value = true;
-	}
-
+  toggle () {
+    this.state.active.value = true
+  }
 }
