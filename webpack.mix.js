@@ -7,7 +7,8 @@ dotenv.config({ path: './.env' });
 
 mix
 	.setPublicPath('dist')
-	.js('src/js/main.js','dist/js')
+  .js('src/js/main.js','dist/js')
+  .js('src/js/tagmanager.js','dist/js')
 	.sass('src/scss/main.scss','dist/css')
 
 	.webpackConfig({

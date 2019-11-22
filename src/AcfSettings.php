@@ -69,6 +69,9 @@ class AcfSettings implements AcfGroup {
 	 */
 	public function build_fields() : array {
 		return array(
+			( new Text( $this->name, 'tagmanager', __('Tagmanager ID','towa-gdpr-plugin' ) ) )->build([
+				'instructions'=> __('this will add the tagmanager installation script to the header of the page (be aware that it will not support the noscript iframe)' ,'towa-gdpr-plugin')
+			]),
 			( new Wysiwyg( $this->name, 'cookie_wysiwyg', __( 'Cookie Notice general Information', 'towa-gdpr-plugin' ) ) )->build(),
 			( new Text( $this->name, 'accept_label', __( 'accept all Cookies text', 'towa-gdpr-plugin' ) ) )->build(
 				array(

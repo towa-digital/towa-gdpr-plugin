@@ -7,7 +7,8 @@ module.exports = {
         "standard"
     ],
     "globals": {
-		"towaGdprContext":true,
+      "towaTagmanager": true,
+      "towaGdprContext":true,
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
