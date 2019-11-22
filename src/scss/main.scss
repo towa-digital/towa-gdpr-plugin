@@ -223,9 +223,6 @@
 	}
 	&__accept-all{
 		@include button-colors-full;
-		@include media('>=md'){
-			margin-left: auto;
-		}
 		&:hover{
 			@include button-colors-ghost;
 		}
