@@ -1,6 +1,5 @@
 import Cookie from './cookie'
 import Observable from './observable'
-import { setCssClass } from './helpers'
 export default class CookieGroup {
   constructor (group, root) {
     const domEl = root.querySelector(`[data-groupname="${group.title}"]`)
