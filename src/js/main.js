@@ -17,7 +17,7 @@ class TowaGdprPlugin {
     }
     if (this.context.settings.cookie_groups instanceof Object) {
       this.state.cookieGroups = this.context.settings.cookie_groups.map((group, index) => {
-        return new CookieGroup(group, this.refs.root, (index === 0))
+        return new CookieGroup(group, this.refs.root)
       })
     }
     if (this.context.settings.essential_group instanceof Object) {

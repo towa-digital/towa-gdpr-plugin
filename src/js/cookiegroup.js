@@ -2,20 +2,17 @@ import Cookie from './cookie'
 import Observable from './observable'
 import { setCssClass } from './helpers'
 export default class CookieGroup {
-  constructor (group, root, display) {
+  constructor (group, root) {
     const domEl = root.querySelector(`[data-groupname="${group.title}"]`)
     this.state = {
       id: domEl.closest('li').getAttribute('aria-controls'),
       cookies: [],
-      display: display,
       active: false
     }
     this.ref = {
       root: root,
       domEl: domEl,
-      li: domEl.closest('li'),
-      panel: root.querySelector(`#${this.state.id}`),
-      panelMobile: root.querySelector(`#${this.state.id}-mobile`)
+      li: domEl.closest('li')
     }
     this.toggleGroupClickedEvent = new CustomEvent('toggleGroupClicked', { detail: { id: this.state.id } })
     this.getCookies(group, root)
@@ -38,7 +35,6 @@ export default class CookieGroup {
   }
 
   defineObservables () {
-    this.state.display = new Observable(this.state.display, this.ref.domEl)
     this.state.active = new Observable(this.state.active, this.ref.domEl)
   }
 
@@ -48,9 +44,6 @@ export default class CookieGroup {
 
   render () {
     this.ref.domEl.checked = this.state.active.value
-    setCssClass(this.ref.panel, 'active', this.state.display.value)
-    setCssClass(this.ref.panelMobile, 'active', this.state.display.value)
-    setCssClass(this.ref.li, 'active', this.state.display.value)
   }
 
   toggle () {
@@ -72,12 +65,6 @@ export default class CookieGroup {
     })
     this.ref.li.addEventListener('click', () => {
       this.ref.root.dispatchEvent(this.toggleGroupClickedEvent, this.state.id)
-      this.state.display.value = true
-    })
-    this.ref.root.addEventListener('toggleGroupClicked', (event) => {
-      if (this.state.id !== event.detail.id) {
-        this.state.display.value = false
-      }
     })
   }
 
