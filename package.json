@@ -22,7 +22,10 @@
     "lint-fix": "cross-env NODE_ENV=development node_modules/eslint/bin/eslint.js src/ --fix"
   },
   "husky": {
-    "pre-commit": "composer run phpcbf"
+    "pre-commit": [
+			"composer run phpcbf",
+			"lint-staged"
+		]
   },
   "repository": {
     "type": "git",
@@ -50,6 +53,7 @@
     "js-cookie": "^2.2.1",
     "laravel-mix": "^5.0.0",
     "laravel-mix-purgecss": "^4.2.0",
+    "lint-staged": "^9.4.3",
     "new-event-polyfill": "^1.0.1",
     "nodelist-foreach-polyfill": "^1.2.0",
     "resolve-url-loader": "^3.1.1",
