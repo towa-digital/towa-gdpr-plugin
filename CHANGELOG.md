@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-
+- added Tagmanager functionality
 - Added color setting via css variables
 - Added essential cookies
 - Added Frontend for Cookies
