@@ -62,6 +62,30 @@ $towa_gdpr_plugin_settings = array(
 			),
 		),
 	),
+	'tagmanager'=> array(
+		'dependencies' => array(
+			'scripts' => array(
+				array(
+					'handle'    => 'towa-gdpr-plugin-tagmanager',
+					'src'       => TOWA_GDPR_PLUGIN_URL . 'dist/js/tagmanager.js',
+					'ver'       => '1.0.0',
+					'in_footer' => false,
+					'localize'  => array(
+						'name' => 'towaTagmanager ',
+						// phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- Mixed type
+						'data' => function($context): array {
+							return array(
+								'id' => get_field('tagmanager', 'option')
+							);
+						}
+					)
+				)
+			),
+			'handlers' => array(
+				'scripts' => 'BrightNucleus\Dependency\ScriptHandler',
+			)
+		)
+	),
 	'settings'      => array(),
 );
 
