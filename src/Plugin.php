@@ -148,6 +148,10 @@ class Plugin {
 	private function load_dependencies(): void {
 		$dependencies = new DependencyManager( $this->config->getSubConfig( 'Settings.submenu_pages.0.dependencies' ) );
 		add_action( 'init', array( $dependencies, 'register' ) );
+		if(get_field('tagmanager','option')){
+			$tagmanagerDependencies = new DependencyManager( $this->config->getSubConfig( 'Settings.tagmanager.dependencies' ) );
+			add_action( 'init', array($tagmanagerDependencies, 'register' ) );
+		}
 	}
 
 	/**
