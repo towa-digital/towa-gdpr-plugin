@@ -1,0 +1,14 @@
+<li class="Towa-Gdpr-Plugin__group {{essential ? 'essential'}}">
+	<div class="Towa-Gdpr-Plugin__switch-wrapper">
+		<label>{{group.title}}</label>
+		<div class="Towa-Gdpr-Plugin__switch">
+			<input class="Towa-Gdpr-Plugin__cookie-group__checkbox" data-groupname="{{group.title}}" type="checkbox" {{essential ? 'checked="checked" disabled="disabled"' }} />
+			<span class="slider"></span>
+		</div>
+	</div>
+	<p class="Towa-Gdpr-Plugin__group-description">{{group.group_description}}</p>
+	{% include 'partial_cookie_group_panel.twig' with {
+		group: group,
+		essential: essential,
+	} %}
+</li>

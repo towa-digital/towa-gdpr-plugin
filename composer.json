@@ -1,0 +1,78 @@
+{
+	"name": "towa/towa-gdpr-plugin",
+	"type": "wordpress-plugin",
+	"description": "Towa Gdpr Plugin for a gdpr compatible cookie notice",
+	"keywords": [
+		"plugin",
+		"towa-gdpr-plugin"
+	],
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Martin Welte",
+			"email": "martin.welte@towa.at"
+		}
+	],
+	"require": {
+		"php": "^7.2",
+		"brightnucleus/config": "^0.4",
+		"brightnucleus/dependencies": "^0.3.2",
+		"cedaro/wp-plugin": "^0.4",
+		"composer/installers": "^1",
+		"illuminate/support": "^6",
+		"towa/towa-acf-fields": "^1.1",
+		"twig/twig": "^2"
+	},
+	"require-dev": {
+		"automattic/vipwpcs": "^2.0",
+		"brain/monkey": "^2.2",
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+		"infection/infection": "^0.14",
+		"phpcompatibility/phpcompatibility-wp": "^2",
+		"phpstan/phpstan": "^0.11",
+		"phpunit/phpunit": "^8",
+		"roave/security-advisories": "dev-master",
+		"sllh/composer-versions-check": "^2.0",
+		"squizlabs/php_codesniffer": "^3.4.0",
+		"symfony/var-dumper": "*",
+		"wp-coding-standards/wpcs": "^2"
+	},
+	"config": {
+		"sort-packages": true
+	},
+	"autoload": {
+		"psr-4": {
+			"Towa\\GdprPlugin\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Towa\\GdprPlugin\\Tests\\": "tests/"
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"scripts": {
+		"install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
+		"integration": "./vendor/bin/phpunit --testsuite integration",
+		"lint": [
+			"bin/php-lint",
+			"bin/xml-lint"
+		],
+		"phpcbf": "phpcbf && phpcbf ./towa-gdpr-plugin.php -sp --standard=PHPCompatibility --runtime-set testVersion 7.2",
+		"phpcs": "phpcs && phpcs ./towa-gdpr-plugin.php -sp --standard=PHPCompatibility --runtime-set testVersion 7.2",
+		"test": [
+			"@lint",
+			"@unit",
+			"@phpcs"
+		],
+		"test-full": [
+			"@lint",
+			"@unit",
+			"@infection",
+			"@integration",
+			"@phpcs"
+		],
+		"unit": "./vendor/bin/phpunit --testsuite unit"
+	}
+}

@@ -1,0 +1,63 @@
+{
+  "name": "towa-gdpr-plugin",
+  "version": "1.0.0",
+  "description": "Gdpr Compliance Plugin for Wordpress",
+  "main": "src/js/main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=5.6.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "npm run development -- --watch",
+    "watch-poll": "npm run watch -- --watch-poll",
+    "lint-dry": "cross-env NODE_ENV=development node_modules/eslint/bin/eslint.js src/ --fix-dry-run",
+    "lint-fix": "cross-env NODE_ENV=development node_modules/eslint/bin/eslint.js src/ --fix"
+  },
+  "husky": {
+    "pre-commit": "cross-env PRE_COMMIT=true lint-staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/towa_gmbh/towa-gdpr-plugin.git"
+  },
+  "keywords": [
+    "gdpr",
+    "towa",
+    "cookie-notice"
+  ],
+  "author": "martin welte <martin.welte@towa.at>",
+  "license": "GPLv2",
+  "homepage": "https://bitbucket.org/towa_gmbh/towa-gdpr-plugin#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.7.1",
+    "browser-sync": "^2.26.7",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "core-js": "^2.6",
+    "cross-env": "^6.0.3",
+    "custom-event-polyfill": "^1.0.7",
+    "dotenv": "^8.2.0",
+    "element-closest-polyfill": "^1.0.0",
+    "eslint": "^6.6.0",
+    "husky": "^3.1.0",
+    "js-cookie": "^2.2.1",
+    "laravel-mix": "^5.0.0",
+    "laravel-mix-purgecss": "^4.2.0",
+    "lint-staged": "^9.4.3",
+    "new-event-polyfill": "^1.0.1",
+    "nodelist-foreach-polyfill": "^1.2.0",
+    "resolve-url-loader": "^3.1.1",
+    "sass": "^1.23.7",
+    "sass-loader": "^8.0.0",
+    "standard": "^14.3.1",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "dependencies": {}
+}

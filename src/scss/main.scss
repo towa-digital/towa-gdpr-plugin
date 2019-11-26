@@ -1,0 +1,230 @@
+@import './variables.scss';
+@import './media_queries.scss';
+@import './mixins.scss';
+@import './fonts.scss';
+.Towa-Gdpr-Plugin{
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100vh;
+	width: 100vw;
+	top: 0;
+	z-index: 900;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 0.3s;
+
+	&.show{
+		visibility: visible;
+		opacity: 1;
+	}
+	@include wysiwyg;
+	&::before{
+		content: '';
+		background-color: $color-overlay-background;
+		z-index: -1;
+		@include util-cover();
+	}
+	ul{
+		list-style: none;
+	}
+	h2.Towa-Gdpr-Plugin__left__headline{
+		padding: 0 20px;
+		margin: 20px 0 0 20px;
+		@include media('>=md'){
+			margin: 0px ;
+		}
+	}
+	&__wrapper{
+		margin: 0 auto;
+		max-width: $grid-max-width;
+		background: $color-white;
+		display: flex;
+		flex-direction: column;
+		width: calc(100% - 20px);
+		max-height: calc(100vh - 20px);
+		overflow-y: auto;
+		box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.3);
+		@include media('>=sm'){
+			overflow-y: hidden;
+		}
+		@include media('>=md'){
+			max-height: calc(100vh - 40px);
+			width: calc(100% - 40px);
+		}
+	}
+
+	&__left{
+		background-color: $color-selected-group;
+	}
+	&__groups{
+		@include media('>=sm'){
+			overflow-y: auto;
+		}
+	}
+	&__groups > ul{
+		margin: 20px 0 0 0;
+		@include media('>=md'){
+			margin: 20px 0;
+		}
+	}
+
+	&__wysiwyg{
+		padding: 0 10px;
+		@include media('>=md'){
+			padding: 20px;
+		}
+	}
+
+	&__group{
+		padding: 0 20px;
+		&.essential .Towa-Gdpr-Plugin__switch-wrapper{
+			opacity: 0.5;
+		}
+	}
+	&__group-title{
+		@include font-h3;
+		box-sizing: border-box;
+	}
+	&__cookie{
+		display: flex;
+		align-items: center;
+		border-left: 2px solid transparent;
+		padding: 10px 20px;
+		&.active{
+			background: rgba($color-active,0.1);
+			border-left: 2px solid $color-active;
+			@supports(--css: variables){
+				border-left: 2px solid var(--highlightcolor);
+				background: var(--highlightcolorLight);
+			}
+		}
+	}
+	&__cookies{
+		margin-left: -20px;
+		margin-right: -20px;
+	}
+	&__cookie__headline{
+		@include font-h3;
+		display: block;
+		flex-grow: 1;
+	}
+	&__switch-wrapper{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	&__switch{
+		width: 40px;
+		height: 20px;
+		position: relative;
+		display: inline-block;
+		flex-shrink: 0;
+		@include media('>=md'){
+			margin-left: 20px;
+		}
+		&.small{
+			width: 20px;
+			margin-right: 20px;
+			.slider{
+				border-radius: 50%;
+				border: 2px solid $color-ui-elements;
+				background: $color-white;
+				&::before{
+					opacity: 0;
+					transform: none;
+					background-color: $color-active;
+					height: 12px;
+					width: 12px;
+
+					@supports(--css: variables){
+						background-color: var(--highlightcolor);
+					}
+				}
+			}
+			input:checked + .slider{
+				background: $color-white;
+				border-color: $color-active;
+				@supports(--css: variables){
+					border-color: var(--highlightcolor);
+				}
+				&:before{
+					opacity: 1;
+					transform: none;
+				}
+			}
+		}
+		input{
+			opacity: 0;
+			width: 100%;
+			height: 100%;
+			&:hover{
+				cursor: pointer;
+			}
+			&:checked + .slider{
+				background: $color-active;
+				@supports(--css: variables){
+					background-color: var(--highlightcolor);
+				}
+				&::before{
+					transform: translateX( 40px - 16px - 4px);
+				}
+			}
+		}
+		.slider{
+			@include util-cover;
+			background-color: $color-ui-elements;
+			-webkit-transition: .4s;
+			transition: .4s;
+			border-radius: 10px;
+			pointer-events: none;
+			box-sizing: border-box;
+			&::before{
+				position: absolute;
+				content: "";
+				height: 16px;
+				width: 16px;
+				left: 2px;
+				top: 2px;
+				border-radius: 50%;
+				background-color: white;
+				transition: ease-out all .2s;
+			}
+
+		}
+	}
+	&__buttons{
+		display: flex;
+		flex-direction: column;
+		margin-top: auto;
+		padding:10px;
+		@include media('>=md'){
+			padding: 0 20px 20px;
+			flex-direction: row;
+		}
+	}
+	&__save,&__accept-all,&__decline-all{
+		@include element-button;
+		&:not(:last-of-type){
+			margin-bottom: 10px;
+		}
+		@include media('>=md'){
+			&:not(:last-of-type){
+				margin-bottom: 0px;
+			}
+		}
+	}
+	&__save,&__decline-all{
+		@include button-colors-ghost;
+		&:hover{
+			@include button-colors-full;
+		}
+	}
+	&__accept-all{
+		@include button-colors-full;
+		&:hover{
+			@include button-colors-ghost;
+		}
+	}
+}
