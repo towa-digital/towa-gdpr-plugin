@@ -111,6 +111,7 @@ class AcfCookies implements AcfGroup {
 									),
 									( new Textarea( $this->name, 'javascript', __( 'javascript', 'towa-gdpr-plugin' ) ) )->build(
 										array(
+											'new_lines' => '',
 											'instructions' => __( 'add custom javascript that is triggered, as soon as the User accepts the cookies', 'towa-gdpr-plugin' ),
 										)
 									),
@@ -154,7 +155,11 @@ class AcfCookies implements AcfGroup {
 											'required' => true,
 										)
 									),
-									( new Textarea( $this->name, 'javascript', __( 'javascript', 'towa-gdpr-plugin' ) ) )->build(),
+									( new Textarea( $this->name, 'javascript', __( 'javascript', 'towa-gdpr-plugin' ) ) )->build(
+										array(
+											'new_lines' => ''
+										)
+									),
 								),
 								'layout'     => 'block',
 								'min'        => 1,
