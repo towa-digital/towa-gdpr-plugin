@@ -28,7 +28,7 @@ class TowaGdprPlugin {
   }
 
   UserhasGdprAccepted () {
-    return (Cookies.get('GdprAccepted') === 'true')
+    return (Cookies.get('GdprAccepted') === this.context.settings.hash)
   }
 
   init () {
@@ -81,7 +81,7 @@ class TowaGdprPlugin {
 
   accept () {
     this.state.accepted.value = true
-    Cookies.set('GdprAccepted', true, this.context.settings.cookieTime)
+    Cookies.set('GdprAccepted', this.context.settings.hash, this.context.settings.cookieTime)
     this.renderScripts()
   }
 
