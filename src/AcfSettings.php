@@ -114,6 +114,12 @@ class AcfSettings implements AcfGroup {
 					'placeholder'   => '90',
 				)
 			),
+			(new Text( $this->name, 'hash', __( 'current Hash', 'towa-gdpr-plugin') ) )->build(
+				array(
+					'readonly' => true,
+					'instructions' => __('The hash is used to verify the current version of the consent message. if this differs with a users hash, the consent notification will be shown again', 'towa-gdpr-plugin')
+				)
+			)
 		);
 	}
 }
