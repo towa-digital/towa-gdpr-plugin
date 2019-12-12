@@ -21,7 +21,7 @@ use BrightNucleus\Dependency\DependencyManager;
  * Main plugin class.
  *
  * @package Towa\GdprPlugin
- * @author  Martin Welte
+ * @author  Martin Welte <martin.welte@towa.at>
  */
 class Plugin {
 
@@ -61,7 +61,8 @@ class Plugin {
 	 */
 	public function run(): void {
 		add_action( 'acf/save_post', array( $this, 'save_options_hook' ), 20 );
-		\add_action( 'plugins_loaded', array( $this, 'init' ) );
+		add_action( 'plugins_loaded', array( $this, 'init' ) );
+		add_action( 'acf/input/admin_head', array( $this, 'register_custom_meta_box'), 10);
 	}
 
 	/**
@@ -71,7 +72,7 @@ class Plugin {
 		$this->load_textdomain();
 		$this->register_menupages();
 		$this->load_dependencies();
-		if ( ! is_admin() && function_exists( 'get_fields' ) ) {
+		if ( ! \is_admin() && function_exists( 'get_fields' ) ) {
 			\add_action( 'wp_footer', array( $this, 'render_footer' ) );
 		}
 	}
@@ -86,24 +87,25 @@ class Plugin {
 	public function render_footer(): void {
 		$loader = new \Twig\Loader\FilesystemLoader( TOWA_GDPR_PLUGIN_DIR . '/views/' );
 		$twig   = new \Twig\Environment( $loader );
+		$function = new \Twig\TwigFunction(
+			'__',
+			function (string $string, string $textdomain = 'towa-gdpr-plugin') {
+				return __($string, $textdomain); //phpcs:ignore
+			}
+		);
 
-		$transient = get_transient( self::TRANSIENT_KEY );
+		$twig->addFunction($function);
+
+		$transient = \get_transient( self::TRANSIENT_KEY );
 
 		if ( ! empty( $transient ) ) {
 			$data = $transient;
 		} else {
-			$data = get_fields( 'options' );
-			set_transient( self::TRANSIENT_KEY, $data, MONTH_IN_SECONDS );
+			$data = \get_fields( 'options' );
+			\set_transient( self::TRANSIENT_KEY, $data, MONTH_IN_SECONDS );
 		}
 
-		$function = new \Twig\TwigFunction(
-			'__',
-			function ( string $string, string $textdomain = 'towa-gdpr-plugin' ) {
-				return __( $string, $textdomain ); //phpcs:ignore
-			}
-		);
 
-		$twig->addFunction( $function );
 		$template = $twig->load( 'cookie-notice.twig' );
 		echo $template->render( $data ); // phpcs:ignore
 	}
@@ -144,11 +146,13 @@ class Plugin {
 
 	/**
 	 * Load dependencies automatically from config file
+	 *
+	 * @return void
 	 */
 	private function load_dependencies(): void {
 		$dependencies = new DependencyManager( $this->config->getSubConfig( 'Settings.submenu_pages.0.dependencies' ) );
 		add_action( 'init', array( $dependencies, 'register' ) );
-		if(get_field('tagmanager','option')){
+		if(\get_field('tagmanager','option')){
 			$tagmanagerDependencies = new DependencyManager( $this->config->getSubConfig( 'Settings.tagmanager.dependencies' ) );
 			add_action( 'init', array($tagmanagerDependencies, 'register' ) );
 		}
@@ -156,17 +160,21 @@ class Plugin {
 
 	/**
 	 * Adds notice to WordPress Backend if Acf is not active
+	 *
+	 * @return void
 	 */
 	public function my_acf_notice(): void {
 		?>
 			<div class="error">
-					<p><?php _e( '<b>Towa GDPR Plugin:</b> Please install and activate ACF Pro', $this->config->getKey( 'Plugin.textdomain' ) ); // phpcs:ignore ?>
+					<p><?php \_e( '<b>Towa GDPR Plugin:</b> Please install and activate ACF Pro', $this->config->getKey( 'Plugin.textdomain' ) ); // phpcs:ignore ?>
 			</div>
 		<?php
 	}
 
 	/**
 	 * Load the plugin text domain.
+	 *
+	 * @return void
 	 */
 	private function load_textdomain(): void {
 		$text_domain   = $this->config->getKey( 'Plugin.textdomain' );
@@ -182,9 +190,51 @@ class Plugin {
 	 * Hook to be run on save
 	 */
 	public function save_options_hook(): void {
-			$screen = get_current_screen();
+		$screen = \get_current_screen();
 		if ( strpos( $screen->id, 'towa-gdpr-plugin' ) !== false ) {
-			delete_transient( self::TRANSIENT_KEY );
+			if( !isset($_POST['acf']['towa_gdpr_settings_hash'] ) || $_POST['acf']['towa_gdpr_settings_hash'] == '' || sanitize_text_field($_POST['save_and_hash'] ) ){
+				\update_field( 'towa_gdpr_settings_hash', (new Hash())->get_hash(), 'option');
+			}
+			\delete_transient( self::TRANSIENT_KEY );
 		}
+	}
+
+	/**
+	 * register custom meta box for hash regeneration
+	 *
+	 * @return void
+	 */
+	public function register_custom_meta_box(): void {
+		$screen = \get_current_screen();
+
+		if(strpos($screen->id, 'towa-gdpr-plugin') !== false){
+			\add_meta_box( 'towa-gdpr-plugin-meta',
+				__('publish & force new consent',
+				'towa-gdpr-plugin'),
+				[$this,'display_acf_metabox'],
+				'acf_options_page',
+				'side');
+		}
+	}
+
+	/**
+	 * display additional meta box for hash regeneration
+	 *
+	 * @return void
+	 */
+	public function display_acf_metabox(): void {
+		$loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR . '/views/');
+		$twig   = new \Twig\Environment($loader);
+		$function = new \Twig\TwigFunction(
+			'__',
+			function (string $string, string $textdomain = 'towa-gdpr-plugin') {
+				return __($string, $textdomain); //phpcs:ignore
+			}
+		);
+
+		$twig->addFunction($function);
+
+		$template = $twig->load('meta-box.twig');
+		echo $template->render(); // phpcs:ignore
 	}
 }
