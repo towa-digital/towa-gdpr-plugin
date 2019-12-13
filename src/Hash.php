@@ -1,6 +1,7 @@
 <?php
 /**
  * Hash class file
+ *
  * @package Towa\GdprPlugin
  * @author Martin Welte <martin.welte@towa.at>
  * @copyright 2019 Towa
@@ -29,7 +30,7 @@ class Hash {
 	/**
 	 * Instantiating the Hash
 	 */
-	public function __construct(){
+	public function __construct() {
 		$this->generate_hash();
 	}
 
@@ -38,7 +39,7 @@ class Hash {
 	 *
 	 * @return string
 	 */
-	public function get_hash(): string{
+	public function get_hash(): string {
 		return $this->hash;
 	}
 
@@ -47,8 +48,8 @@ class Hash {
 	 *
 	 * @return void
 	 */
-	public function generate_hash(): void{
-		$this->hash = md5(( new DateTime('now'))->getTimestamp());
+	public function generate_hash(): void {
+		$this->hash = md5( ( new DateTime( 'now' ) )->getTimestamp() );
 	}
 
 	/**
@@ -57,7 +58,7 @@ class Hash {
 	 * @param string $hash
 	 * @return void
 	 */
-	public function setHash(string $hash): void{
+	public function setHash( string $hash ): void {
 		$this->hash = $hash;
 	}
 

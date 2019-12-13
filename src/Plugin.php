@@ -62,7 +62,7 @@ class Plugin {
 	public function run(): void {
 		add_action( 'acf/save_post', array( $this, 'save_options_hook' ), 20 );
 		add_action( 'plugins_loaded', array( $this, 'init' ) );
-		add_action( 'acf/input/admin_head', array( $this, 'register_custom_meta_box'), 10);
+		add_action( 'acf/input/admin_head', array( $this, 'register_custom_meta_box' ), 10 );
 	}
 
 	/**
@@ -85,16 +85,16 @@ class Plugin {
 	 * @throws \Twig\Error\SyntaxError Syntaxerror.
 	 */
 	public function render_footer(): void {
-		$loader = new \Twig\Loader\FilesystemLoader( TOWA_GDPR_PLUGIN_DIR . '/views/' );
-		$twig   = new \Twig\Environment( $loader );
+		$loader   = new \Twig\Loader\FilesystemLoader( TOWA_GDPR_PLUGIN_DIR . '/views/' );
+		$twig     = new \Twig\Environment( $loader );
 		$function = new \Twig\TwigFunction(
 			'__',
-			function (string $string, string $textdomain = 'towa-gdpr-plugin') {
+			function ( string $string, string $textdomain = 'towa-gdpr-plugin' ) {
 				return __($string, $textdomain); //phpcs:ignore
 			}
 		);
 
-		$twig->addFunction($function);
+		$twig->addFunction( $function );
 
 		$transient = \get_transient( self::TRANSIENT_KEY );
 
@@ -104,7 +104,6 @@ class Plugin {
 			$data = \get_fields( 'options' );
 			\set_transient( self::TRANSIENT_KEY, $data, MONTH_IN_SECONDS );
 		}
-
 
 		$template = $twig->load( 'cookie-notice.twig' );
 		echo $template->render( $data ); // phpcs:ignore
@@ -152,9 +151,9 @@ class Plugin {
 	private function load_dependencies(): void {
 		$dependencies = new DependencyManager( $this->config->getSubConfig( 'Settings.submenu_pages.0.dependencies' ) );
 		add_action( 'init', array( $dependencies, 'register' ) );
-		if(\get_field('tagmanager','option')){
+		if ( \get_field( 'tagmanager', 'option' ) ) {
 			$tagmanagerDependencies = new DependencyManager( $this->config->getSubConfig( 'Settings.tagmanager.dependencies' ) );
-			add_action( 'init', array($tagmanagerDependencies, 'register' ) );
+			add_action( 'init', array( $tagmanagerDependencies, 'register' ) );
 		}
 	}
 
@@ -192,8 +191,8 @@ class Plugin {
 	public function save_options_hook(): void {
 		$screen = \get_current_screen();
 		if ( strpos( $screen->id, 'towa-gdpr-plugin' ) !== false ) {
-			if( !isset($_POST['acf']['towa_gdpr_settings_hash'] ) || $_POST['acf']['towa_gdpr_settings_hash'] == '' || sanitize_text_field($_POST['save_and_hash'] ) ){
-				\update_field( 'towa_gdpr_settings_hash', (new Hash())->get_hash(), 'option');
+			if ( ! isset( $_POST['acf']['towa_gdpr_settings_hash'] ) || $_POST['acf']['towa_gdpr_settings_hash'] == '' || sanitize_text_field( $_POST['save_and_hash'] ) ) {
+				\update_field( 'towa_gdpr_settings_hash', ( new Hash() )->get_hash(), 'option' );
 			}
 			\delete_transient( self::TRANSIENT_KEY );
 		}
@@ -207,13 +206,17 @@ class Plugin {
 	public function register_custom_meta_box(): void {
 		$screen = \get_current_screen();
 
-		if(strpos($screen->id, 'towa-gdpr-plugin') !== false){
-			\add_meta_box( 'towa-gdpr-plugin-meta',
-				__('publish & force new consent',
-				'towa-gdpr-plugin'),
-				[$this,'display_acf_metabox'],
+		if ( strpos( $screen->id, 'towa-gdpr-plugin' ) !== false ) {
+			\add_meta_box(
+				'towa-gdpr-plugin-meta',
+				__(
+					'publish & force new consent',
+					'towa-gdpr-plugin'
+				),
+				array( $this, 'display_acf_metabox' ),
 				'acf_options_page',
-				'side');
+				'side'
+			);
 		}
 	}
 
@@ -223,18 +226,18 @@ class Plugin {
 	 * @return void
 	 */
 	public function display_acf_metabox(): void {
-		$loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR . '/views/');
-		$twig   = new \Twig\Environment($loader);
+		$loader   = new \Twig\Loader\FilesystemLoader( TOWA_GDPR_PLUGIN_DIR . '/views/' );
+		$twig     = new \Twig\Environment( $loader );
 		$function = new \Twig\TwigFunction(
 			'__',
-			function (string $string, string $textdomain = 'towa-gdpr-plugin') {
+			function ( string $string, string $textdomain = 'towa-gdpr-plugin' ) {
 				return __($string, $textdomain); //phpcs:ignore
 			}
 		);
 
-		$twig->addFunction($function);
+		$twig->addFunction( $function );
 
-		$template = $twig->load('meta-box.twig');
+		$template = $twig->load( 'meta-box.twig' );
 		echo $template->render(); // phpcs:ignore
 	}
 }
