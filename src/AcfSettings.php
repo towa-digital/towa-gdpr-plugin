@@ -69,9 +69,11 @@ class AcfSettings implements AcfGroup {
 	 */
 	public function build_fields() : array {
 		return array(
-			( new Text( $this->name, 'tagmanager', __('Tagmanager ID','towa-gdpr-plugin' ) ) )->build([
-				'instructions'=> __('this will add the tagmanager installation script to the header of the page (be aware that it will not support the noscript iframe)' ,'towa-gdpr-plugin')
-			]),
+			( new Text( $this->name, 'tagmanager', __( 'Tagmanager ID', 'towa-gdpr-plugin' ) ) )->build(
+				array(
+					'instructions' => __( 'this will add the tagmanager installation script to the header of the page (be aware that it will not support the noscript iframe)', 'towa-gdpr-plugin' ),
+				)
+			),
 			( new Wysiwyg( $this->name, 'cookie_wysiwyg', __( 'Cookie Notice general Information', 'towa-gdpr-plugin' ) ) )->build(),
 			( new Text( $this->name, 'accept_label', __( 'accept all Cookies text', 'towa-gdpr-plugin' ) ) )->build(
 				array(
@@ -112,6 +114,12 @@ class AcfSettings implements AcfGroup {
 				array(
 					'default_value' => 90,
 					'placeholder'   => '90',
+				)
+			),
+			( new Text( $this->name, 'hash', __( 'current Hash', 'towa-gdpr-plugin' ) ) )->build(
+				array(
+					'readonly'     => true,
+					'instructions' => __( 'The hash is used to verify the current version of the consent message. if this differs with a users hash, the consent notification will be shown again', 'towa-gdpr-plugin' ),
 				)
 			),
 		);

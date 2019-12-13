@@ -1,10 +1,16 @@
 # Change Log for Towa GDPR Plugin
 
 All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](http://semver.org/).
+This project adheres to [Semantic Versioning](http://semver.org/).  
+
+## unreleased
+
+### Added
+- Cookie Consent hashing functionality added
 
 ## [1.0.1](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.1) - 03.12.2019
-### fixed
+
+### Fixed
 - fixed multiline issue with custom javascript code
 
 ## [1.0.0](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.0) - 26.11.2019
