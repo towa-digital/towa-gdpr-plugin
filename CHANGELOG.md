@@ -5,6 +5,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## unreleased
 
+## [1.0.2](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.2) - 14.01.2020
+
+### Fixed
+- acf issues with Fields not showing up solved
+- phpcs adapted to PSR12 ruleset
+
 ### Added
 - Cookie Consent hashing functionality added
 
