@@ -28,7 +28,8 @@
 		"brain/monkey": "^2.2",
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
 		"infection/infection": "^0.14",
-		"phpcompatibility/phpcompatibility-wp": "^2",
+		"paulthewalton/acf-pro-stubs": "^5.8",
+		"php-stubs/wordpress-stubs": "^5.3",
 		"phpstan/phpstan": "^0.11",
 		"phpunit/phpunit": "^8",
 		"roave/security-advisories": "dev-master",
@@ -59,8 +60,8 @@
 			"bin/php-lint",
 			"bin/xml-lint"
 		],
-		"phpcbf": "phpcbf && phpcbf ./towa-gdpr-plugin.php -sp --standard=PHPCompatibility --runtime-set testVersion 7.2",
-		"phpcs": "phpcs && phpcs ./towa-gdpr-plugin.php -sp --standard=PHPCompatibility --runtime-set testVersion 7.2",
+		"phpcbf": "phpcbf && phpcbf ./towa-gdpr-plugin.php -sp --standard=.phpcs.xml.dist --runtime-set testVersion 7.2 --config-show",
+		"phpcs": "phpcs && phpcs ./towa-gdpr-plugin.php -sp --standard=.phpcs.xml.dist --runtime-set testVersion 7.2",
 		"test": [
 			"@lint",
 			"@unit",

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Acf Settings File
  *
@@ -19,7 +20,8 @@ use Towa\Acf\Fields\Wysiwyg;
  *
  * @package Towa\GdprPlugin
  */
-class AcfSettings implements AcfGroup {
+class AcfSettings implements AcfGroup
+{
 
 	/**
 	 * Name of AcfGroup
@@ -33,12 +35,13 @@ class AcfSettings implements AcfGroup {
 	 *
 	 * @param string $page options page where the Acf Group should be displayed.
 	 */
-	public function register( string $page ) : void {
-		if ( function_exists( 'acf_add_local_field_group' ) ) {
+	public function register(string $page): void
+	{
+		if (function_exists('acf_add_local_field_group')) {
 			\acf_add_local_field_group(
 				array(
 					'key'                   => $this->name,
-					'title'                 => __( 'Settings', 'towa-gdpr-plugin' ),
+					'title'                 => __('Settings', 'towa-gdpr-plugin'),
 					'fields'                => $this->build_fields(),
 					'location'              => array(
 						array(
@@ -67,51 +70,60 @@ class AcfSettings implements AcfGroup {
 	 *
 	 * @return array
 	 */
-	public function build_fields() : array {
+	public function build_fields(): array
+	{
 		return array(
-			( new Text( $this->name, 'tagmanager', __('Tagmanager ID','towa-gdpr-plugin' ) ) )->build([
-				'instructions'=> __('this will add the tagmanager installation script to the header of the page (be aware that it will not support the noscript iframe)' ,'towa-gdpr-plugin')
-			]),
-			( new Wysiwyg( $this->name, 'cookie_wysiwyg', __( 'Cookie Notice general Information', 'towa-gdpr-plugin' ) ) )->build(),
-			( new Text( $this->name, 'accept_label', __( 'accept all Cookies text', 'towa-gdpr-plugin' ) ) )->build(
+			(new Text($this->name, 'tagmanager', __('Tagmanager ID', 'towa-gdpr-plugin')))->build(
 				array(
-					'default_value' => __( 'accept all', 'towa-gdpr-plugin' ),
-					'placeholder'   => __( 'accept all', 'towa-gdpr-plugin' ),
+					'instructions' => __('this will add the tagmanager installation script to the header of the page (be aware that it will not support the noscript iframe)', 'towa-gdpr-plugin'),
 				)
 			),
-			( new Text( $this->name, 'custom_accept_classes', __( 'accept all Cookies button css classes', 'towa-gdpr-plugin' ) ) )->build(
+			(new Wysiwyg($this->name, 'cookie_wysiwyg', __('Cookie Notice general Information', 'towa-gdpr-plugin')))->build(),
+			(new Text($this->name, 'accept_label', __('accept all Cookies text', 'towa-gdpr-plugin')))->build(
+				array(
+					'default_value' => __('accept all', 'towa-gdpr-plugin'),
+					'placeholder'   => __('accept all', 'towa-gdpr-plugin'),
+				)
+			),
+			(new Text($this->name, 'custom_accept_classes', __('accept all Cookies button css classes', 'towa-gdpr-plugin')))->build(
 				array(
 					'width' => 'small',
 				)
 			),
 
-			( new Text( $this->name, 'save_label', __( 'Save Buttontext', 'towa-gdpr-plugin' ) ) )->build(
+			(new Text($this->name, 'save_label', __('Save Buttontext', 'towa-gdpr-plugin')))->build(
 				array(
-					'default_value' => __( 'save', 'towa-gdpr-plugin' ),
-					'placeholder'   => __( 'save', 'towa-gdpr-plugin' ),
+					'default_value' => __('save', 'towa-gdpr-plugin'),
+					'placeholder'   => __('save', 'towa-gdpr-plugin'),
 				)
 			),
-			( new Text( $this->name, 'custom_save_classes', __( 'save button css classes', 'towa-gdpr-plugin' ) ) )->build(),
+			(new Text($this->name, 'custom_save_classes', __('save button css classes', 'towa-gdpr-plugin')))->build(),
 
-			( new Text( $this->name, 'decline_label', __( 'Decline Buttontext', 'towa-gdpr-plugin' ) ) )->build(
+			(new Text($this->name, 'decline_label', __('Decline Buttontext', 'towa-gdpr-plugin')))->build(
 				array(
-					'default_value' => __( 'decline all', 'towa-gdpr-plugin' ),
+					'default_value' => __('decline all', 'towa-gdpr-plugin'),
 				)
 			),
-			( new Text( $this->name, 'custom_decline_classes', __( 'decline button css classes', 'towa-gdpr-plugin' ) ) )->build(
+			(new Text($this->name, 'custom_decline_classes', __('decline button css classes', 'towa-gdpr-plugin')))->build(
 				array(
 					'width' => 'small',
 				)
 			),
-			( new ColorPicker( $this->name, 'highlight_color', __( 'hightlight color', 'towa-gdpr-plugin' ) ) )->build(
+			(new ColorPicker($this->name, 'highlight_color', __('hightlight color', 'towa-gdpr-plugin')))->build(
 				array(
-					'instructions' => __( 'this functionality is made with Css variables, thus older Browsers wont support it. Default color in this case is "green"', 'towa-gdpr-plugin' ),
+					'instructions' => __('this functionality is made with Css variables, thus older Browsers wont support it. Default color in this case is "green"', 'towa-gdpr-plugin'),
 				)
 			),
-			( new Number( $this->name, 'cookieTime', __( 'Number of Days until new consent is required', 'towa-gdpr-plugin' ) ) )->build(
+			(new Number($this->name, 'cookieTime', __('Number of Days until new consent is required', 'towa-gdpr-plugin')))->build(
 				array(
 					'default_value' => 90,
 					'placeholder'   => '90',
+				)
+			),
+			(new Text($this->name, 'hash', __('current Hash', 'towa-gdpr-plugin')))->build(
+				array(
+					'readonly'     => true,
+					'instructions' => __('The hash is used to verify the current version of the consent message. if this differs with a users hash, the consent notification will be shown again', 'towa-gdpr-plugin'),
 				)
 			),
 		);

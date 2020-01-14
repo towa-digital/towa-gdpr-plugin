@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Integration tests for Foo
  *
@@ -8,7 +9,7 @@
  * @license      GPL-2.0+
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace Towa\GdprPlugin\Tests\Integration;
 
@@ -18,12 +19,14 @@ use WP_UnitTestCase;
 /**
  * Foo test case.
  */
-class FooTest extends WP_UnitTestCase {
+class FooTest extends WP_UnitTestCase
+{
 	/**
 	 * A single example test.
 	 */
-	public function test_foo() {
+	public function test_foo()
+	{
 		// Replace this with some actual integration testing code.
-		static::assertTrue( ( new Testee() )->is_true() );
+		static::assertTrue((new Testee())->is_true());
 	}
 }
