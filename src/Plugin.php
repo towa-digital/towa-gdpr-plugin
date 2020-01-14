@@ -61,8 +61,8 @@ class Plugin {
 	 */
 	public function run(): void {
 		add_action( 'acf/save_post', array( $this, 'save_options_hook' ), 20 );
-		add_action( 'plugins_loaded', array( $this, 'init' ) );
 		add_action( 'acf/input/admin_head', array( $this, 'register_custom_meta_box' ), 10 );
+		add_action('acf/init', array($this, 'init'));
 	}
 
 	/**
@@ -98,12 +98,7 @@ class Plugin {
 
 		$transient = \get_transient( self::TRANSIENT_KEY );
 
-		if ( ! empty( $transient ) ) {
-			$data = $transient;
-		} else {
-			$data = \get_fields( 'options' );
-			\set_transient( self::TRANSIENT_KEY, $data, MONTH_IN_SECONDS );
-		}
+		$data = self::get_data();
 
 		$template = $twig->load( 'cookie-notice.twig' );
 		echo $template->render( $data ); // phpcs:ignore
@@ -239,5 +234,32 @@ class Plugin {
 
 		$template = $twig->load( 'meta-box.twig' );
 		echo $template->render(); // phpcs:ignore
+	}
+
+	/**
+	 * Return Settings.
+	 */
+	public static function get_data(): array
+	{
+		$data = [];
+		$transient = \get_transient(self::TRANSIENT_KEY);
+
+		if (!empty($transient)) {
+			$data = $transient;
+		} else {
+			$data = \get_fields('options');
+			// transient valid for one month
+			\set_transient(self::TRANSIENT_KEY, $data, 60 * 60 * 24 * 30);
+		}
+		// modify data to have uniform groups reason: acf doesn't work if they are named the same way
+		if (isset($data['essential_group'])) {
+			$data['essential_group'] = array(
+				'title' => $data['essential_group']['essential_title'],
+				'group_description' => $data['essential_group']['essential_group_description'],
+				'cookies' => $data['essential_group']['essential_cookies'],
+			);
+		}
+
+		return $data;
 	}
 }
