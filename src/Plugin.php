@@ -1,8 +1,8 @@
 <?php
+
 /**
- * Main plugin file
+ * Main plugin file.
  *
- * @package      Towa\GdprPlugin
  * @author       Martin Welte
  * @copyright    2019 Towa
  * @license      GPL-2.0+
@@ -20,12 +20,10 @@ use BrightNucleus\Dependency\DependencyManager;
 /**
  * Main plugin class.
  *
- * @package Towa\GdprPlugin
  * @author  Martin Welte <martin.welte@towa.at>
  */
-class Plugin {
-
-
+class Plugin
+{
 	use ConfigTrait;
 
 	/**
@@ -36,7 +34,7 @@ class Plugin {
 	protected static $instance;
 
 	/**
-	 * Transient used for settings key
+	 * Transient used for settings key.
 	 *
 	 * @var string
 	 */
@@ -48,167 +46,168 @@ class Plugin {
 	 * Don't call the constructor directly, use the `Plugin::get_instance()`
 	 * static method instead.
 	 *
-	 * @throws FailedToProcessConfigException If the Config could not be parsed correctly.
+	 * @throws FailedToProcessConfigException if the Config could not be parsed correctly
 	 *
-	 * @param ConfigInterface $config Config to parametrize the object.
+	 * @param ConfigInterface $config config to parametrize the object
 	 */
-	public function __construct( ConfigInterface $config ) {
-		$this->processConfig( $config );
+	public function __construct(ConfigInterface $config)
+	{
+		$this->processConfig($config);
 	}
 
 	/**
 	 * Launch the initialization process.
 	 */
-	public function run(): void {
-		add_action( 'acf/save_post', array( $this, 'save_options_hook' ), 20 );
-		add_action( 'acf/input/admin_head', array( $this, 'register_custom_meta_box' ), 10 );
+	public function run(): void
+	{
+		add_action('acf/save_post', array($this, 'save_options_hook'), 20);
 		add_action('acf/init', array($this, 'init'));
+		add_action('acf/input/admin_head', array($this, 'register_custom_meta_box'), 10);
 	}
 
 	/**
-	 * Initial load of the plugin
+	 * Initial load of the plugin.
 	 */
-	public function init(): void {
+	public function init(): void
+	{
 		$this->load_textdomain();
 		$this->register_menupages();
 		$this->load_dependencies();
-		if ( ! \is_admin() && function_exists( 'get_fields' ) ) {
-			\add_action( 'wp_footer', array( $this, 'render_footer' ) );
+		if (!\is_admin() && function_exists('get_fields')) {
+			\add_action('wp_footer', array($this, 'render_footer'));
 		}
 	}
 
 	/**
-	 * Add Plugin to the Footer of Frontend
+	 * Add Plugin to the Footer of Frontend.
 	 *
-	 * @throws \Twig\Error\LoaderError LoaderError.
-	 * @throws \Twig\Error\RuntimeError RuntimeError.
-	 * @throws \Twig\Error\SyntaxError Syntaxerror.
+	 * @throws \Twig\Error\LoaderError  loaderError
+	 * @throws \Twig\Error\RuntimeError runtimeError
+	 * @throws \Twig\Error\SyntaxError  syntaxerror
 	 */
-	public function render_footer(): void {
-		$loader   = new \Twig\Loader\FilesystemLoader( TOWA_GDPR_PLUGIN_DIR . '/views/' );
-		$twig     = new \Twig\Environment( $loader );
+	public function render_footer(): void
+	{
+		$loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR . '/views/');
+		$twig = new \Twig\Environment($loader);
 		$function = new \Twig\TwigFunction(
 			'__',
-			function ( string $string, string $textdomain = 'towa-gdpr-plugin' ) {
+			function (string $string, string $textdomain = 'towa-gdpr-plugin') {
 				return __($string, $textdomain); //phpcs:ignore
 			}
 		);
 
-		$twig->addFunction( $function );
-
-		$transient = \get_transient( self::TRANSIENT_KEY );
+		$twig->addFunction($function);
 
 		$data = self::get_data();
 
-		$template = $twig->load( 'cookie-notice.twig' );
-		echo $template->render( $data ); // phpcs:ignore
+		$template = $twig->load('cookie-notice.twig');
+		echo $template->render($data); // phpcs:ignore
 	}
 
 	/**
-	 * Register all menu pages from Configuration file & register ACF Fields
+	 * Register all menu pages from Configuration file & register ACF Fields.
 	 */
-	private function register_menupages():void {
-		if ( ! function_exists( 'acf_add_options_page' ) ) {
-			\add_action( 'admin_notices', array( $this, 'my_acf_notice' ) );
+	private function register_menupages(): void
+	{
+		if (!function_exists('acf_add_options_page')) {
+			\add_action('admin_notices', array($this, 'my_acf_notice'));
 		} else {
-			collect( $this->config->getSubConfig( 'Settings.submenu_pages' )->getAll() )->map(
-				function ( $menupage ) {
+			collect($this->config->getSubConfig('Settings.submenu_pages')->getAll())->map(
+				function ($menupage) {
 					[   //phpcs:ignore
 						'page_title' => $page_title,
 						'menu_title' => $menu_title,
-						'menu_slug'  => $menu_slug,
+						'menu_slug' => $menu_slug,
 						'capability' => $capability,
-						'redirect'   => $redirect,
+						'redirect' => $redirect,
 					] = $menupage; //phpcs:ignore
 
 					\acf_add_options_page(
 						array(
 							'page_title' => $page_title,
 							'menu_title' => $menu_title,
-							'menu_slug'  => $menu_slug,
+							'menu_slug' => $menu_slug,
 							'capability' => $capability,
-							'redirect'   => $redirect,
+							'redirect' => $redirect,
 						)
 					);
 
-					( new AcfSettings() )->register( $menu_slug );
-					( new AcfCookies() )->register( $menu_slug );
+					(new AcfSettings())->register($menu_slug);
+					(new AcfCookies())->register($menu_slug);
 				}
 			);
 		}
 	}
 
 	/**
-	 * Load dependencies automatically from config file
-	 *
-	 * @return void
+	 * Load dependencies automatically from config file.
 	 */
-	private function load_dependencies(): void {
-		$dependencies = new DependencyManager( $this->config->getSubConfig( 'Settings.submenu_pages.0.dependencies' ) );
-		add_action( 'init', array( $dependencies, 'register' ) );
-		if ( \get_field( 'tagmanager', 'option' ) ) {
-			$tagmanagerDependencies = new DependencyManager( $this->config->getSubConfig( 'Settings.tagmanager.dependencies' ) );
-			add_action( 'init', array( $tagmanagerDependencies, 'register' ) );
+	private function load_dependencies(): void
+	{
+		$dependencies = new DependencyManager($this->config->getSubConfig('Settings.submenu_pages.0.dependencies'));
+		add_action('init', array($dependencies, 'register'));
+		if (\get_field('tagmanager', 'option')) {
+			$tagmanagerDependencies = new DependencyManager($this->config->getSubConfig('Settings.tagmanager.dependencies'));
+			add_action('init', array($tagmanagerDependencies, 'register'));
 		}
 	}
 
 	/**
-	 * Adds notice to WordPress Backend if Acf is not active
-	 *
-	 * @return void
+	 * Adds notice to WordPress Backend if Acf is not active.
 	 */
-	public function my_acf_notice(): void {
-		?>
-			<div class="error">
-					<p><?php \_e( '<b>Towa GDPR Plugin:</b> Please install and activate ACF Pro', $this->config->getKey( 'Plugin.textdomain' ) ); // phpcs:ignore ?>
-			</div>
-		<?php
+	public function my_acf_notice(): void
+	{
+?>
+		<div class="error">
+			<p><?php \_e('<b>Towa GDPR Plugin:</b> Please install and activate ACF Pro', $this->config->getKey('Plugin.textdomain')); // phpcs:ignore
+					?>
+		</div>
+<?php
 	}
 
 	/**
 	 * Load the plugin text domain.
-	 *
-	 * @return void
 	 */
-	private function load_textdomain(): void {
-		$text_domain   = $this->config->getKey( 'Plugin.textdomain' );
+	private function load_textdomain(): void
+	{
+		$text_domain = $this->config->getKey('Plugin.textdomain');
 		$languages_dir = 'languages';
-		if ( $this->config->hasKey( 'Plugin/languages_dir' ) ) {
-			$languages_dir = $this->config->getKey( 'Plugin.languages_dir' );
+		if ($this->config->hasKey('Plugin/languages_dir')) {
+			$languages_dir = $this->config->getKey('Plugin.languages_dir');
 		}
 
-		\load_plugin_textdomain( $text_domain, false, $text_domain . '/' . $languages_dir );
+		\load_plugin_textdomain($text_domain, false, $text_domain . '/' . $languages_dir);
 	}
 
 	/**
-	 * Hook to be run on save
+	 * Hook to be run on save.
 	 */
-	public function save_options_hook(): void {
+	public function save_options_hook(): void
+	{
 		$screen = \get_current_screen();
-		if ( strpos( $screen->id, 'towa-gdpr-plugin' ) !== false ) {
-			if ( ! isset( $_POST['acf']['towa_gdpr_settings_hash'] ) || $_POST['acf']['towa_gdpr_settings_hash'] == '' || sanitize_text_field( $_POST['save_and_hash'] ) ) {
-				\update_field( 'towa_gdpr_settings_hash', ( new Hash() )->get_hash(), 'option' );
+		if (strpos($screen->id, 'towa-gdpr-plugin') !== false) {
+			if (!isset($_POST['acf']['towa_gdpr_settings_hash']) || $_POST['acf']['towa_gdpr_settings_hash'] === '' || sanitize_text_field($_POST['save_and_hash'])) {
+				\update_field('towa_gdpr_settings_hash', (new Hash())->get_hash(), 'option');
 			}
-			\delete_transient( self::TRANSIENT_KEY );
+			\delete_transient(self::TRANSIENT_KEY);
 		}
 	}
 
 	/**
-	 * register custom meta box for hash regeneration
-	 *
-	 * @return void
+	 * register custom meta box for hash regeneration.
 	 */
-	public function register_custom_meta_box(): void {
+	public function register_custom_meta_box(): void
+	{
 		$screen = \get_current_screen();
 
-		if ( strpos( $screen->id, 'towa-gdpr-plugin' ) !== false ) {
+		if (strpos($screen->id, 'towa-gdpr-plugin') !== false) {
 			\add_meta_box(
 				'towa-gdpr-plugin-meta',
 				__(
 					'publish & force new consent',
 					'towa-gdpr-plugin'
 				),
-				array( $this, 'display_acf_metabox' ),
+				array($this, 'display_acf_metabox'),
 				'acf_options_page',
 				'side'
 			);
@@ -216,23 +215,22 @@ class Plugin {
 	}
 
 	/**
-	 * display additional meta box for hash regeneration
-	 *
-	 * @return void
+	 * display additional meta box for hash regeneration.
 	 */
-	public function display_acf_metabox(): void {
-		$loader   = new \Twig\Loader\FilesystemLoader( TOWA_GDPR_PLUGIN_DIR . '/views/' );
-		$twig     = new \Twig\Environment( $loader );
+	public function display_acf_metabox(): void
+	{
+		$loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR . '/views/');
+		$twig = new \Twig\Environment($loader);
 		$function = new \Twig\TwigFunction(
 			'__',
-			function ( string $string, string $textdomain = 'towa-gdpr-plugin' ) {
+			function (string $string, string $textdomain = 'towa-gdpr-plugin') {
 				return __($string, $textdomain); //phpcs:ignore
 			}
 		);
 
-		$twig->addFunction( $function );
+		$twig->addFunction($function);
 
-		$template = $twig->load( 'meta-box.twig' );
+		$template = $twig->load('meta-box.twig');
 		echo $template->render(); // phpcs:ignore
 	}
 

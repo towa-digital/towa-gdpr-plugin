@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AcfGroup interface File
  *
@@ -14,14 +15,15 @@ namespace Towa\GdprPlugin;
  *
  * @package Towa\GdprPlugin
  */
-interface AcfGroup {
+interface AcfGroup
+{
 
 	/**
 	 * Function to register Acf Field Group
 	 *
 	 * @param string $page options page where the Acf Group should be displayed.
 	 */
-	public function register( string $page);
+	public function register(string $page);
 
 	/**
 	 * Declare all used Fields within the group

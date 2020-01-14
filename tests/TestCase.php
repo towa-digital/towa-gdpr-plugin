@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Base unit test case
  *
@@ -8,7 +9,7 @@
  * @license      GPL-2.0+
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace Towa\GdprPlugin\Tests;
 
@@ -22,7 +23,8 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
  * @package Towa\GdprPlugin\Tests
  * @since   1.0.0
  */
-abstract class TestCase extends PHPUnitTestCase {
+abstract class TestCase extends PHPUnitTestCase
+{
 	use MockeryPHPUnitIntegration;
 
 	/**
@@ -32,7 +34,8 @@ abstract class TestCase extends PHPUnitTestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp(): void {
+	protected function setUp(): void
+	{
 		parent::setUp();
 		Monkey\setUp();
 	}
@@ -44,7 +47,8 @@ abstract class TestCase extends PHPUnitTestCase {
 	 *
 	 * @return void
 	 */
-	protected function tearDown(): void {
+	protected function tearDown(): void
+	{
 		Monkey\tearDown();
 		parent::tearDown();
 	}
