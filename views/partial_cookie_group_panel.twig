@@ -17,7 +17,7 @@
 				<p class="Towa-Gdpr-Plugin__cookie__description">{{ cookie.description }}</p>
 				{% if cookie.link.url != '#' and cookie.link.title %}
 					<a href="{{ cookie.link.url }}"
-						target="_blank">{{ __('Cookie policy of','towa-gdpr-plugin') ~ cookie.link.title }}</a>
+						target="_blank">{{ cookie.link.title }}</a>
 				{% endif %}
 			</div>
 		</li>
