@@ -3,7 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).  
 
-## [1.0.3](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.2) - 21.01.2020
+## [1.0.4](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.4) - 21.01.2020
+
+### Fixed 
+- cookie expire set to expire on set date
+
+## [1.0.3](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.3) - 21.01.2020
 
 ### Fixed
 - Hard Coded String removed
