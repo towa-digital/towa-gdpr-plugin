@@ -1,4 +1,5 @@
 import './polyfills'
+import axios from 'axios'
 import Cookies from 'js-cookie'
 import CookieGroup from './cookiegroup'
 import Observable from './observable'
@@ -83,6 +84,7 @@ class TowaGdprPlugin {
     this.state.accepted.value = true
     Cookies.set('GdprAccepted', this.context.settings.hash, this.context.settings.cookieTime)
     this.renderScripts()
+    this.saveConsent()
   }
 
   save() {
@@ -92,7 +94,24 @@ class TowaGdprPlugin {
     this.accept()
   }
 
-  declineAll() {
+  saveConsent () {
+    const cookies = this.state.cookieGroups.flatMap((group) => {
+      return group.getCookiesForLog()
+    })
+    axios({
+      method: 'post',
+      url: this.context.settings.consent_url,
+      data: {
+        hash: this.context.settings.hash,
+        config: cookies
+      }
+    }).then(response => {
+    }).catch(function (error) {
+      console.log(error)
+    })
+  }
+
+  declineAll () {
     deleteAllCookies()
     this.state.cookieGroups.forEach((group) => {
       group.declineWholeGroup()

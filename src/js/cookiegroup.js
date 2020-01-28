@@ -14,14 +14,14 @@ export default class CookieGroup {
       li: domEl.closest('li')
     }
     this.toggleGroupClickedEvent = new CustomEvent('toggleGroupClicked', { detail: { id: this.state.id } })
-    this.getCookies(group, root)
+    this.getCookies(group)
     this.init()
   }
 
-  getCookies (group, root) {
+  getCookies (group) {
     if (group.cookies instanceof Object) {
       this.state.cookies = group.cookies.map(cookie => {
-        return new Cookie(cookie, root)
+        return new Cookie(cookie, this.ref.root)
       })
     }
   }
@@ -82,6 +82,12 @@ export default class CookieGroup {
   saveWholeGroup () {
     this.state.cookies.forEach((cookie) => {
       cookie.save()
+    })
+  }
+
+  getCookiesForLog () {
+    return this.state.cookies.map(cookie => {
+      return cookie.getCookieForLog()
     })
   }
 }

@@ -79,4 +79,10 @@ export default class TowaGdprCookie {
     }
     Cookies.set(this.state.name, value, towaGdprContext.settings.cookieTime)
   }
+
+  getCookieForLog(){
+    let obj = new Object()
+    obj[this.state.name] = this.state.active.value
+    return obj
+  }
 }

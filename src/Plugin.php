@@ -12,10 +12,12 @@ declare(strict_types=1);
 
 namespace Towa\GdprPlugin;
 
+
 use BrightNucleus\Config\ConfigInterface;
 use BrightNucleus\Config\ConfigTrait;
 use BrightNucleus\Config\Exception\FailedToProcessConfigException;
 use BrightNucleus\Dependency\DependencyManager;
+use Towa\GdprPlugin\Rest\Rest;
 
 /**
  * Main plugin class.
@@ -63,6 +65,7 @@ class Plugin
 		add_action('acf/save_post', array($this, 'save_options_hook'), 20);
 		add_action('acf/init', array($this, 'init'));
 		add_action('acf/input/admin_head', array($this, 'register_custom_meta_box'), 10);
+		add_action('init',array($this,'init_controllers'));
 	}
 
 	/**
@@ -77,6 +80,10 @@ class Plugin
 			\add_action('wp_footer', array($this, 'render_footer'));
 		}
 	}
+
+	public function init_controllers(){
+      (new Rest())->register_rest_endpoint();
+    }
 
 	/**
 	 * Add Plugin to the Footer of Frontend.
@@ -258,6 +265,10 @@ class Plugin
 			);
 		}
 
+		$data['consent_url'] = get_rest_url( null, Rest::TOWA_GDPR_REST_NAMESPACE.'consent/');
+
 		return $data;
 	}
+
+
 }

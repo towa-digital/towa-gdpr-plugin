@@ -20,6 +20,8 @@
 		"cedaro/wp-plugin": "^0.4",
 		"composer/installers": "^1",
 		"illuminate/support": "^6",
+		"league/csv": "^9.5",
+		"league/flysystem": "^1.0",
 		"towa/towa-acf-fields": "^1.1",
 		"twig/twig": "^2"
 	},

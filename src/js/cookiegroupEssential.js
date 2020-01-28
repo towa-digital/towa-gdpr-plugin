@@ -6,10 +6,10 @@ export default class EssentialCookieGroup extends CookieGroup {
     return true
   }
 
-  getCookies (group, root) {
+  getCookies (group) {
     if (group.cookies instanceof Object) {
       this.state.cookies = group.cookies.map(cookie => {
-        return new EssentialCookie(cookie, root)
+        return new EssentialCookie(cookie, this.ref.root)
       })
     }
   }
