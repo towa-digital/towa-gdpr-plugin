@@ -35,8 +35,10 @@ class TowaGdprPlugin {
     this.applySettings()
     this.defineObservables()
     this.setUpListeners()
-    this.render()
-    this.renderScripts()
+    if (!this.isNoCookiePage()) {
+      this.render()
+      this.renderScripts()
+    }
   }
 
   defineObservables() {
@@ -115,6 +117,10 @@ class TowaGdprPlugin {
         this.state.accepted.value = false
       })
     })
+  }
+
+  isNoCookiePage() {
+    return this.context.settings.no_cookie_pages.includes(window.location.href)
   }
 }
 // eslint-disable-next-line
