@@ -68,7 +68,10 @@ export default class TowaGdprCookie {
   }
 
   save () {
-    Cookies.set(this.state.name, !!this.state.active.value, towaGdprContext.settings.cookieTime)
+    Cookies.set(this.state.name, !!this.state.active.value, {
+      expires: parseInt(towaGdprContext.settings.cookieTime),
+      sameSite: 'lax'
+    })
   }
 
   setActive (value, notifyRoot = true) {
@@ -77,6 +80,9 @@ export default class TowaGdprCookie {
     if (notifyRoot) {
       this.ref.root.dispatchEvent(this.changeEvent)
     }
-    Cookies.set(this.state.name, value, towaGdprContext.settings.cookieTime)
+    Cookies.set(this.state.name, value, {
+      expires: parseInt(towaGdprContext.settings.cookieTime),
+      sameSite: 'lax'
+    })
   }
 }
