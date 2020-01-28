@@ -257,6 +257,11 @@ class Plugin
 				'cookies' => $data['essential_group']['essential_cookies'],
 			);
 		}
+		if(isset($data['no_cookie_pages'])){
+			$data['no_cookie_pages'] = collect($data['no_cookie_pages'])->map(function($page){
+				return \get_permalink($page);
+			})->all();
+		}
 
 		return $data;
 	}
