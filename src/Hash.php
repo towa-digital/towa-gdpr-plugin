@@ -34,7 +34,7 @@ class Hash
 	 */
 	public function __construct()
 	{
-		$this->generate_hash();
+		$this->generateHash();
 	}
 
 	/**
@@ -42,7 +42,7 @@ class Hash
 	 *
 	 * @return string
 	 */
-	public function get_hash(): string
+	public function getHash(): string
 	{
 		return $this->hash;
 	}
@@ -51,8 +51,9 @@ class Hash
 	 * generate a hash from the current Datetime
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
-	public function generate_hash(): void
+	public function generateHash(): void
 	{
 		$this->hash = md5((new DateTime('now'))->getTimestamp());
 	}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests for Foo
  *
@@ -8,7 +9,7 @@
  * @license      GPL-2.0+
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace Towa\GdprPlugin\Tests\Unit;
 
@@ -18,29 +19,33 @@ use Towa\GdprPlugin\Tests\TestCase;
 /**
  * Foo test case.
  */
-class FooTest extends TestCase {
+class FooTest extends TestCase
+{
 
 	/**
 	 * A single example test.
 	 */
-	public function test_sample() {
+	public function testSample()
+	{
 		// Replace this with some actual testing code.
-		static::assertTrue( ( new Testee() )->is_true() );
+		static::assertTrue((new Testee())->is_true());
 	}
 
 	/**
 	 * A single example test.
 	 */
-	public function test_foo() {
+	public function testFoo()
+	{
 		// Replace this with some actual testing code.
-		static::assertFalse( false );
+		static::assertFalse(false);
 	}
 
 	/**
 	 * A single example test.
 	 */
-	public function test_bar() {
+	public function testBar()
+	{
 		// Replace this with some actual testing code.
-		static::assertEquals( 'Foo::bar()', ( new Testee() )->bar() );
+		static::assertEquals('Foo::bar()', (new Testee())->bar());
 	}
 }

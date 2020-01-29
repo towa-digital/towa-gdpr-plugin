@@ -21,8 +21,37 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Consent
 {
-	const LOG_DIR = WP_CONTENT_DIR.'/uploads/towa-gdpr/';
-	private $timestamp,$ip,$config,$hash,$request,$url;
+	const LOG_DIR = WP_CONTENT_DIR . '/uploads/towa-gdpr/';
+
+	/**
+	 * @var \DateTime
+	 */
+	private $timestamp;
+
+	/**
+	 * @var string|null
+	 */
+	private $ip;
+
+	/**
+	 * @var string
+	 */
+	private $config;
+
+	/**
+	 * @var string
+	 */
+	private $hash;
+
+	/**
+	 * @var Request
+	 */
+	private $request;
+
+	/**
+	 * @var string
+	 */
+	private $url;
 
 	/**
 	 * Consent constructor.
@@ -48,14 +77,15 @@ class Consent
 	 *
 	 * @throws \League\Csv\CannotInsertRecord
 	 */
-	public function save(): void{
-		if(!file_exists(self::LOG_DIR)){
+	public function save(): void
+	{
+		if (!file_exists(self::LOG_DIR)) {
 			$uploadpermissions = fileperms(WP_CONTENT_DIR . '/uploads/');
 			mkdir(self::LOG_DIR, $uploadpermissions);
 		}
 		$filename = self::LOG_DIR . $this->timestamp->format('d-m-Y') . '.csv';
 		$writemode = file_exists($filename) ? 'a' : 'w';
-		$writer = Writer::createFromPath($filename,$writemode);
+		$writer = Writer::createFromPath($filename, $writemode);
 		$writer->insertOne($this->__toArray());
 	}
 
@@ -64,7 +94,8 @@ class Consent
 	 *
 	 * @return array
 	 */
-	public function __toArray(): array{
+	public function __toArray(): array
+	{
 		return array(
 			'time' => $this->timestamp->format('d.m.Y-H:i:s'),
 			'ip' => $this->ip,
@@ -73,5 +104,4 @@ class Consent
 			'hash' => $this->hash,
 		);
 	}
-
 }

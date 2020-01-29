@@ -49,7 +49,7 @@ $towa_gdpr_plugin_settings = array(
 							'data' => function ($context): array {
 								return array(
 									'context' => $context,
-									'settings' => function_exists('get_fields') ? Plugin::get_data() : array(),
+									'settings' => function_exists('get_fields') ? Plugin::getData() : array(),
 								);
 							},
 						),
@@ -90,11 +90,11 @@ $towa_gdpr_plugin_settings = array(
 );
 
 $towa_gdpr_backup_settings = array(
-	'types'	=> array(
+	'types' => array(
 		'local' => array(
 			'class' => 'Towa\GdprPlugin\Backup\FtpBackup',
 			'id' => 'local',
-			'name' => __('Local','towa_gdpr_plugin')
+			'name' => __('Local', 'towa_gdpr_plugin')
 		)
 	)
 );

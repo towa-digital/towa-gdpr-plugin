@@ -30,5 +30,5 @@ interface AcfGroup
 	 *
 	 * @return array
 	 */
-	public function build_fields(): array;
+	public function buildFields(): array;
 }

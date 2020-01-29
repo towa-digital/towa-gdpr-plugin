@@ -24,13 +24,6 @@ use Towa\GdprPlugin\Tests\TestCase;
  */
 class PluginTest extends TestCase
 {
-
-
-
-
-
-
-
 	/**
 	 * The method inside the Plugin class which calls `load_plugin_textdomain()`.
 	 *
@@ -48,9 +41,9 @@ class PluginTest extends TestCase
 	/**
 	 * Prepares the test environment before each test.
 	 *
+	 * @return void
 	 * @since 1.0.0
 	 *
-	 * @return void
 	 */
 	protected function setUp(): void
 	{
@@ -58,8 +51,8 @@ class PluginTest extends TestCase
 
 		$mock_config = array(
 			'Settings' => array(),
-			'Plugin'   => array(
-				'textdomain'    => 'apple',
+			'Plugin' => array(
+				'textdomain' => 'apple',
 				'languages_dir' => 'banana',
 			),
 		);
@@ -72,7 +65,7 @@ class PluginTest extends TestCase
 	/**
 	 * Test that method that calls load_plugin_textdomain is hooked in to to the correct hook.
 	 */
-	public function test_load_plugin_textdomain_method_is_hooked_in_correctly()
+	public function testLoadPluginTextdomainMethodIsHookedInCorrectly()
 	{
 		// Create an instance of the class under test.
 		$plugin = new Testee($this->mock_config);
@@ -85,7 +78,7 @@ class PluginTest extends TestCase
 	/**
 	 * Test that load_plugin_textdomain() is called with the correct configurable arguments.
 	 */
-	public function test_load_plugin_textdomain_called_with_correct_args()
+	public function testLoadPluginTextdomainCalledWithCorrectArgs()
 	{
 		Functions\expect('load_plugin_textdomain')
 			->once()

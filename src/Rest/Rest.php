@@ -10,7 +10,6 @@
 
 namespace Towa\GdprPlugin\Rest;
 
-
 use Towa\GdprPlugin\Consentlogger\Consent;
 use WP_Error;
 use WP_REST_Request;
@@ -31,8 +30,9 @@ class Rest
 	 *
 	 * @return void
 	 */
-	public function register_routes(): void{
-		add_action('rest_api_init', array($this, 'register_rest_endpoint'));
+	public function registerRoutes(): void
+	{
+		add_action('rest_api_init', array($this, 'registerRestEndpoint'));
 	}
 
 	/**
@@ -40,10 +40,11 @@ class Rest
 	 *
 	 * @return void
 	 */
-	public function register_rest_endpoint():void {
-		register_rest_route( self::TOWA_GDPR_REST_NAMESPACE ,'consent/', array(
+	public function registerRestEndpoint(): void
+	{
+		register_rest_route(self::TOWA_GDPR_REST_NAMESPACE, 'consent/', array(
 			'methods' => WP_REST_Server::CREATABLE,
-			'callback' => array($this,'log_consent')
+			'callback' => array($this, 'log_consent')
 		));
 	}
 
@@ -54,18 +55,16 @@ class Rest
 	 * @return WP_REST_Response
 	 * @throws \League\Csv\CannotInsertRecord
 	 */
-	public function log_consent(WP_REST_Request $request): WP_REST_Response{
+	public function logConsent(WP_REST_Request $request): WP_REST_Response
+	{
 		$hash = sanitize_key($request->get_param('hash'));
 		$config = json_encode($request->get_param('config'));
 		$url = sanitize_url($request->get_param('url'));
 		try {
-			(new Consent($config,$hash,$url))->save();
-			return new WP_REST_Response(null,200);
+			(new Consent($config, $hash, $url))->save();
+			return new WP_REST_Response(null, 200);
+		} catch (\Exception $e) {
+			return new WP_REST_Response(null, 500);
 		}
-		catch(\Exception $e){
-			return new WP_REST_Response(null ,500);
-		}
-
-
 	}
 }
