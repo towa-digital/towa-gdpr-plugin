@@ -102,10 +102,12 @@ class TowaGdprPlugin {
       method: 'post',
       url: this.context.settings.consent_url,
       data: {
+        url: window.location.href,
         hash: this.context.settings.hash,
         config: cookies
       }
     }).then(response => {
+      console.log(response)
     }).catch(function (error) {
       console.log(error)
     })
