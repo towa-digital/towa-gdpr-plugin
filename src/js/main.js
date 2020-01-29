@@ -6,7 +6,7 @@ import Observable from './observable'
 import { convertHexColorToRgbString, setCssClass, deleteAllCookies } from './helpers'
 import EssentialCookieGroup from './cookiegroupEssential'
 class TowaGdprPlugin {
-  constructor() {
+  constructor () {
     this.refs = {
       triggerPopupLinks: document.querySelectorAll('.Towa-Gdpr-Link'),
       root: document.getElementById('Towa-Gdpr-Plugin'),
@@ -28,11 +28,11 @@ class TowaGdprPlugin {
     this.init()
   }
 
-  UserhasGdprAccepted() {
+  UserhasGdprAccepted () {
     return (Cookies.get('GdprAccepted') === this.context.settings.hash)
   }
 
-  init() {
+  init () {
     this.applySettings()
     this.defineObservables()
     this.setUpListeners()
@@ -40,18 +40,18 @@ class TowaGdprPlugin {
     this.renderScripts()
   }
 
-  defineObservables() {
+  defineObservables () {
     this.state.accepted = new Observable(this.state.accepted, this.refs.root)
     this.refs.root.addEventListener('render', () => {
       this.render()
     })
   }
 
-  render() {
+  render () {
     setCssClass(this.refs.root, 'show', !this.state.accepted.value)
   }
 
-  applySettings() {
+  applySettings () {
     if (this.context.settings.highlight_color) {
       const highlightColorLight = convertHexColorToRgbString(this.context.settings.highlight_color, 0.1)
       this.refs.root.style.setProperty('--highlightcolorLight', highlightColorLight)
@@ -59,14 +59,14 @@ class TowaGdprPlugin {
     }
   }
 
-  acceptAll() {
+  acceptAll () {
     this.state.cookieGroups.forEach(group => {
       group.acceptWholeGroup()
     })
     this.accept()
   }
 
-  renderScripts() {
+  renderScripts () {
     const scriptEl = document.createElement('script')
     this.state.cookieGroups.forEach(group => {
       group.state.cookies.forEach((cookie) => {
@@ -80,14 +80,14 @@ class TowaGdprPlugin {
     this.refs.myScriptContainer.appendChild(scriptEl)
   }
 
-  accept() {
+  accept () {
     this.state.accepted.value = true
     Cookies.set('GdprAccepted', this.context.settings.hash, this.context.settings.cookieTime)
     this.renderScripts()
     this.saveConsent()
   }
 
-  save() {
+  save () {
     this.state.cookieGroups.forEach((group) => {
       group.saveWholeGroup()
     })
@@ -121,7 +121,7 @@ class TowaGdprPlugin {
     this.accept()
   }
 
-  setUpListeners() {
+  setUpListeners () {
     this.refs.root.querySelector('.Towa-Gdpr-Plugin__save').addEventListener('click', () => {
       this.save()
     })
