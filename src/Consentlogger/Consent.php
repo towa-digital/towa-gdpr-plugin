@@ -12,6 +12,7 @@ namespace Towa\GdprPlugin\Consentlogger;
 
 use League\Csv\Reader;
 use League\Csv\Writer;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class Consent
@@ -21,7 +22,7 @@ use League\Csv\Writer;
 class Consent
 {
 	const LOG_DIR = WP_CONTENT_DIR.'/uploads/towa-gdpr/';
-	private $timestamp,$ip,$config,$hash,$via,$url;
+	private $timestamp,$ip,$config,$hash,$request,$url;
 
 	/**
 	 * Consent constructor.
@@ -34,8 +35,8 @@ class Consent
 	public function __construct(string $config = '', string $hash = '', string $url = '')
 	{
 		$this->timestamp = new \DateTime();
-		$this->ip = $_SERVER['REMOTE_ADDR'];
-		$this->via = $_SERVER['HTTP_X_FORWARDED_FOR'] ?: 0;
+		$this->request = Request::createFromGlobals();
+		$this->ip = $this->request->getClientIp();
 		$this->hash = $hash;
 		$this->config = $config;
 		$this->url = $url;
@@ -67,7 +68,6 @@ class Consent
 		return array(
 			'time' => $this->timestamp->format('d.m.Y-H:i:s'),
 			'ip' => $this->ip,
-			'via' => $this->via,
 			'url' => $this->url,
 			'cookies' => $this->config,
 			'hash' => $this->hash,
