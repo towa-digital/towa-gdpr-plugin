@@ -81,7 +81,10 @@ class TowaGdprPlugin {
 
   accept() {
     this.state.accepted.value = true
-    Cookies.set('GdprAccepted', this.context.settings.hash, this.context.settings.cookieTime)
+    Cookies.set('GdprAccepted', this.context.settings.hash, {
+      expires: parseInt(this.context.settings.cookieTime),
+      sameSite: 'lax'
+    })
     this.renderScripts()
   }
 
