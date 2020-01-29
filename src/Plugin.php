@@ -263,6 +263,6 @@ class Plugin
 			})->all();
 		}
 
-		return $data;
+		return is_array($data) ? $data : [];;
 	}
 }
