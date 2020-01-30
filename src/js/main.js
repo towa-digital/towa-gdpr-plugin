@@ -16,7 +16,7 @@ class TowaGdprPlugin {
     // eslint-disable-next-line no-undef
     this.context = towaGdprContext
     this.state = {
-      accepted: this.UserhasGdprAccepted()
+      accepted: this.isGdprAccepted()
     }
     if (this.context.settings.cookie_groups instanceof Object) {
       this.state.cookieGroups = this.context.settings.cookie_groups.map((group, index) => {
@@ -30,7 +30,7 @@ class TowaGdprPlugin {
     this.init()
   }
 
-  UserhasGdprAccepted () {
+  isGdprAccepted () {
     return (Cookies.get('GdprAccepted') === this.context.settings.hash)
   }
 
