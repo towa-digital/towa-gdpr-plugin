@@ -61,10 +61,10 @@ class Plugin
 	 */
 	public function run(): void
 	{
-		add_action('acf/save_post', array($this, 'saveOptionsHook'), 20);
-		add_action('acf/init', array($this, 'init'));
-		add_action('acf/input/admin_head', array($this, 'registerCustomMetaBox'), 10);
-		add_action('init', array($this, 'initControllers'));
+		add_action('acf/save_post', [$this, 'saveOptionsHook'], 20);
+		add_action('acf/init', [$this, 'init']);
+		add_action('acf/input/admin_head', [$this, 'registerCustomMetaBox'], 10);
+		add_action('init', [$this, 'initControllers']);
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Plugin
 		$this->registerMenupages();
 		$this->loadDependencies();
 		if (!\is_admin() && function_exists('get_fields')) {
-			\add_action('wp_footer', array($this, 'loadFooter'));
+			\add_action('wp_footer', [$this, 'loadFooter']);
 		}
 	}
 
@@ -117,7 +117,7 @@ class Plugin
 	private function registerMenupages(): void
 	{
 		if (!function_exists('acf_add_options_page')) {
-			\add_action('admin_notices', array($this, 'myAcfNotice'));
+			\add_action('admin_notices', [$this, 'myAcfNotice']);
 		} else {
 			collect($this->config->getSubConfig('Settings.submenu_pages')->getAll())->map(
 				function ($menupage) {
@@ -130,13 +130,13 @@ class Plugin
 					] = $menupage; //phpcs:ignore
 
 					\acf_add_options_page(
-						array(
+						[
 							'page_title' => $page_title,
 							'menu_title' => $menu_title,
 							'menu_slug' => $menu_slug,
 							'capability' => $capability,
 							'redirect' => $redirect,
-						)
+						]
 					);
 
 					(new AcfSettings())->register($menu_slug);
@@ -152,10 +152,10 @@ class Plugin
 	private function loadDependencies(): void
 	{
 		$dependencies = new DependencyManager($this->config->getSubConfig('Settings.submenu_pages.0.dependencies'));
-		add_action('init', array($dependencies, 'register'));
+		add_action('init', [$dependencies, 'register']);
 		if (\get_field('tagmanager', 'option')) {
 			$tagmanagerDependencies = new DependencyManager($this->config->getSubConfig('Settings.tagmanager.dependencies'));
-			add_action('init', array($tagmanagerDependencies, 'register'));
+			add_action('init', [$tagmanagerDependencies, 'register']);
 		}
 	}
 
@@ -218,7 +218,7 @@ class Plugin
 					'publish & force new consent',
 					'towa-gdpr-plugin'
 				),
-				array($this, 'display_acf_metabox'),
+				[$this, 'displayAcfMetabox'],
 				'acf_options_page',
 				'side'
 			);
@@ -262,11 +262,11 @@ class Plugin
 		}
 		// modify data to have uniform groups reason: acf doesn't work if they are named the same way
 		if (isset($data['essential_group'])) {
-			$data['essential_group'] = array(
+			$data['essential_group'] = [
 				'title' => $data['essential_group']['essential_title'],
 				'group_description' => $data['essential_group']['essential_group_description'],
 				'cookies' => $data['essential_group']['essential_cookies'],
-			);
+			];
 		}
 
 		$data['consent_url'] = get_rest_url(null, Rest::TOWA_GDPR_REST_NAMESPACE . 'consent/');

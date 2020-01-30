@@ -32,7 +32,7 @@ class Rest
 	 */
 	public function registerRoutes(): void
 	{
-		add_action('rest_api_init', array($this, 'registerRestEndpoint'));
+		add_action('rest_api_init', [$this, 'registerRestEndpoint']);
 	}
 
 	/**
@@ -42,10 +42,10 @@ class Rest
 	 */
 	public function registerRestEndpoint(): void
 	{
-		register_rest_route(self::TOWA_GDPR_REST_NAMESPACE, 'consent/', array(
+		register_rest_route(self::TOWA_GDPR_REST_NAMESPACE, 'consent/', [
 			'methods' => WP_REST_Server::CREATABLE,
-			'callback' => array($this, 'log_consent')
-		));
+			'callback' => [$this, 'logConsent']
+		]);
 	}
 
 	/**

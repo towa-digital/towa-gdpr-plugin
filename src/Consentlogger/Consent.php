@@ -96,12 +96,12 @@ class Consent
 	 */
 	public function __toArray(): array
 	{
-		return array(
+		return [
 			'time' => $this->timestamp->format('d.m.Y-H:i:s'),
 			'ip' => $this->ip,
 			'url' => $this->url,
 			'cookies' => $this->config,
 			'hash' => $this->hash,
-		);
+		];
 	}
 }

@@ -5,6 +5,7 @@ import CookieGroup from './cookiegroup'
 import Observable from './observable'
 import { convertHexColorToRgbString, setCssClass, deleteAllCookies } from './helpers'
 import EssentialCookieGroup from './cookiegroupEssential'
+
 class TowaGdprPlugin {
   constructor () {
     this.refs = {
@@ -12,6 +13,7 @@ class TowaGdprPlugin {
       root: document.getElementById('Towa-Gdpr-Plugin'),
       myScriptContainer: document.getElementById('TowaGdprScripts')
     }
+    // eslint-disable-next-line no-undef
     this.context = towaGdprContext
     this.state = {
       accepted: this.UserhasGdprAccepted()
@@ -106,10 +108,8 @@ class TowaGdprPlugin {
         hash: this.context.settings.hash,
         config: cookies
       }
-    }).then(response => {
-      console.log(response)
-    }).catch(function (error) {
-      console.log(error)
+    }).catch((error) => {
+      return error
     })
   }
 
@@ -138,5 +138,6 @@ class TowaGdprPlugin {
     })
   }
 }
+
 // eslint-disable-next-line
 const towagdpr = new TowaGdprPlugin()

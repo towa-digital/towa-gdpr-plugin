@@ -1,7 +1,7 @@
-
 import Cookies from 'js-cookie'
 import Observable from './observable'
 import { setCssClass } from './helpers'
+
 export default class TowaGdprCookie {
   constructor (cookie, root) {
     this.state = { ...cookie }

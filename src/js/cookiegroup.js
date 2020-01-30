@@ -1,5 +1,6 @@
 import Cookie from './cookie'
 import Observable from './observable'
+
 export default class CookieGroup {
   constructor (group, root) {
     const domEl = root.querySelector(`[data-groupname="${group.title}"]`)
