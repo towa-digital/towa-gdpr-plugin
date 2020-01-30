@@ -65,6 +65,7 @@ class Consent
 	{
 		$this->timestamp = new \DateTime();
 		$this->request = Request::createFromGlobals();
+		$this->request::setTrustedProxies(['127.0.0.1','REMOTE_ADDR']);
 		$this->ip = $this->request->getClientIp();
 		$this->hash = $hash;
 		$this->config = $config;
