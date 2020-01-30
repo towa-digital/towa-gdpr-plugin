@@ -119,8 +119,8 @@ class TowaGdprPlugin {
     })
   }
 
-  isNoCookiePage() {
-    return this.context.settings.no_cookie_pages.includes(window.location.href)
+  isNoCookiePage () {
+    return (document.querySelector('meta[name="towa-gdpr-no-cookies"]') !== null)
   }
 }
 // eslint-disable-next-line
