@@ -37,7 +37,7 @@ class TowaGdprPlugin {
   init () {
     this.applySettings()
     this.defineObservables()
-    this.setUpListeners()
+    this.setListeners()
     this.render()
     this.renderScripts()
   }
@@ -121,7 +121,7 @@ class TowaGdprPlugin {
     this.accept()
   }
 
-  setUpListeners () {
+  setListeners () {
     this.refs.root.querySelector('.Towa-Gdpr-Plugin__save').addEventListener('click', () => {
       this.save()
     })

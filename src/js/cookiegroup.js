@@ -30,7 +30,7 @@ export default class CookieGroup {
   init () {
     this.state.active = this.isGroupActive()
     this.defineObservables()
-    this.setUpListeners()
+    this.setListeners()
     this.render()
   }
 
@@ -53,7 +53,7 @@ export default class CookieGroup {
     })
   }
 
-  setUpListeners () {
+  setListeners () {
     this.ref.domEl.addEventListener('render', () => {
       this.render()
     })

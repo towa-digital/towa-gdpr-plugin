@@ -20,7 +20,7 @@ export default class TowaGdprCookie {
 
   init () {
     this.defineObservables()
-    this.setUpListeners()
+    this.setListeners()
     this.render()
   }
 
@@ -43,7 +43,7 @@ export default class TowaGdprCookie {
     })
   }
 
-  setUpListeners () {
+  setListeners () {
     this.ref.domEls.forEach(domEl => {
       domEl.addEventListener('click', () => {
         this.toggle()
@@ -81,8 +81,6 @@ export default class TowaGdprCookie {
   }
 
   getCookieForLog () {
-    const obj = {}
-    obj[this.state.name] = this.state.active.value
-    return obj
+    return { [this.state.name]: this.state.active.value }
   }
 }
