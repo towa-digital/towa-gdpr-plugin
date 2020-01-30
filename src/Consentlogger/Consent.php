@@ -97,7 +97,7 @@ class Consent
 	public function __toArray(): array
 	{
 		return [
-			'time' => $this->timestamp->format('d.m.Y-H:i:s'),
+			'time' => $this->timestamp->format('Y-m-D H:i:s'),
 			'ip' => $this->ip,
 			'url' => $this->url,
 			'cookies' => $this->config,
