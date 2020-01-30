@@ -71,12 +71,11 @@
 			"@phpcs"
 		],
 		"test-full": [
-			"@lint",
 			"@unit",
 			"@infection",
 			"@integration",
 			"@phpcs"
 		],
-		"unit": "./vendor/bin/phpunit --testsuite unit"
+		"unit": "phpunit --testsuite unit"
 	}
 }
