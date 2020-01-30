@@ -58,7 +58,7 @@
 	"prefer-stable": true,
 	"scripts": {
 		"install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
-		"integration": "./vendor/bin/phpunit --testsuite integration",
+		"integration": "phpunit --testsuite integration",
 		"lint": [
 			"bin/php-lint",
 			"bin/xml-lint"
