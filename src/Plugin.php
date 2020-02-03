@@ -200,7 +200,7 @@ class Plugin
 			if (!isset($_POST['acf']['towa_gdpr_settings_hash']) || $_POST['acf']['towa_gdpr_settings_hash'] === '' || sanitize_text_field($_POST['save_and_hash'])) {
 				\update_field('towa_gdpr_settings_hash', (new Hash())->getHash(), 'option');
 			}
-			\delete_transient(self::TRANSIENT_KEY.get_locale());
+			\delete_transient(self::TRANSIENT_KEY . get_locale());
 		}
 	}
 
@@ -251,14 +251,14 @@ class Plugin
 	public static function getData(): array
 	{
 		$data = [];
-		$transient = \get_transient(self::TRANSIENT_KEY.get_locale());
+		$transient = \get_transient(self::TRANSIENT_KEY . get_locale());
 
 		if (!empty($transient)) {
 			$data = $transient;
 		} else {
 			$data = \get_fields('options');
 			// transient valid for one month
-			\set_transient(self::TRANSIENT_KEY.get_locale(), $data, 60 * 60 * 24 * 30);
+			\set_transient(self::TRANSIENT_KEY . get_locale(), $data, 60 * 60 * 24 * 30);
 		}
 		// modify data to have uniform groups reason: acf doesn't work if they are named the same way
 		if (isset($data['essential_group'])) {
