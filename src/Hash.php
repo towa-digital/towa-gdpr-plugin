@@ -57,15 +57,4 @@ class Hash
 	{
 		$this->hash = md5((new DateTime('now'))->getTimestamp());
 	}
-
-	/**
-	 * set the Hash
-	 *
-	 * @param string $hash
-	 * @return void
-	 */
-	public function setHash(string $hash): void
-	{
-		$this->hash = $hash;
-	}
 }
