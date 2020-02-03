@@ -53,7 +53,7 @@ class Hash
 	 * @return void
 	 * @throws \Exception
 	 */
-	public function generateHash(): void
+	private function generateHash(): void
 	{
 		$this->hash = md5((new DateTime('now'))->getTimestamp());
 	}
