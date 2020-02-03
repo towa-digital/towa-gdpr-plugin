@@ -269,7 +269,7 @@ class Plugin
 			];
 		}
 
-		$data['consent_url'] = get_rest_url(null, Rest::TOWA_GDPR_REST_NAMESPACE . 'consent/');
+		$data['consent_url'] = get_rest_url(null, Rest::TOWA_GDPR_REST_NAMESPACE . Rest::CONSENT_ENDPOINT);
 
 		return $data;
 	}

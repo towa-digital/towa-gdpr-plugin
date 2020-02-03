@@ -24,6 +24,7 @@ use WP_REST_Server;
 class Rest
 {
 	const TOWA_GDPR_REST_NAMESPACE = 'towa-gdpr/';
+	const CONSENT_ENDPOINT = 'consent/';
 
 	/**
 	 * hook rest endpoint registration into rest register_api_init
@@ -42,7 +43,7 @@ class Rest
 	 */
 	public function registerRestEndpoint(): void
 	{
-		register_rest_route(self::TOWA_GDPR_REST_NAMESPACE, 'consent/', [
+		register_rest_route(self::TOWA_GDPR_REST_NAMESPACE, self::CONSENT_ENDPOINT, [
 			'methods' => WP_REST_Server::CREATABLE,
 			'callback' => [$this, 'logConsent']
 		]);
