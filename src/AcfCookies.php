@@ -18,7 +18,7 @@ use Towa\Acf\Fields\Textarea;
 /**
  * Class AcfCookies: registers Acf Group for Cookies.
  */
-class AcfCookies implements AcfGroup
+class AcfCookies implements AcfGroupInterface
 {
 	/**
 	 * Name of AcfGroup.

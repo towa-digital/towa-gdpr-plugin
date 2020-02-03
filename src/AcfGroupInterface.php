@@ -15,7 +15,7 @@ namespace Towa\GdprPlugin;
  *
  * @package Towa\GdprPlugin
  */
-interface AcfGroup
+interface AcfGroupInterface
 {
 
 	/**

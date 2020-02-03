@@ -20,7 +20,7 @@ use Towa\Acf\Fields\Wysiwyg;
  *
  * @package Towa\GdprPlugin
  */
-class AcfSettings implements AcfGroup
+class AcfSettings implements AcfGroupInterface
 {
 
 	/**
