@@ -65,6 +65,7 @@ class Plugin
 		add_action('acf/init', [$this, 'init']);
 		add_action('acf/input/admin_head', [$this, 'registerCustomMetaBox'], 10);
 		add_action('init', [$this, 'initControllers']);
+		add_action('wp_head', [$this,'addMetaTagNoCookieSite']);
 	}
 
 	/**
@@ -268,5 +269,15 @@ class Plugin
 		$data['consent_url'] = get_rest_url(null, Rest::TOWA_GDPR_REST_NAMESPACE . Rest::CONSENT_ENDPOINT);
 
 		return $data;
+	}
+
+	public function addMetaTagNoCookieSite(){
+		global $post;
+		$data = self::get_data();
+		if(isset($data['no_cookie_pages']) && in_array($post->ID, $data['no_cookie_pages'])){
+			?>
+				<meta name="towa-gdpr-no-cookies" content="true"/>
+			<?php
+		}
 	}
 }

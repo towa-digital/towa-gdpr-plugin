@@ -38,8 +38,10 @@ class TowaGdprPlugin {
     this.applySettings()
     this.defineObservables()
     this.setListeners()
-    this.render()
-    this.renderScripts()
+    if (!this.isNoCookiePage()) {
+      this.render()
+      this.renderScripts()
+    }
   }
 
   defineObservables () {
@@ -84,7 +86,10 @@ class TowaGdprPlugin {
 
   accept () {
     this.state.accepted.value = true
-    Cookies.set('GdprAccepted', this.context.settings.hash, this.context.settings.cookieTime)
+    Cookies.set('GdprAccepted', this.context.settings.hash, {
+      expires: parseInt(this.context.settings.cookieTime),
+      sameSite: 'lax'
+    })
     this.renderScripts()
     this.saveConsent()
   }
@@ -136,6 +141,10 @@ class TowaGdprPlugin {
         this.state.accepted.value = false
       })
     })
+  }
+
+  isNoCookiePage () {
+    return (document.querySelector('meta[name="towa-gdpr-no-cookies"]') !== null)
   }
 }
 
