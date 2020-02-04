@@ -65,7 +65,7 @@ class Consent
 	{
 		$this->timestamp = new \DateTime();
 		$this->request = Request::createFromGlobals();
-		$this->request::setTrustedProxies(['127.0.0.1','REMOTE_ADDR']);
+		$this->request::setTrustedProxies(['127.0.0.1','REMOTE_ADDR'], Request::HEADER_X_FORWARDED_ALL);
 		$this->ip = $this->request->getClientIp();
 		$this->hash = $hash;
 		$this->config = $config;
@@ -85,7 +85,7 @@ class Consent
 			$uploadpermissions = fileperms(WP_CONTENT_DIR . '/uploads/');
 			mkdir(self::LOG_DIR, $uploadpermissions);
 		}
-		$filename = self::LOG_DIR . $this->timestamp->format('d-m-Y') . '.csv';
+		$filename = self::LOG_DIR . $this->timestamp->format('Y-m-d') . '.csv';
 		$writemode = file_exists($filename) ? 'a' : 'w';
 		$writer = Writer::createFromPath($filename, $writemode);
 		$writer->insertOne($this->__toArray());
@@ -99,7 +99,7 @@ class Consent
 	public function __toArray(): array
 	{
 		return [
-			'time' => $this->timestamp->format('Y-m-D H:i:s'),
+			'time' => $this->timestamp->format('Y-m-d H:i:s'),
 			'ip' => $this->ip,
 			'url' => $this->url,
 			'cookies' => $this->config,
