@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).  
 
-## [unreleased]
+## [1.0.5](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.5) - 04.02.2020
 
 ### Added
 - No Cookie Site Settings
