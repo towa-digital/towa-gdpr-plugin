@@ -13,7 +13,9 @@ namespace Towa\GdprPlugin;
 use Towa\Acf\Fields\ColorPicker;
 use Towa\Acf\Fields\Text;
 use Towa\Acf\Fields\Number;
+use Towa\Acf\Fields\Relation;
 use Towa\Acf\Fields\Wysiwyg;
+use Towa\Acf\Fields\Tab;
 
 /**
  * Class AcfSettings
@@ -73,6 +75,7 @@ class AcfSettings implements AcfGroup
 	public function build_fields(): array
 	{
 		return array(
+			(new Tab($this->name, 'general_settings_tab', __('general Settings','towa-gdpr-plugin')))->build(),
 			(new Text($this->name, 'tagmanager', __('Tagmanager ID', 'towa-gdpr-plugin')))->build(
 				array(
 					'instructions' => __('this will add the tagmanager installation script to the header of the page (be aware that it will not support the noscript iframe)', 'towa-gdpr-plugin'),
@@ -126,6 +129,12 @@ class AcfSettings implements AcfGroup
 					'instructions' => __('The hash is used to verify the current version of the consent message. if this differs with a users hash, the consent notification will be shown again', 'towa-gdpr-plugin'),
 				)
 			),
+			(new Tab($this->name,'no_cookie_pages_tab', __('No Cookie Pages','towa-gdpr-plugin')))->build(),
+			(new Relation($this->name,'no_cookie_pages', __('Pages','towa-gdpr-plugin')))->build(
+				array(
+					'instructions' => __('All Pages/Custom Posts where the cookie notice will not be shown, and no tracking will happen. <strong>requires HTML cache refresh if changed.</strong>','towa-gdpr-plugin')
+				)
+			)
 		);
 	}
 }
