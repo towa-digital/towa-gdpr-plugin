@@ -250,12 +250,8 @@ class Plugin
 	 */
 	public static function getData(): array
 	{
-		$data = [];
-		$transient = \get_transient(self::TRANSIENT_KEY . get_locale());
-
-		if (!empty($transient)) {
-			$data = $transient;
-		} else {
+		$data = \get_transient(self::TRANSIENT_KEY . get_locale());
+		if (!$data) {
 			$data = \get_fields('options');
 			// transient valid for one month
 			\set_transient(self::TRANSIENT_KEY . get_locale(), $data, 60 * 60 * 24 * 30);
