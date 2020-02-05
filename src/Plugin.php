@@ -265,7 +265,7 @@ class Plugin
 	public function addMetaTagNoCookieSite(){
 		global $post;
 		$data = self::get_data();
-		if(isset($data['no_cookie_pages']) && in_array($post->ID, $data['no_cookie_pages'])){
+		if(is_array($data['no_cookie_pages']) && in_array($post->ID, $data['no_cookie_pages'])){
 			?>
 				<meta name="towa-gdpr-no-cookies" content="true"/>
 			<?php
