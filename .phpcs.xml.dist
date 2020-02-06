@@ -12,7 +12,7 @@
 	<exclude-pattern>./node_modules/</exclude-pattern>
 	<exclude-pattern>./vendor/</exclude-pattern>
 
-	<arg name="tab-width" value="4"/>
+	<arg name="tab-width" value="2"/>
 
 	<!-- How to scan -->
 	<!-- Show sniff and progress -->
@@ -27,16 +27,15 @@
 	<arg name="extensions" value="php"/>
 
 	<!-- Rules from https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/PSR12/ruleset.xml -->
-	<rule ref="PSR12">
-		<exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
+	<rule ref="PSR12"></rule>
+	<rule ref="Generic.WhiteSpace.ScopeIndent">
+		<properties>
+			<property name="indent" value="4"/>
+			<property name="tabIndent" value="false"/>
+		</properties>
 	</rule>
-	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
-	 <rule ref="Generic.WhiteSpace.ScopeIndent">
-        <properties>
-            <property name="indent" value="2"/>
-            <property name="tabIndent" value="true"/>
-        </properties>
-    </rule>
+	<arg name="tab-width" value="2"/>
+
 	<config name="testVersion" value="7.2-"/>
 
 </ruleset>

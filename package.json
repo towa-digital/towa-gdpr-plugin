@@ -59,5 +59,9 @@
     "standard": "^14.3.1",
     "vue-template-compiler": "^2.6.10"
   },
-  "dependencies": {}
+  "dependencies": {
+    "array-flat-polyfill": "^1.0.1",
+    "axios": "^0.19.2",
+    "es6-promise": "^4.2.8"
+  }
 }
