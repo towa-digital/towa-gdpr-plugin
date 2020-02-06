@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Consent
 {
-    const LOG_DIR = WP_CONTENT_DIR.'/uploads/towa-gdpr/';
+    const LOG_DIR = WP_CONTENT_DIR . '/uploads/towa-gdpr/';
 
     /**
      * @var \DateTime
@@ -76,10 +76,10 @@ class Consent
     public function save(): void
     {
         if (!file_exists(self::LOG_DIR)) {
-            $uploadpermissions = fileperms(WP_CONTENT_DIR.'/uploads/');
+            $uploadpermissions = fileperms(WP_CONTENT_DIR . '/uploads/');
             mkdir(self::LOG_DIR, $uploadpermissions);
         }
-        $filename = self::LOG_DIR.$this->timestamp->format('Y-m-d').'.csv';
+        $filename = self::LOG_DIR . $this->timestamp->format('Y-m-d') . '.csv';
         $writemode = file_exists($filename) ? 'a' : 'w';
         $writer = Writer::createFromPath($filename, $writemode);
         $writer->insertOne($this->__toArray());

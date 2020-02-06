@@ -5,7 +5,6 @@
  *
  * This file can use syntax from the required level of PHP or later.
  *
- * @package      Towa\GdprPlugin
  * @author       Martin Welte
  * @copyright    2019 Towa
  * @license      GPL-2.0+
@@ -19,21 +18,21 @@ use BrightNucleus\Config\ConfigFactory;
 
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
-	die;
+    die;
 }
 
 if (!defined('TOWA_GDPR_PLUGIN_DIR')) {
 	// phpcs:ignore NeutronStandard.Constants.DisallowDefine.Define
-	define('TOWA_GDPR_PLUGIN_DIR', plugin_dir_path(__FILE__));
+    define('TOWA_GDPR_PLUGIN_DIR', plugin_dir_path(__FILE__));
 }
 if (!defined('TOWA_GDPR_PLUGIN_URL')) {
 	// phpcs:ignore NeutronStandard.Constants.DisallowDefine.Define
-	define('TOWA_GDPR_PLUGIN_URL', plugin_dir_url(__FILE__));
+    define('TOWA_GDPR_PLUGIN_URL', plugin_dir_url(__FILE__));
 }
 
 // Load Composer autoloader.
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-	require_once __DIR__ . '/vendor/autoload.php';
+    require_once __DIR__ . '/vendor/autoload.php';
 }
 
 // Initialize the plugin.

@@ -39,7 +39,7 @@ class Plugin
      *
      * @var string
      */
-    private const TRANSIENT_KEY = __CLASS__.'_settings';
+    private const TRANSIENT_KEY = __CLASS__ . '_settings';
 
     /**
      * Instantiate a Plugin object.
@@ -95,7 +95,7 @@ class Plugin
      */
     public function loadFooter(): void
     {
-        $loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR.'/views/');
+        $loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR . '/views/');
         $twig = new \Twig\Environment($loader);
         $function = new \Twig\TwigFunction(
             '__',
@@ -166,15 +166,14 @@ class Plugin
     public function myAcfNotice(): void
     {
         ?>
-
-		<div class="error">
-			<p>
-				<?php
+        <div class="error">
+            <p>
+                <?php
                 \_e('<b>Towa GDPR Plugin:</b> Please install and activate ACF Pro', $this->config->getKey('Plugin.textdomain')); // phpcs:ignores
                 ?>
-			</p>
-		</div>
-		<?php
+            </p>
+        </div>
+        <?php
     }
 
     /**
@@ -188,7 +187,7 @@ class Plugin
             $languages_dir = $this->config->getKey('Plugin.languages_dir');
         }
 
-        \load_plugin_textdomain($text_domain, false, $text_domain.'/'.$languages_dir);
+        \load_plugin_textdomain($text_domain, false, $text_domain . '/' . $languages_dir);
     }
 
     /**
@@ -201,7 +200,7 @@ class Plugin
             if (!isset($_POST['acf']['towa_gdpr_settings_hash']) || '' === $_POST['acf']['towa_gdpr_settings_hash'] || sanitize_text_field($_POST['save_and_hash'])) {
                 \update_field('towa_gdpr_settings_hash', (new Hash())->getHash(), 'option');
             }
-            \delete_transient(self::TRANSIENT_KEY.get_locale());
+            \delete_transient(self::TRANSIENT_KEY . get_locale());
         }
     }
 
@@ -231,7 +230,7 @@ class Plugin
      */
     public function displayAcfMetabox(): void
     {
-        $loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR.'/views/');
+        $loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR . '/views/');
         $twig = new \Twig\Environment($loader);
         $function = new \Twig\TwigFunction(
             '__',
@@ -251,11 +250,11 @@ class Plugin
      */
     public static function getData(): array
     {
-        $data = \get_transient(self::TRANSIENT_KEY.get_locale());
+        $data = \get_transient(self::TRANSIENT_KEY . get_locale());
         if (!$data) {
             $data = \get_fields('options');
             // transient valid for one month
-            \set_transient(self::TRANSIENT_KEY.get_locale(), $data, 60 * 60 * 24 * 30);
+            \set_transient(self::TRANSIENT_KEY . get_locale(), $data, 60 * 60 * 24 * 30);
         }
         // modify data to have uniform groups reason: acf doesn't work if they are named the same way
         if (isset($data['essential_group'])) {
@@ -266,7 +265,7 @@ class Plugin
             ];
         }
 
-        $data['consent_url'] = get_rest_url(null, Rest::TOWA_GDPR_REST_NAMESPACE.Rest::CONSENT_ENDPOINT);
+        $data['consent_url'] = get_rest_url(null, Rest::TOWA_GDPR_REST_NAMESPACE . Rest::CONSENT_ENDPOINT);
 
         return $data;
     }
@@ -277,8 +276,8 @@ class Plugin
         $data = self::getData();
         if (isset($data['no_cookie_pages']) && in_array($post->ID, $data['no_cookie_pages'])) {
             ?>
-				<meta name="towa-gdpr-no-cookies" content="true"/>
-			<?php
+                <meta name="towa-gdpr-no-cookies" content="true"/>
+            <?php
         }
     }
 }

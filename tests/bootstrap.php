@@ -3,7 +3,6 @@
 /**
  * PHPUnit bootstrap
  *
- * @package      Towa\GdprPlugin\Tests
  * @author       Martin Welte
  * @copyright    2019 Towa
  * @license      GPL-2.0+

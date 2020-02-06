@@ -125,7 +125,8 @@ class AcfSettings implements AcfGroupInterface
             ),
 
             (new Tab($this->name, 'no_cookie_pages_tab', __('No Cookie Pages', 'towa-gdpr-plugin')))->build(),
-            (new Relation($this->name, 'no_cookie_pages', __('Pages', 'towa-gdpr-plugin')))->build([
+            (new Relation($this->name, 'no_cookie_pages', __('Pages', 'towa-gdpr-plugin')))->build(
+                [
                     'instructions' => __('All Pages/Custom Posts where the cookie notice will not be shown, and no tracking will happen. <strong>requires HTML cache refresh if changed.</strong>', 'towa-gdpr-plugin'),
                 ]
             ),
