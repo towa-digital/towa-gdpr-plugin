@@ -197,7 +197,7 @@ class Plugin
     {
         $screen = \get_current_screen();
         if (false !== strpos($screen->id, 'towa-gdpr-plugin')) {
-            if (!isset($_POST['acf']['towa_gdpr_settings_hash']) || '' === $_POST['acf']['towa_gdpr_settings_hash'] || sanitize_text_field($_POST['save_and_hash'])) {
+            if (!isset($_POST['acf']['towa_gdpr_settings_hash']) || '' === $_POST['acf']['towa_gdpr_settings_hash'] || isset($_POST['save_and_hash'])) {
                 \update_field('towa_gdpr_settings_hash', (new Hash())->getHash(), 'option');
             }
             \delete_transient(self::TRANSIENT_KEY . get_locale());
@@ -274,7 +274,7 @@ class Plugin
     {
         global $post;
         $data = self::getData();
-        if (isset($data['no_cookie_pages']) && in_array($post->ID, $data['no_cookie_pages'])) {
+        if (is_array($data['no_cookie_pages']) && in_array($post->ID, $data['no_cookie_pages'])) {
             ?>
                 <meta name="towa-gdpr-no-cookies" content="true"/>
             <?php
