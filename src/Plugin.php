@@ -187,7 +187,7 @@ class Plugin
 	{
 		$screen = \get_current_screen();
 		if (strpos($screen->id, 'towa-gdpr-plugin') !== false) {
-			if (!isset($_POST['acf']['towa_gdpr_settings_hash']) || $_POST['acf']['towa_gdpr_settings_hash'] === '' || sanitize_text_field($_POST['save_and_hash'])) {
+			if (!isset($_POST['acf']['towa_gdpr_settings_hash']) || $_POST['acf']['towa_gdpr_settings_hash'] === '' || isset($_POST['save_and_hash'])) {
 				\update_field('towa_gdpr_settings_hash', (new Hash())->get_hash(), 'option');
 			}
 			\delete_transient(self::TRANSIENT_KEY);
