@@ -103,7 +103,6 @@ class Plugin
      */
     public function activatePlugin(): void
     {
-        register_uninstall_hook(TOWA_GDPR_PLUGIN_FILE, 'Towa\GdprPlugin\Plugin::uninstallPlugin');
         SettingsTableAdapter::updateTableStructure();
     }
 
