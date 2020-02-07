@@ -63,6 +63,7 @@ class Plugin
      */
     public function run(): void
     {
+        add_action('activate_towa-gdpr-plugin.php', [$this,'activatePlugin']);
         add_action('acf/save_post', [$this, 'saveOptionsHook'], 20);
         add_action('acf/init', [$this, 'init']);
         add_action('acf/input/admin_head', [$this, 'registerCustomMetaBox'], 10);
@@ -81,6 +82,7 @@ class Plugin
         if (!\is_admin() && function_exists('get_fields')) {
             \add_action('wp_footer', [$this, 'loadFooter']);
         }
+        $this->activatePlugin();
     }
 
     /**
@@ -89,6 +91,15 @@ class Plugin
     public function initControllers(): void
     {
         (new Rest())->registerRoutes();
+    }
+
+    /**
+     * Activate Plugin Hook:
+     * - Updates Table Structures
+     */
+    public function activatePlugin(): void
+    {
+        SettingsTableAdapter::updateTableStructure();
     }
 
     /**
