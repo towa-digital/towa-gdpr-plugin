@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).  
 
+## unreleased
+
+### Added
+- Settings saved to database
+- Uninstall / install hooks
+- safeguards
+
 ## [1.0.7](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.7) - 06.02.2020
 
 ### fixed

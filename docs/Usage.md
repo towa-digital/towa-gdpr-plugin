@@ -11,4 +11,6 @@ To guarantee users have to consent again if cookies change, a hashing functional
 ## No cookie pages
 Define Pages where the cookie notice isn't shown and won't set the cookies.
 
+## Consent Logging
+- Settings made by Admin will be saved into Database Table `tableprefix_towa_gdpr_settings` 
 
