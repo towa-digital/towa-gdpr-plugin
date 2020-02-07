@@ -160,10 +160,8 @@ class SettingsTableAdapter
     public static function destroyTable(): void
     {
         if (!defined('WP_UNINSTALL_PLUGIN')) {
-            dd('uninstal not set');
-            return;
+            exit;
         }
-        dd('test');
         global $wpdb;
         $tablename = self::getTableName();
         $sql = "DROP TABLE IF EXISTS $tablename";
