@@ -29,7 +29,7 @@ if (!defined('WPINC')) {
     die;
 }
 
-if (version_compare(PHP_VERSION, '7.1', '<')) {
+if (version_compare(PHP_VERSION, '7.2', '<')) {
     add_action('plugins_loaded', 'towa_gdpr_plugin_init_deactivation');
 
     /**
