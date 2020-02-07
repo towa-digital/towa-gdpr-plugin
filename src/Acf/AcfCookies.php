@@ -7,7 +7,7 @@
  * @copyright 2019 Towa
  */
 
-namespace Towa\GdprPlugin;
+namespace Towa\GdprPlugin\Acf;
 
 use Towa\Acf\Fields\Group;
 use Towa\Acf\Fields\Link;

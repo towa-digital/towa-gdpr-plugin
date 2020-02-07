@@ -16,6 +16,8 @@ use BrightNucleus\Config\ConfigInterface;
 use BrightNucleus\Config\ConfigTrait;
 use BrightNucleus\Config\Exception\FailedToProcessConfigException;
 use BrightNucleus\Dependency\DependencyManager;
+use Towa\GdprPlugin\Acf\AcfCookies;
+use Towa\GdprPlugin\Acf\AcfSettings;
 use Towa\GdprPlugin\Rest\Rest;
 
 /**
@@ -81,9 +83,12 @@ class Plugin
         }
     }
 
-    public function initControllers()
+    /**
+     * Initialize Controllers
+     */
+    public function initControllers(): void
     {
-        (new Rest())->registerRestEndpoint();
+        (new Rest())->registerRoutes();
     }
 
     /**
@@ -202,10 +207,11 @@ class Plugin
             }
             \delete_transient(self::TRANSIENT_KEY . get_locale());
         }
+        (new SettingsTableAdapter())->save();
     }
 
     /**
-     * register custom meta box for hash regeneration.
+     * Register custom meta box for hash regeneration.
      */
     public function registerCustomMetaBox(): void
     {
@@ -226,7 +232,7 @@ class Plugin
     }
 
     /**
-     * display additional meta box for hash regeneration.
+     * Display additional meta box for hash regeneration.
      */
     public function displayAcfMetabox(): void
     {
@@ -270,6 +276,9 @@ class Plugin
         return $data;
     }
 
+    /**
+     * Add Meta Tag to Sites which are non-cookie Sites
+     */
     public function addMetaTagNoCookieSite()
     {
         global $post;

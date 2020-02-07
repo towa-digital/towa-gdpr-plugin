@@ -7,7 +7,7 @@
  * @copyright 2019 Towa
  */
 
-namespace Towa\GdprPlugin;
+namespace Towa\GdprPlugin\Acf;
 
 /**
  * Interface AcfGroup.

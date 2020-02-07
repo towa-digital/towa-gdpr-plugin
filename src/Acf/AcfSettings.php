@@ -7,7 +7,7 @@
  * @copyright Towa 2019
  */
 
-namespace Towa\GdprPlugin;
+namespace Towa\GdprPlugin\Acf;
 
 use Towa\Acf\Fields\ColorPicker;
 use Towa\Acf\Fields\Number;
