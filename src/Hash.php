@@ -12,6 +12,10 @@ namespace Towa\GdprPlugin;
 
 use DateTime;
 
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
+
 /**
  * Hash class.
  *

@@ -16,6 +16,10 @@ use Towa\Acf\Fields\Tab;
 use Towa\Acf\Fields\Text;
 use Towa\Acf\Fields\Wysiwyg;
 
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
+
 /**
  * Class AcfSettings.
  */

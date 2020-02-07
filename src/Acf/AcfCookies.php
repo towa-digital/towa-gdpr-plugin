@@ -15,6 +15,10 @@ use Towa\Acf\Fields\Repeater;
 use Towa\Acf\Fields\Text;
 use Towa\Acf\Fields\Textarea;
 
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
+
 /**
  * Class AcfCookies: registers Acf Group for Cookies.
  */

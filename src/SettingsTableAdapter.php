@@ -1,9 +1,23 @@
 <?php
 
+/**
+ * Settings Table Adapter File
+ *
+ * @author Martin Welte <martin.welte@towa.at>
+ * @copyright 2020 Towa
+ * @license GPL-2.0+
+ */
 
 namespace Towa\GdprPlugin;
 
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 
+/**
+ * Class SettingsTableAdapter
+ *
+ */
 class SettingsTableAdapter
 {
     private const TABLE_NAME = 'towa_gdpr_settings';

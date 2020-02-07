@@ -20,6 +20,10 @@ use Towa\GdprPlugin\Acf\AcfCookies;
 use Towa\GdprPlugin\Acf\AcfSettings;
 use Towa\GdprPlugin\Rest\Rest;
 
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
+
 /**
  * Main plugin class.
  *
