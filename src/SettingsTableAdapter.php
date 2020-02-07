@@ -3,7 +3,7 @@
 /**
  * Settings Table Adapter File
  *
- * @author Martin Welte <martin.welte@towa.at>
+ * @author Martin Welte
  * @copyright 2020 Towa
  * @license GPL-2.0+
  */
@@ -117,7 +117,7 @@ class SettingsTableAdapter
      * Get the full Tablename
      * @return string
      */
-    private function getTableName(): string
+    public static function getTableName(): string
     {
         global $wpdb;
         return $wpdb->prefix . self::TABLE_NAME;
@@ -128,9 +128,10 @@ class SettingsTableAdapter
      */
     public function save()
     {
+        self::updateTableStructure();
         $insertData = get_object_vars($this);
         global $wpdb;
-        $wpdb->insert($this->getTableName(), $insertData);
+        $wpdb->insert(self::getTableName(), $insertData);
     }
 
     /**
@@ -139,7 +140,7 @@ class SettingsTableAdapter
     public static function updateTableStructure(): void
     {
         global $wpdb;
-        $tablename = $wpdb->prefix . self::TABLE_NAME;
+        $tablename = self::getTableName();
         $charset_collate = $wpdb->get_charset_collate();
         $sql = "CREATE TABLE $tablename (
             id bigint(20) UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -151,5 +152,21 @@ class SettingsTableAdapter
         ) $charset_collate;";
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
+    }
+
+    /**
+     * Destroy Settings Table
+     */
+    public static function destroyTable(): void
+    {
+        if (!defined('WP_UNINSTALL_PLUGIN')) {
+            dd('uninstal not set');
+            return;
+        }
+        dd('test');
+        global $wpdb;
+        $tablename = self::getTableName();
+        $sql = "DROP TABLE IF EXISTS $tablename";
+        $wpdb->query($sql);
     }
 }

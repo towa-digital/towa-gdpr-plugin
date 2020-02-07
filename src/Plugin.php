@@ -67,7 +67,7 @@ class Plugin
      */
     public function run(): void
     {
-        add_action('activate_towa-gdpr-plugin.php', [$this,'activatePlugin']);
+        add_action('activate_towa-gdpr-plugin.php', [$this, 'activatePlugin']);
         add_action('acf/save_post', [$this, 'saveOptionsHook'], 20);
         add_action('acf/init', [$this, 'init']);
         add_action('acf/input/admin_head', [$this, 'registerCustomMetaBox'], 10);
@@ -103,7 +103,17 @@ class Plugin
      */
     public function activatePlugin(): void
     {
+        register_uninstall_hook(TOWA_GDPR_PLUGIN_FILE, ['self','uninstallPlugin']);
         SettingsTableAdapter::updateTableStructure();
+    }
+
+    /**
+     * Uninstall Plugin Hook
+     * - drops Table created by Settings Table Adapter
+     */
+    public static function uninstallPlugin(): void
+    {
+        SettingsTableAdapter::destroyTable();
     }
 
     /**
@@ -300,7 +310,7 @@ class Plugin
         $data = self::getData();
         if (is_array($data['no_cookie_pages']) && in_array($post->ID, $data['no_cookie_pages'])) {
             ?>
-                <meta name="towa-gdpr-no-cookies" content="true"/>
+            <meta name="towa-gdpr-no-cookies" content="true"/>
             <?php
         }
     }
