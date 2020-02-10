@@ -282,6 +282,9 @@ class Plugin
 	 */
 	public function formatAcfNoCookiePages(array $value): array
 	{
+		if(is_array($value) && is_object($value[0])){
+			$value = collect($value)->pluck('ID')->toArray();
+		}
 		return $value;
 	}
 }
