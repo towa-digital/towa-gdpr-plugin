@@ -32,7 +32,7 @@ $towa_gdpr_plugin_settings = array(
                         'handle' => 'towa-gdpr-plugin-css',
                         'src' => TOWA_GDPR_PLUGIN_URL.'dist/css/main.css',
                         'deps' => '',
-                        'ver' => '1.0.7',
+                        'ver' => '1.0.8',
                         'media' => 'all',
                     ),
                 ),
@@ -40,7 +40,7 @@ $towa_gdpr_plugin_settings = array(
                     array(
                         'handle' => 'towa-gdpr-plugin-js',
                         'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/main.js',
-                        'ver' => '1.0.7',
+                        'ver' => '1.0.8',
                         'in_footer' => true,
                         'localize' => array(
                             'name' => 'towaGdprContext',
