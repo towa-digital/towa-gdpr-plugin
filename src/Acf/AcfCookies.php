@@ -7,13 +7,17 @@
  * @copyright 2019 Towa
  */
 
-namespace Towa\GdprPlugin;
+namespace Towa\GdprPlugin\Acf;
 
 use Towa\Acf\Fields\Group;
 use Towa\Acf\Fields\Link;
 use Towa\Acf\Fields\Repeater;
 use Towa\Acf\Fields\Text;
 use Towa\Acf\Fields\Textarea;
+
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 
 /**
  * Class AcfCookies: registers Acf Group for Cookies.

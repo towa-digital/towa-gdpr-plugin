@@ -13,6 +13,9 @@ namespace Towa\GdprPlugin\Consentlogger;
 use League\Csv\Writer;
 use Symfony\Component\HttpFoundation\Request;
 
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 /**
  * Class Consent.
  */

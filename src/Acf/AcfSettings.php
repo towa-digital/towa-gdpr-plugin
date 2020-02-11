@@ -7,7 +7,7 @@
  * @copyright Towa 2019
  */
 
-namespace Towa\GdprPlugin;
+namespace Towa\GdprPlugin\Acf;
 
 use Towa\Acf\Fields\ColorPicker;
 use Towa\Acf\Fields\Number;
@@ -15,6 +15,10 @@ use Towa\Acf\Fields\Relation;
 use Towa\Acf\Fields\Tab;
 use Towa\Acf\Fields\Text;
 use Towa\Acf\Fields\Wysiwyg;
+
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 
 /**
  * Class AcfSettings.

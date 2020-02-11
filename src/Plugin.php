@@ -16,7 +16,13 @@ use BrightNucleus\Config\ConfigInterface;
 use BrightNucleus\Config\ConfigTrait;
 use BrightNucleus\Config\Exception\FailedToProcessConfigException;
 use BrightNucleus\Dependency\DependencyManager;
+use Towa\GdprPlugin\Acf\AcfCookies;
+use Towa\GdprPlugin\Acf\AcfSettings;
 use Towa\GdprPlugin\Rest\Rest;
+
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 
 /**
  * Main plugin class.
@@ -61,11 +67,12 @@ class Plugin
      */
     public function run(): void
     {
+        add_action('activate_towa-gdpr-plugin.php', [$this, 'activatePlugin']);
         add_filter('acf/format_value/key=towa_gdpr_settings_no_cookie_pages', [$this, 'formatAcfNoCookiePages'], 10, 3);
         add_action('acf/save_post', [$this, 'saveOptionsHook'], 20);
         add_action('acf/init', [$this, 'init']);
         add_action('acf/input/admin_head', [$this, 'registerCustomMetaBox'], 10);
-        add_action('init', [$this, 'initControllers']);
+        add_action('rest_api_init', [$this, 'initRest']);
         add_action('wp_head', [$this, 'addMetaTagNoCookieSite']);
     }
 
@@ -80,11 +87,33 @@ class Plugin
         if (!\is_admin() && function_exists('get_fields')) {
             \add_action('wp_footer', [$this, 'loadFooter']);
         }
+        $this->activatePlugin();
     }
 
-    public function initControllers()
+    /**
+     * Initialize Rest
+     */
+    public function initRest(): void
     {
-        (new Rest())->registerRestEndpoint();
+        (new Rest())->registerRestEndpoints();
+    }
+
+    /**
+     * Activate Plugin Hook:
+     * - Updates Table Structures
+     */
+    public function activatePlugin(): void
+    {
+        SettingsTableAdapter::updateTableStructure();
+    }
+
+    /**
+     * Uninstall Plugin Hook
+     * - drops Table created by Settings Table Adapter
+     */
+    public static function uninstallPlugin(): void
+    {
+        SettingsTableAdapter::destroyTable();
     }
 
     /**
@@ -203,10 +232,11 @@ class Plugin
             }
             \delete_transient(self::TRANSIENT_KEY . get_locale());
         }
+        (new SettingsTableAdapter())->save();
     }
 
     /**
-     * register custom meta box for hash regeneration.
+     * Register custom meta box for hash regeneration.
      */
     public function registerCustomMetaBox(): void
     {
@@ -227,7 +257,7 @@ class Plugin
     }
 
     /**
-     * display additional meta box for hash regeneration.
+     * Display additional meta box for hash regeneration.
      */
     public function displayAcfMetabox(): void
     {
@@ -271,14 +301,15 @@ class Plugin
         return $data;
     }
 
+    /**
+     * Add Meta Tag to Sites which are non-cookie Sites
+     */
     public function addMetaTagNoCookieSite()
     {
         global $post;
         $data = self::getData();
         if (is_array($data['no_cookie_pages']) && in_array($post->ID, $data['no_cookie_pages'])) {
-            ?>
-                <meta name="towa-gdpr-no-cookies" content="true"/>
-            <?php
+            echo '<meta name="towa-gdpr-no-cookies" content="true"/>';
         }
     }
 

@@ -15,6 +15,9 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
 
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 /**
  * Class Rest.
  */
@@ -24,17 +27,9 @@ class Rest
     const CONSENT_ENDPOINT = 'consent/';
 
     /**
-     * hook rest endpoint registration into rest register_api_init.
-     */
-    public function registerRoutes(): void
-    {
-        add_action('rest_api_init', [$this, 'registerRestEndpoint']);
-    }
-
-    /**
      * register rest endpoints of towa-gdpr-plugin.
      */
-    public function registerRestEndpoint(): void
+    public function registerRestEndpoints(): void
     {
         register_rest_route(self::TOWA_GDPR_REST_NAMESPACE, self::CONSENT_ENDPOINT, [
             'methods' => WP_REST_Server::CREATABLE,

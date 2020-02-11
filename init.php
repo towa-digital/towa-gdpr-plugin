@@ -22,14 +22,14 @@ if (!defined('WPINC')) {
 }
 
 if (!defined('TOWA_GDPR_PLUGIN_DIR')) {
-	// phpcs:ignore NeutronStandard.Constants.DisallowDefine.Define
     define('TOWA_GDPR_PLUGIN_DIR', plugin_dir_path(__FILE__));
 }
 if (!defined('TOWA_GDPR_PLUGIN_URL')) {
-	// phpcs:ignore NeutronStandard.Constants.DisallowDefine.Define
     define('TOWA_GDPR_PLUGIN_URL', plugin_dir_url(__FILE__));
 }
-
+if (!defined('TOWA_GDPR_PLUGIN_FILE')) {
+    define('TOWA_GDPR_PLUGIN_FILE', plugin_dir_path(__FILE__) . 'towa-gdpr-plugin.php');
+}
 // Load Composer autoloader.
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';

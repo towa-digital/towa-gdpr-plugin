@@ -29,7 +29,7 @@ if (!defined('WPINC')) {
     die;
 }
 
-if (version_compare(PHP_VERSION, '7.1', '<')) {
+if (version_compare(PHP_VERSION, '7.2', '<')) {
     add_action('plugins_loaded', 'towa_gdpr_plugin_init_deactivation');
 
     /**
@@ -58,7 +58,7 @@ if (version_compare(PHP_VERSION, '7.1', '<')) {
     {
         $notice = sprintf(
             '<strong>Towa Gdpr Plugin</strong> requires PHP %1$s to run. This site uses %2$s, so the plugin has been <strong>deactivated</strong>.',
-            '7.1',
+            '7.2',
             PHP_VERSION
         );
         ?>
