@@ -71,7 +71,7 @@ class Plugin
         add_action('acf/save_post', [$this, 'saveOptionsHook'], 20);
         add_action('acf/init', [$this, 'init']);
         add_action('acf/input/admin_head', [$this, 'registerCustomMetaBox'], 10);
-        add_action('init', [$this, 'initControllers']);
+        add_action('rest_api_init', [$this, 'initRest']);
         add_action('wp_head', [$this, 'addMetaTagNoCookieSite']);
     }
 
@@ -90,11 +90,11 @@ class Plugin
     }
 
     /**
-     * Initialize Controllers
+     * Initialize Rest
      */
-    public function initControllers(): void
+    public function initRest(): void
     {
-        (new Rest())->registerRoutes();
+        (new Rest())->registerRestEndpoints();
     }
 
     /**
