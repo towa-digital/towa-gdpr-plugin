@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
  * Class SettingsTableAdapter
  *
  */
-class SettingsTableAdapter
+final class SettingsTableAdapter
 {
     private const TABLE_NAME = 'towa_gdpr_settings';
 
@@ -48,14 +48,30 @@ class SettingsTableAdapter
      *
      * @var int
      */
-    private $user_id;
+    private $userId;
 
     /**
      * SettingsTableAdapter constructor.
      */
     public function __construct()
     {
-        $this->setUpData();
+        $data = Plugin::getData();
+        $this->setSettings($data);
+        $this->setHash($data);
+        $this->setUserId();
+        $this->setDatetime();
+    }
+
+    /**
+     * get the Wordpress Database Object
+     *
+     * @return \wpdb
+     */
+    public static function getDb(): \wpdb
+    {
+        global $wpdb;
+
+        return $wpdb;
     }
 
     /**
@@ -82,6 +98,8 @@ class SettingsTableAdapter
     {
         if (isset($plugindata['hash'])) {
             $this->hash = $plugindata['hash'];
+        } else {
+            new \Exception('Hash not defined');
         }
     }
 
@@ -90,7 +108,7 @@ class SettingsTableAdapter
      */
     private function setUserId(): void
     {
-        $this->user_id = get_current_user_id();
+        $this->userId = get_current_user_id();
     }
 
     /**
@@ -99,18 +117,6 @@ class SettingsTableAdapter
     private function setDateTime(): void
     {
         $this->datetime = current_time('mysql');
-    }
-
-    /**
-     * Set up Data to form new Record
-     */
-    private function setUpData()
-    {
-        $data = Plugin::getData();
-        $this->setSettings($data);
-        $this->setHash($data);
-        $this->setUserId();
-        $this->setDatetime();
     }
 
     /**
@@ -130,7 +136,7 @@ class SettingsTableAdapter
     {
         self::updateTableStructure();
         $insertData = get_object_vars($this);
-        global $wpdb;
+        $wpdb = self::getDb();
         $wpdb->insert(self::getTableName(), $insertData);
     }
 
@@ -139,7 +145,7 @@ class SettingsTableAdapter
      */
     public static function updateTableStructure(): void
     {
-        global $wpdb;
+        $wpdb = self::getDb();
         $tablename = self::getTableName();
         $charset_collate = $wpdb->get_charset_collate();
         $sql = "CREATE TABLE $tablename (
@@ -147,7 +153,7 @@ class SettingsTableAdapter
             datetime DATETIME NOT NULL,
             settings JSON NOT NULL,
             hash VARCHAR(100) NOT NULL,
-            user_id BIGINT(20) UNSIGNED NOT NULL,
+            userId BIGINT(20) UNSIGNED NOT NULL,
             PRIMARY KEY (id)
         ) $charset_collate;";
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -162,7 +168,8 @@ class SettingsTableAdapter
         if (!defined('WP_UNINSTALL_PLUGIN')) {
             exit;
         }
-        global $wpdb;
+
+        $wpdb = self::getDb();
         $tablename = self::getTableName();
         $sql = "DROP TABLE IF EXISTS $tablename";
         $wpdb->query($sql);
