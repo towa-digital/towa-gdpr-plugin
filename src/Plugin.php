@@ -61,6 +61,7 @@ class Plugin
      */
     public function run(): void
     {
+        add_filter('acf/format_value/key=towa_gdpr_settings_no_cookie_pages', [$this, 'formatAcfNoCookiePages'], 10, 3);
         add_action('acf/save_post', [$this, 'saveOptionsHook'], 20);
         add_action('acf/init', [$this, 'init']);
         add_action('acf/input/admin_head', [$this, 'registerCustomMetaBox'], 10);
@@ -279,5 +280,19 @@ class Plugin
                 <meta name="towa-gdpr-no-cookies" content="true"/>
             <?php
         }
+    }
+
+    /**
+     * format Acf no Cookie Pages to prevent potential overwrite
+     *
+     * @param array $value
+     * @return array
+     */
+    public function formatAcfNoCookiePages(array $value): array
+    {
+        if(is_array($value) && is_object($value[0])){
+            $value = collect($value)->pluck('ID')->toArray();
+        }
+        return $value;
     }
 }
