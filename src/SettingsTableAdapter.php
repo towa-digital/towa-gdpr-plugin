@@ -151,7 +151,7 @@ final class SettingsTableAdapter
         $sql = "CREATE TABLE $tablename (
             id bigint(20) UNSIGNED AUTO_INCREMENT NOT NULL,
             datetime DATETIME NOT NULL,
-            settings JSON NOT NULL,
+            settings TEXT NOT NULL,
             hash VARCHAR(100) NOT NULL,
             userId BIGINT(20) UNSIGNED NOT NULL,
             PRIMARY KEY (id)
