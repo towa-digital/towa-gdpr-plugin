@@ -74,6 +74,12 @@ class Plugin
         add_action('acf/input/admin_head', [$this, 'registerCustomMetaBox'], 10);
         add_action('rest_api_init', [$this, 'initRest']);
         add_action('wp_head', [$this, 'addMetaTagNoCookieSite']);
+        if (!function_exists('acf_add_options_page')) {
+            add_action('admin_notices', [$this, 'myAcfNotice']);
+        }
+        if (!\is_admin() && function_exists('get_fields')) {
+            add_action('wp_footer', [$this, 'loadFooter']);
+        }
     }
 
     /**
@@ -84,9 +90,6 @@ class Plugin
         $this->loadTextdomain();
         $this->registerMenupages();
         $this->loadDependencies();
-        if (!\is_admin() && function_exists('get_fields')) {
-            \add_action('wp_footer', [$this, 'loadFooter']);
-        }
         $this->activatePlugin();
     }
 
@@ -147,9 +150,7 @@ class Plugin
      */
     private function registerMenupages(): void
     {
-        if (!function_exists('acf_add_options_page')) {
-            \add_action('admin_notices', [$this, 'myAcfNotice']);
-        } else {
+        if (function_exists('acf_add_options_page')) {
             collect($this->config->getSubConfig('Settings.submenu_pages')->getAll())->map(
                 function ($menupage) {
                     [   //phpcs:ignore
@@ -315,13 +316,10 @@ class Plugin
 
     /**
      * format Acf no Cookie Pages to prevent potential overwrite
-     *
-     * @param array $value
-     * @return array
      */
-    public function formatAcfNoCookiePages(array $value): array
+    public function formatAcfNoCookiePages($value)
     {
-        if(is_array($value) && is_object($value[0])){
+        if (is_array($value) && is_object($value[0])) {
             $value = collect($value)->pluck('ID')->toArray();
         }
         return $value;
