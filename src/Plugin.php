@@ -116,6 +116,9 @@ class Plugin
      */
     public static function uninstallPlugin(): void
     {
+        \delete_transient(self::TRANSIENT_KEY . get_locale());
+        AcfSettings::deleteFields();
+        AcfCookies::deleteFields();
         SettingsTableAdapter::destroyTable();
     }
 
