@@ -276,13 +276,10 @@ class Plugin
 
 	/**
 	 * format Acf no Cookie Pages to prevent potential overwrite
-	 *
-	 * @param array $value
-	 * @return array
 	 */
-	public function formatAcfNoCookiePages(array $value): array
+	public function formatAcfNoCookiePages($value)
 	{
-		if(is_array($value) && is_object($value[0])){
+		if (is_array($value) && is_object($value[0])) {
 			$value = collect($value)->pluck('ID')->toArray();
 		}
 		return $value;
