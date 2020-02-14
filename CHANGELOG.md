@@ -10,6 +10,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Uninstall / install hooks
 - safeguards
 
+## [1.0.9](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.9) - 14.02.2020
+
+### fixed
+- typehinting issue acf_format_values_function
+
 ## [1.0.8](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.8) - 10.02.2020
 
 ### fixed
