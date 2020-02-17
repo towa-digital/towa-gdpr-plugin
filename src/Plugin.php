@@ -68,7 +68,6 @@ class Plugin
     public function run(): void
     {
         add_action('activate_towa-gdpr-plugin.php', [$this, 'activatePlugin']);
-        add_filter('acf/format_value/key=towa_gdpr_settings_no_cookie_pages', [$this, 'formatAcfNoCookiePages'], 10, 3);
         add_action('acf/save_post', [$this, 'saveOptionsHook'], 20);
         add_action('acf/init', [$this, 'init']);
         add_action('acf/input/admin_head', [$this, 'registerCustomMetaBox'], 10);
@@ -302,25 +301,14 @@ class Plugin
     }
 
     /**
-     * Add Meta Tag to Sites which are non-cookie Sites
+     * Add Meta Tag To No Cookie Site
      */
-    public function addMetaTagNoCookieSite()
+    public function addMetaTagNoCookieSite(): void
     {
         global $post;
-        $data = self::getData();
-        if (is_array($data['no_cookie_pages']) && in_array($post->ID, $data['no_cookie_pages'])) {
+        $cookie_pages = get_field('towa_gdpr_settings_no_cookie_pages', 'options', false);
+        if (is_array($cookie_pages) && in_array($post->ID, $cookie_pages)) {
             echo '<meta name="towa-gdpr-no-cookies" content="true"/>';
         }
-    }
-
-    /**
-     * format Acf no Cookie Pages to prevent potential overwrite
-     */
-    public function formatAcfNoCookiePages($value)
-    {
-        if (is_array($value) && is_object($value[0])) {
-            $value = collect($value)->pluck('ID')->toArray();
-        }
-        return $value;
     }
 }
