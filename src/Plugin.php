@@ -60,7 +60,6 @@ class Plugin
 	 */
 	public function run(): void
 	{
-		add_filter('acf/format_value/key=towa_gdpr_settings_no_cookie_pages', [$this, 'formatAcfNoCookiePages'], 10, 3);
 		add_action('acf/save_post', array($this, 'save_options_hook'), 20);
 		add_action('acf/init', array($this, 'init'));
 		add_action('acf/input/admin_head', array($this, 'register_custom_meta_box'), 10);
@@ -263,25 +262,15 @@ class Plugin
 		return is_array($data) ? $data : [];;
 	}
 
-	public function addMetaTagNoCookieSite()
+	/**
+	 * add Meta Tag To No Cookie Site
+	 */
+	public function addMetaTagNoCookieSite(): void
 	{
 		global $post;
-		$data = self::get_data();
-		if (is_array($data['no_cookie_pages']) && in_array($post->ID, $data['no_cookie_pages'])) {
-			?>
-			<meta name="towa-gdpr-no-cookies" content="true"/>
-			<?php
+		$cookie_pages = get_field('towa_gdpr_settings_no_cookie_pages','options',false);
+		if (is_array($cookie_pages) && in_array($post->ID, $cookie_pages)) {
+			echo '<meta name="towa-gdpr-no-cookies" content="true"/>';
 		}
-	}
-
-	/**
-	 * format Acf no Cookie Pages to prevent potential overwrite
-	 */
-	public function formatAcfNoCookiePages($value)
-	{
-		if (is_array($value) && is_object($value[0])) {
-			$value = collect($value)->pluck('ID')->toArray();
-		}
-		return $value;
 	}
 }
