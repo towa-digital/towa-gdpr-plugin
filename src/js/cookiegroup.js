@@ -1,5 +1,6 @@
 import Cookie from './cookie'
 import Observable from './observable'
+
 export default class CookieGroup {
   constructor (group, root) {
     const domEl = root.querySelector(`[data-groupname="${group.title}"]`)
@@ -14,14 +15,14 @@ export default class CookieGroup {
       li: domEl.closest('li')
     }
     this.toggleGroupClickedEvent = new CustomEvent('toggleGroupClicked', { detail: { id: this.state.id } })
-    this.getCookies(group, root)
+    this.getCookies(group)
     this.init()
   }
 
-  getCookies (group, root) {
+  getCookies (group) {
     if (group.cookies instanceof Object) {
       this.state.cookies = group.cookies.map(cookie => {
-        return new Cookie(cookie, root)
+        return new Cookie(cookie, this.ref.root)
       })
     }
   }
@@ -29,7 +30,7 @@ export default class CookieGroup {
   init () {
     this.state.active = this.isGroupActive()
     this.defineObservables()
-    this.setUpListeners()
+    this.setListeners()
     this.render()
   }
 
@@ -52,7 +53,7 @@ export default class CookieGroup {
     })
   }
 
-  setUpListeners () {
+  setListeners () {
     this.ref.domEl.addEventListener('render', () => {
       this.render()
     })
@@ -82,6 +83,12 @@ export default class CookieGroup {
   saveWholeGroup () {
     this.state.cookies.forEach((cookie) => {
       cookie.save()
+    })
+  }
+
+  getCookiesForLog () {
+    return this.state.cookies.map(cookie => {
+      return cookie.getCookieForLog()
     })
   }
 }

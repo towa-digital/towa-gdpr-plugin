@@ -1,9 +1,11 @@
 import './polyfills'
+import axios from 'axios'
 import Cookies from 'js-cookie'
 import CookieGroup from './cookiegroup'
 import Observable from './observable'
 import { convertHexColorToRgbString, setCssClass, deleteAllCookies } from './helpers'
 import EssentialCookieGroup from './cookiegroupEssential'
+
 class TowaGdprPlugin {
   constructor () {
     this.refs = {
@@ -11,9 +13,10 @@ class TowaGdprPlugin {
       root: document.getElementById('Towa-Gdpr-Plugin'),
       myScriptContainer: document.getElementById('TowaGdprScripts')
     }
+    // eslint-disable-next-line no-undef
     this.context = towaGdprContext
     this.state = {
-      accepted: this.UserhasGdprAccepted()
+      accepted: this.isGdprAccepted()
     }
     if (this.context.settings.cookie_groups instanceof Object) {
       this.state.cookieGroups = this.context.settings.cookie_groups.map((group, index) => {
@@ -27,16 +30,18 @@ class TowaGdprPlugin {
     this.init()
   }
 
-  UserhasGdprAccepted () {
-    return (Cookies.get('GdprAccepted') === 'true')
+  isGdprAccepted () {
+    return (Cookies.get('GdprAccepted') === this.context.settings.hash)
   }
 
   init () {
     this.applySettings()
     this.defineObservables()
-    this.setUpListeners()
-    this.render()
-    this.renderScripts()
+    this.setListeners()
+    if (!this.isNoCookiePage()) {
+      this.render()
+      this.renderScripts()
+    }
   }
 
   defineObservables () {
@@ -81,8 +86,12 @@ class TowaGdprPlugin {
 
   accept () {
     this.state.accepted.value = true
-    Cookies.set('GdprAccepted', true, this.context.settings.cookieTime)
+    Cookies.set('GdprAccepted', this.context.settings.hash, {
+      expires: parseInt(this.context.settings.cookieTime),
+      sameSite: 'lax'
+    })
     this.renderScripts()
+    this.saveConsent()
   }
 
   save () {
@@ -90,6 +99,23 @@ class TowaGdprPlugin {
       group.saveWholeGroup()
     })
     this.accept()
+  }
+
+  saveConsent () {
+    const cookies = this.state.cookieGroups.flatMap((group) => {
+      return group.getCookiesForLog()
+    })
+    axios({
+      method: 'post',
+      url: this.context.settings.consent_url,
+      data: {
+        url: window.location.href,
+        hash: this.context.settings.hash,
+        config: cookies
+      }
+    }).catch((error) => {
+      return error
+    })
   }
 
   declineAll () {
@@ -100,7 +126,7 @@ class TowaGdprPlugin {
     this.accept()
   }
 
-  setUpListeners () {
+  setListeners () {
     this.refs.root.querySelector('.Towa-Gdpr-Plugin__save').addEventListener('click', () => {
       this.save()
     })
@@ -116,6 +142,11 @@ class TowaGdprPlugin {
       })
     })
   }
+
+  isNoCookiePage () {
+    return (document.querySelector('meta[name="towa-gdpr-no-cookies"]') !== null)
+  }
 }
+
 // eslint-disable-next-line
 const towagdpr = new TowaGdprPlugin()

@@ -20,6 +20,9 @@
 		"cedaro/wp-plugin": "^0.4",
 		"composer/installers": "^1",
 		"illuminate/support": "^6",
+		"league/csv": "^9.5",
+		"league/flysystem": "^1.0",
+		"symfony/http-foundation": "^5.0",
 		"towa/towa-acf-fields": "^1.1",
 		"twig/twig": "^2"
 	},
@@ -28,7 +31,8 @@
 		"brain/monkey": "^2.2",
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
 		"infection/infection": "^0.14",
-		"phpcompatibility/phpcompatibility-wp": "^2",
+		"paulthewalton/acf-pro-stubs": "^5.8",
+		"php-stubs/wordpress-stubs": "^5.3",
 		"phpstan/phpstan": "^0.11",
 		"phpunit/phpunit": "^8",
 		"roave/security-advisories": "dev-master",
@@ -54,25 +58,24 @@
 	"prefer-stable": true,
 	"scripts": {
 		"install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
-		"integration": "./vendor/bin/phpunit --testsuite integration",
+		"integration": "phpunit --testsuite integration",
 		"lint": [
 			"bin/php-lint",
 			"bin/xml-lint"
 		],
-		"phpcbf": "phpcbf && phpcbf ./towa-gdpr-plugin.php -sp --standard=PHPCompatibility --runtime-set testVersion 7.2",
-		"phpcs": "phpcs && phpcs ./towa-gdpr-plugin.php -sp --standard=PHPCompatibility --runtime-set testVersion 7.2",
+		"phpcbf": "phpcbf && phpcbf ./towa-gdpr-plugin.php -sp --standard=.phpcs.xml.dist --runtime-set testVersion 7.2 --config-show",
+		"phpcs": "phpcs && phpcs ./towa-gdpr-plugin.php -sp --standard=.phpcs.xml.dist --runtime-set testVersion 7.2",
 		"test": [
 			"@lint",
 			"@unit",
 			"@phpcs"
 		],
 		"test-full": [
-			"@lint",
 			"@unit",
 			"@infection",
 			"@integration",
 			"@phpcs"
 		],
-		"unit": "./vendor/bin/phpunit --testsuite unit"
+		"unit": "phpunit --testsuite unit"
 	}
 }

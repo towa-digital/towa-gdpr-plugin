@@ -1,8 +1,8 @@
 <?php
+
 /**
- * Main plugin file
+ * Main plugin file.
  *
- * @package      Towa\GdprPlugin
  * @author       Martin Welte
  * @copyright    2019 Towa
  * @license      GPL-2.0+
@@ -16,171 +16,299 @@ use BrightNucleus\Config\ConfigInterface;
 use BrightNucleus\Config\ConfigTrait;
 use BrightNucleus\Config\Exception\FailedToProcessConfigException;
 use BrightNucleus\Dependency\DependencyManager;
+use Towa\GdprPlugin\Acf\AcfCookies;
+use Towa\GdprPlugin\Acf\AcfSettings;
+use Towa\GdprPlugin\Rest\Rest;
+
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 
 /**
  * Main plugin class.
  *
- * @package Towa\GdprPlugin
- * @author  Martin Welte
+ * @author  Martin Welte <martin.welte@towa.at>
  */
-class Plugin {
+class Plugin
+{
+    use ConfigTrait;
 
+    /**
+     * Static instance of the plugin.
+     *
+     * @var self
+     */
+    protected static $instance;
 
-	use ConfigTrait;
+    /**
+     * Transient used for settings key.
+     *
+     * @var string
+     */
+    private const TRANSIENT_KEY = __CLASS__ . '_settings';
 
-	/**
-	 * Static instance of the plugin.
-	 *
-	 * @var self
-	 */
-	protected static $instance;
+    /**
+     * Instantiate a Plugin object.
+     *
+     * Don't call the constructor directly, use the `Plugin::get_instance()`
+     * static method instead.
+     *
+     * @param ConfigInterface $config config to parametrize the object
+     *
+     * @throws FailedToProcessConfigException if the Config could not be parsed correctly
+     */
+    public function __construct(ConfigInterface $config)
+    {
+        $this->processConfig($config);
+    }
 
-	/**
-	 * Transient used for settings key
-	 *
-	 * @var string
-	 */
-	private const TRANSIENT_KEY = __CLASS__ . '_settings';
+    /**
+     * Launch the initialization process.
+     */
+    public function run(): void
+    {
+        add_action('activate_towa-gdpr-plugin.php', [$this, 'activatePlugin']);
+        add_action('acf/save_post', [$this, 'saveOptionsHook'], 20);
+        add_action('acf/init', [$this, 'init']);
+        add_action('acf/input/admin_head', [$this, 'registerCustomMetaBox'], 10);
+        add_action('rest_api_init', [$this, 'initRest']);
+        add_action('wp_head', [$this, 'addMetaTagNoCookieSite']);
+    }
 
-	/**
-	 * Instantiate a Plugin object.
-	 *
-	 * Don't call the constructor directly, use the `Plugin::get_instance()`
-	 * static method instead.
-	 *
-	 * @throws FailedToProcessConfigException If the Config could not be parsed correctly.
-	 *
-	 * @param ConfigInterface $config Config to parametrize the object.
-	 */
-	public function __construct( ConfigInterface $config ) {
-		$this->processConfig( $config );
-	}
+    /**
+     * Initial load of the plugin.
+     */
+    public function init(): void
+    {
+        $this->loadTextdomain();
+        $this->registerMenupages();
+        $this->loadDependencies();
+        if (!\is_admin() && function_exists('get_fields')) {
+            \add_action('wp_footer', [$this, 'loadFooter']);
+        }
+        $this->activatePlugin();
+    }
 
-	/**
-	 * Launch the initialization process.
-	 */
-	public function run(): void {
-		add_action( 'acf/save_post', array( $this, 'save_options_hook' ), 20 );
-		\add_action( 'plugins_loaded', array( $this, 'init' ) );
-	}
+    /**
+     * Initialize Rest
+     */
+    public function initRest(): void
+    {
+        (new Rest())->registerRestEndpoints();
+    }
 
-	/**
-	 * Initial load of the plugin
-	 */
-	public function init(): void {
-		$this->load_textdomain();
-		$this->register_menupages();
-		$this->load_dependencies();
-		if ( ! is_admin() && function_exists( 'get_fields' ) ) {
-			\add_action( 'wp_footer', array( $this, 'render_footer' ) );
-		}
-	}
+    /**
+     * Activate Plugin Hook:
+     * - Updates Table Structures
+     */
+    public function activatePlugin(): void
+    {
+        SettingsTableAdapter::updateTableStructure();
+    }
 
-	/**
-	 * Add Plugin to the Footer of Frontend
-	 *
-	 * @throws \Twig\Error\LoaderError LoaderError.
-	 * @throws \Twig\Error\RuntimeError RuntimeError.
-	 * @throws \Twig\Error\SyntaxError Syntaxerror.
-	 */
-	public function render_footer(): void {
-		$loader = new \Twig\Loader\FilesystemLoader( TOWA_GDPR_PLUGIN_DIR . '/views/' );
-		$twig   = new \Twig\Environment( $loader );
+    /**
+     * Uninstall Plugin Hook
+     * - drops Table created by Settings Table Adapter
+     */
+    public static function uninstallPlugin(): void
+    {
+        SettingsTableAdapter::destroyTable();
+    }
 
-		$transient = get_transient( self::TRANSIENT_KEY );
+    /**
+     * Add Plugin to the Footer of Frontend.
+     *
+     * @throws \Twig\Error\LoaderError  loaderError
+     * @throws \Twig\Error\RuntimeError runtimeError
+     * @throws \Twig\Error\SyntaxError  syntaxerror
+     */
+    public function loadFooter(): void
+    {
+        $loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR . '/views/');
+        $twig = new \Twig\Environment($loader);
+        $function = new \Twig\TwigFunction(
+            '__',
+            function (string $string, string $textdomain = 'towa-gdpr-plugin') {
+                return __($string, $textdomain); //phpcs:ignore
+            }
+        );
 
-		if ( ! empty( $transient ) ) {
-			$data = $transient;
-		} else {
-			$data = get_fields( 'options' );
-			set_transient( self::TRANSIENT_KEY, $data, MONTH_IN_SECONDS );
-		}
+        $twig->addFunction($function);
 
-		$function = new \Twig\TwigFunction(
-			'__',
-			function ( string $string, string $textdomain = 'towa-gdpr-plugin' ) {
-				return __( $string, $textdomain ); //phpcs:ignore
-			}
-		);
+        $data = self::getData();
 
-		$twig->addFunction( $function );
-		$template = $twig->load( 'cookie-notice.twig' );
-		echo $template->render( $data ); // phpcs:ignore
-	}
+        $template = $twig->load('cookie-notice.twig');
+        echo $template->render($data); // phpcs:ignore
+    }
 
-	/**
-	 * Register all menu pages from Configuration file & register ACF Fields
-	 */
-	private function register_menupages():void {
-		if ( ! function_exists( 'acf_add_options_page' ) ) {
-			\add_action( 'admin_notices', array( $this, 'my_acf_notice' ) );
-		} else {
-			collect( $this->config->getSubConfig( 'Settings.submenu_pages' )->getAll() )->map(
-				function ( $menupage ) {
-					[   //phpcs:ignore
-						'page_title' => $page_title,
-						'menu_title' => $menu_title,
-						'menu_slug'  => $menu_slug,
-						'capability' => $capability,
-						'redirect'   => $redirect,
-					] = $menupage; //phpcs:ignore
+    /**
+     * Register all menu pages from Configuration file & register ACF Fields.
+     */
+    private function registerMenupages(): void
+    {
+        if (!function_exists('acf_add_options_page')) {
+            \add_action('admin_notices', [$this, 'myAcfNotice']);
+        } else {
+            collect($this->config->getSubConfig('Settings.submenu_pages')->getAll())->map(
+                function ($menupage) {
+                    [   //phpcs:ignore
+                        'page_title' => $page_title,
+                        'menu_title' => $menu_title,
+                        'menu_slug' => $menu_slug,
+                        'capability' => $capability,
+                        'redirect' => $redirect,
+                    ] = $menupage; //phpcs:ignore
 
-					\acf_add_options_page(
-						array(
-							'page_title' => $page_title,
-							'menu_title' => $menu_title,
-							'menu_slug'  => $menu_slug,
-							'capability' => $capability,
-							'redirect'   => $redirect,
-						)
-					);
+                    \acf_add_options_page(
+                        [
+                            'page_title' => $page_title,
+                            'menu_title' => $menu_title,
+                            'menu_slug' => $menu_slug,
+                            'capability' => $capability,
+                            'redirect' => $redirect,
+                        ]
+                    );
 
-					( new AcfSettings() )->register( $menu_slug );
-					( new AcfCookies() )->register( $menu_slug );
-				}
-			);
-		}
-	}
+                    (new AcfSettings())->register($menu_slug);
+                    (new AcfCookies())->register($menu_slug);
+                }
+            );
+        }
+    }
 
-	/**
-	 * Load dependencies automatically from config file
-	 */
-	private function load_dependencies(): void {
-		$dependencies = new DependencyManager( $this->config->getSubConfig( 'Settings.submenu_pages.0.dependencies' ) );
-		add_action( 'init', array( $dependencies, 'register' ) );
-	}
+    /**
+     * Load dependencies automatically from config file.
+     */
+    private function loadDependencies(): void
+    {
+        $dependencies = new DependencyManager($this->config->getSubConfig('Settings.submenu_pages.0.dependencies'));
+        add_action('init', [$dependencies, 'register']);
+        if (\get_field('tagmanager', 'option')) {
+            $tagmanagerDependencies = new DependencyManager($this->config->getSubConfig('Settings.tagmanager.dependencies'));
+            add_action('init', [$tagmanagerDependencies, 'register']);
+        }
+    }
 
-	/**
-	 * Adds notice to WordPress Backend if Acf is not active
-	 */
-	public function my_acf_notice(): void {
-		?>
-			<div class="error">
-					<p><?php _e( '<b>Towa GDPR Plugin:</b> Please install and activate ACF Pro', $this->config->getKey( 'Plugin.textdomain' ) ); // phpcs:ignore ?>
-			</div>
-		<?php
-	}
+    /**
+     * Adds notice to WordPress Backend if Acf is not active.
+     */
+    public function myAcfNotice(): void
+    {
+        ?>
+        <div class="error">
+            <p>
+                <?php
+                \_e('<b>Towa GDPR Plugin:</b> Please install and activate ACF Pro', $this->config->getKey('Plugin.textdomain')); // phpcs:ignores
+                ?>
+            </p>
+        </div>
+        <?php
+    }
 
-	/**
-	 * Load the plugin text domain.
-	 */
-	private function load_textdomain(): void {
-		$text_domain   = $this->config->getKey( 'Plugin.textdomain' );
-		$languages_dir = 'languages';
-		if ( $this->config->hasKey( 'Plugin/languages_dir' ) ) {
-			$languages_dir = $this->config->getKey( 'Plugin.languages_dir' );
-		}
+    /**
+     * Load the plugin text domain.
+     */
+    private function loadTextdomain(): void
+    {
+        $text_domain = $this->config->getKey('Plugin.textdomain');
+        $languages_dir = 'languages';
+        if ($this->config->hasKey('Plugin/languages_dir')) {
+            $languages_dir = $this->config->getKey('Plugin.languages_dir');
+        }
 
-		\load_plugin_textdomain( $text_domain, false, $text_domain . '/' . $languages_dir );
-	}
+        \load_plugin_textdomain($text_domain, false, $text_domain . '/' . $languages_dir);
+    }
 
-	/**
-	 * Hook to be run on save
-	 */
-	public function save_options_hook(): void {
-			$screen = get_current_screen();
-		if ( strpos( $screen->id, 'towa-gdpr-plugin' ) !== false ) {
-			delete_transient( self::TRANSIENT_KEY );
-		}
-	}
+    /**
+     * Hook to be run on save.
+     */
+    public function saveOptionsHook(): void
+    {
+        $screen = \get_current_screen();
+        if (false !== strpos($screen->id, 'towa-gdpr-plugin')) {
+            if (!isset($_POST['acf']['towa_gdpr_settings_hash']) || '' === $_POST['acf']['towa_gdpr_settings_hash'] || isset($_POST['save_and_hash'])) {
+                \update_field('towa_gdpr_settings_hash', (new Hash())->getHash(), 'option');
+            }
+            \delete_transient(self::TRANSIENT_KEY . get_locale());
+        }
+        (new SettingsTableAdapter())->save();
+    }
+
+    /**
+     * Register custom meta box for hash regeneration.
+     */
+    public function registerCustomMetaBox(): void
+    {
+        $screen = \get_current_screen();
+
+        if (false !== strpos($screen->id, 'towa-gdpr-plugin')) {
+            \add_meta_box(
+                'towa-gdpr-plugin-meta',
+                __(
+                    'publish & force new consent',
+                    'towa-gdpr-plugin'
+                ),
+                [$this, 'displayAcfMetabox'],
+                'acf_options_page',
+                'side'
+            );
+        }
+    }
+
+    /**
+     * Display additional meta box for hash regeneration.
+     */
+    public function displayAcfMetabox(): void
+    {
+        $loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR . '/views/');
+        $twig = new \Twig\Environment($loader);
+        $function = new \Twig\TwigFunction(
+            '__',
+            function (string $string, string $textdomain = 'towa-gdpr-plugin') {
+                return __($string, $textdomain); //phpcs:ignore
+            }
+        );
+
+        $twig->addFunction($function);
+
+        $template = $twig->load('meta-box.twig');
+        echo $template->render(); // phpcs:ignore
+    }
+
+    /**
+     * Return Settings.
+     */
+    public static function getData(): array
+    {
+        $data = \get_transient(self::TRANSIENT_KEY . get_locale());
+        if (!$data) {
+            $data = \get_fields('options');
+            // transient valid for one month
+            \set_transient(self::TRANSIENT_KEY . get_locale(), $data, 60 * 60 * 24 * 30);
+        }
+        // modify data to have uniform groups reason: acf doesn't work if they are named the same way
+        if (isset($data['essential_group'])) {
+            $data['essential_group'] = [
+                'title' => $data['essential_group']['essential_title'],
+                'group_description' => $data['essential_group']['essential_group_description'],
+                'cookies' => $data['essential_group']['essential_cookies'],
+            ];
+        }
+
+        $data['consent_url'] = get_rest_url(null, Rest::TOWA_GDPR_REST_NAMESPACE . Rest::CONSENT_ENDPOINT);
+
+        return $data;
+    }
+
+    /**
+     * Add Meta Tag To No Cookie Site
+     */
+    public function addMetaTagNoCookieSite(): void
+    {
+        global $post;
+        $cookie_pages = get_field('towa_gdpr_settings_no_cookie_pages', 'options', false);
+        if (is_array($cookie_pages) && in_array($post->ID, $cookie_pages)) {
+            echo '<meta name="towa-gdpr-no-cookies" content="true"/>';
+        }
+    }
 }
