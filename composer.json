@@ -1,5 +1,5 @@
 {
-	"name": "towa/towa-gdpr-plugin",
+	"name": "vak/towa-gdpr-plugin",
 	"type": "wordpress-plugin",
 	"description": "Towa Gdpr Plugin for a gdpr compatible cookie notice",
 	"keywords": [
@@ -15,6 +15,7 @@
 	],
 	"require": {
 		"php": "^7.2",
+		"ext-sockets": "*",
 		"brightnucleus/config": "^0.4",
 		"brightnucleus/dependencies": "^0.3.2",
 		"cedaro/wp-plugin": "^0.4",

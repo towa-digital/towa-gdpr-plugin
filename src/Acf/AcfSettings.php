@@ -12,6 +12,7 @@ namespace Towa\GdprPlugin\Acf;
 use Towa\Acf\Fields\ColorPicker;
 use Towa\Acf\Fields\Number;
 use Towa\Acf\Fields\Relation;
+use Towa\Acf\Fields\Repeater;
 use Towa\Acf\Fields\Tab;
 use Towa\Acf\Fields\Text;
 use Towa\Acf\Fields\Wysiwyg;
@@ -79,6 +80,15 @@ class AcfSettings implements AcfGroupInterface
                     'instructions' => __('this will add the tagmanager installation script to the header of the page (be aware that it will not support the noscript iframe)', 'towa-gdpr-plugin'),
                 ]
             ),
+            (new Repeater($this->name, 'internal', __('Don\'t Track following IPs', 'towa-gdpr-plugin')))->build([
+                'instructions' => 'IP4, IP6 or CDIR subnet (eg 172.17.0.0/17 or 2001:0DB8:0:CD30::1/60)',
+                'required' => false,
+                'sub_fields' => [
+                    (new Text($this->name, 'ip', __('IP', 'towa-gdpr-plugin')))->build([
+                        'required' => true,
+                    ])
+                ]
+            ]),
             (new Wysiwyg($this->name, 'cookie_wysiwyg', __('Cookie Notice general Information', 'towa-gdpr-plugin')))->build(),
             (new Text($this->name, 'accept_label', __('accept all Cookies text', 'towa-gdpr-plugin')))->build(
                 [

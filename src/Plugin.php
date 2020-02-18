@@ -16,6 +16,7 @@ use BrightNucleus\Config\ConfigInterface;
 use BrightNucleus\Config\ConfigTrait;
 use BrightNucleus\Config\Exception\FailedToProcessConfigException;
 use BrightNucleus\Dependency\DependencyManager;
+use Symfony\Component\HttpFoundation\IpUtils;
 use Towa\GdprPlugin\Acf\AcfCookies;
 use Towa\GdprPlugin\Acf\AcfSettings;
 use Towa\GdprPlugin\Rest\Rest;
@@ -73,6 +74,7 @@ class Plugin
         add_action('acf/input/admin_head', [$this, 'registerCustomMetaBox'], 10);
         add_action('rest_api_init', [$this, 'initRest']);
         add_action('wp_head', [$this, 'addMetaTagNoCookieSite']);
+        add_action('acf/validate_value/key=towa_gdpr_settings_ip', [$this, 'validateIp'], 10, 2);
     }
 
     /**
@@ -230,6 +232,13 @@ class Plugin
                 \update_field('towa_gdpr_settings_hash', (new Hash())->getHash(), 'option');
             }
             \delete_transient(self::TRANSIENT_KEY . get_locale());
+
+            $ips = [];
+            if (isset($_POST['acf']['towa_gdpr_settings_internal']) && $internalIps = $_POST['acf']['towa_gdpr_settings_internal']) {
+                foreach ($internalIps as $ip) {
+                    $ips[] = trim($ip['towa_gdpr_settings_ip']);
+                }
+            }
         }
         (new SettingsTableAdapter())->save();
     }
@@ -310,5 +319,28 @@ class Plugin
         if (is_array($cookie_pages) && in_array($post->ID, $cookie_pages)) {
             echo '<meta name="towa-gdpr-no-cookies" content="true"/>';
         }
+    }
+
+    public function validateIp($valid, $value) {
+        if ($valid) {
+            $address = $value;
+            $netmask = null;
+
+            if (false !== strpos($address, '/')) {
+                list($address, $netmask) = explode('/', $address, 2);
+            }
+
+            if (false !== strpos($address, ':')) {
+                if ($netmask && ($netmask < 1 || $netmask > 128)) {
+                    return false;
+                }
+            } elseif ($netmask && ($netmask < 0 || $netmask > 32)) {
+                return false;
+            }
+
+            return filter_var($address, FILTER_VALIDATE_IP);
+        }
+
+        return $valid;
     }
 }
