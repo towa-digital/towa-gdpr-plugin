@@ -1,5 +1,5 @@
 {
-	"name": "vak/towa-gdpr-plugin",
+	"name": "towa/towa-gdpr-plugin",
 	"type": "wordpress-plugin",
 	"description": "Towa Gdpr Plugin for a gdpr compatible cookie notice",
 	"keywords": [
