@@ -80,11 +80,11 @@ class AcfSettings implements AcfGroupInterface
                     'instructions' => __('this will add the tagmanager installation script to the header of the page (be aware that it will not support the noscript iframe)', 'towa-gdpr-plugin'),
                 ]
             ),
-            (new Repeater($this->name, 'internal', __('Don\'t Track following IPs', 'towa-gdpr-plugin')))->build([
+            (new Repeater($this->name, 'towa_gdpr_internal', __('Don\'t Track following IPs', 'towa-gdpr-plugin')))->build([
                 'instructions' => 'IP4, IP6 or CDIR subnet (eg 172.17.0.0/17 or 2001:0DB8:0:CD30::1/60)',
                 'required' => false,
                 'sub_fields' => [
-                    (new Text($this->name, 'ip', __('IP', 'towa-gdpr-plugin')))->build([
+                    (new Text($this->name, 'towa_gdpr_ip', __('IP', 'towa-gdpr-plugin')))->build([
                         'required' => true,
                     ])
                 ]

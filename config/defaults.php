@@ -33,7 +33,7 @@ $towa_gdpr_plugin_settings = [
                         'handle' => 'towa-gdpr-plugin-css',
                         'src' => TOWA_GDPR_PLUGIN_URL . 'dist/css/main.css',
                         'deps' => '',
-                        'ver' => '1.0.10',
+                        'ver' => TOWA_GDPR_PLUGIN_VERSION,
                         'media' => 'all',
                     ],
                 ],
@@ -41,7 +41,7 @@ $towa_gdpr_plugin_settings = [
                     [
                         'handle' => 'towa-gdpr-plugin-js',
                         'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/main.js',
-                        'ver' => '1.0.10',
+                        'ver' => TOWA_GDPR_PLUGIN_VERSION,
                         'in_footer' => true,
                         'localize' => [
                             'name' => 'towaGdprContext',
@@ -68,7 +68,7 @@ $towa_gdpr_plugin_settings = [
                 [
                     'handle' => 'towa-gdpr-plugin-tagmanager',
                     'src' => TOWA_GDPR_PLUGIN_URL . 'dist/js/tagmanager.js',
-                    'ver' => '1.0.10',
+                    'ver' => TOWA_GDPR_PLUGIN_VERSION,
                     'in_footer' => false,
                     'localize' => [
                         'name' => 'towaTagmanager ',
@@ -88,6 +88,19 @@ $towa_gdpr_plugin_settings = [
     ],
     'settings' => [],
 ];
+
+if (file_exists(Plugin::getJsonFileName())) {
+    $scripts = $towa_gdpr_plugin_settings['submenu_pages'][0]['dependencies']['scripts'];
+
+    array_unshift($scripts, [
+        'handle' => 'towa-gdpr-plugin-checkip-js',
+        'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/checkTrafficType.js',
+        'ver' => TOWA_GDPR_PLUGIN_VERSION,
+        'in_footer' => true,
+    ]);
+
+    $towa_gdpr_plugin_settings['submenu_pages'][0]['dependencies']['scripts'] = $scripts;
+}
 
 $towa_gdpr_backup_settings = [
     'types' => [
