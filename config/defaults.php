@@ -27,52 +27,57 @@ $towa_gdpr_plugin_settings = [
             'menu_slug' => 'towa-gdpr-plugin',
             'view' => TOWA_GDPR_PLUGIN_DIR . 'views/admin-page.twig',
             'redirect' => false,
-            'dependencies' => [
-                'styles' => [
-                    [
-                        'handle' => 'towa-gdpr-plugin-css',
-                        'src' => TOWA_GDPR_PLUGIN_URL . 'dist/css/main.css',
-                        'deps' => '',
-                        'ver' => TOWA_GDPR_PLUGIN_VERSION,
-                        'media' => 'all',
-                    ],
-                ],
-                'scripts' => [
-                    [
-                        'handle' => 'towa-gdpr-plugin-js',
-                        'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/main.js',
-                        'ver' => TOWA_GDPR_PLUGIN_VERSION,
-                        'in_footer' => true,
-                        'localize' => [
-                            'name' => 'towaGdprContext',
-							// phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- Mixed type
-                            'data' => function ($context): array {
-                                return [
-                                    'context' => $context,
-                                    'settings' => function_exists('get_fields') ? Plugin::getData() : [],
-                                ];
-                            },
-                        ],
-                    ],
-                ],
-                'handlers' => [
-                    'scripts' => 'BrightNucleus\Dependency\ScriptHandler',
-                    'styles' => 'BrightNucleus\Dependency\StyleHandler',
-                ],
-            ],
         ],
     ],
-    'tagmanager' => [
+    'settings' => [],
+    'frontend' => [
         'dependencies' => [
+            'styles' => [
+                [
+                    'handle' => 'towa-gdpr-plugin-css',
+                    'src' => TOWA_GDPR_PLUGIN_URL . 'dist/css/main.css',
+                    'deps' => '',
+                    'ver' => TOWA_GDPR_PLUGIN_VERSION,
+                    'media' => 'all',
+                ],
+            ],
             'scripts' => [
+                [
+                    'handle' => 'towa-gdpr-plugin-js',
+                    'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/main.js',
+                    'ver' => TOWA_GDPR_PLUGIN_VERSION,
+                    'in_footer' => true,
+                    'localize' => [
+                        'name' => 'towaGdprContext',
+                        // phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- Mixed type
+                        'data' => function ($context): array {
+                            return [
+                                'context' => $context,
+                                'settings' => function_exists('get_fields') ? Plugin::getData() : [],
+                            ];
+                        },
+                    ],
+                ],
+                [
+                    'handle' => 'towa-gdpr-plugin-checkip-js',
+                    'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/checkTrafficType.js',
+                    'ver' => TOWA_GDPR_PLUGIN_VERSION,
+                    'in_footer' => false,
+                    'is_needed' => function ($context) {
+                        return file_exists(Plugin::getJsonFileName());
+                    }
+                ],
                 [
                     'handle' => 'towa-gdpr-plugin-tagmanager',
                     'src' => TOWA_GDPR_PLUGIN_URL . 'dist/js/tagmanager.js',
                     'ver' => TOWA_GDPR_PLUGIN_VERSION,
                     'in_footer' => false,
+                    'is_needed' => function ($context) {
+                        return (bool) get_field('tagmanager', 'option');
+                    },
                     'localize' => [
                         'name' => 'towaTagmanager ',
-						// phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- Mixed type
+                        // phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- Mixed type
                         'data' => function ($context): array {
                             return [
                                 'id' => get_field('tagmanager', 'option'),
@@ -83,24 +88,11 @@ $towa_gdpr_plugin_settings = [
             ],
             'handlers' => [
                 'scripts' => 'BrightNucleus\Dependency\ScriptHandler',
+                'styles' => 'BrightNucleus\Dependency\StyleHandler',
             ],
         ],
-    ],
-    'settings' => [],
+    ]
 ];
-
-if (file_exists(Plugin::getJsonFileName())) {
-    $scripts = $towa_gdpr_plugin_settings['submenu_pages'][0]['dependencies']['scripts'];
-
-    array_unshift($scripts, [
-        'handle' => 'towa-gdpr-plugin-checkip-js',
-        'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/checkTrafficType.js',
-        'ver' => TOWA_GDPR_PLUGIN_VERSION,
-        'in_footer' => false,
-    ]);
-
-    $towa_gdpr_plugin_settings['submenu_pages'][0]['dependencies']['scripts'] = $scripts;
-}
 
 $towa_gdpr_backup_settings = [
     'types' => [

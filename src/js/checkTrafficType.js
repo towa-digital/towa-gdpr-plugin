@@ -8,11 +8,13 @@
   xhr.open('GET', '/towa/gdpr/checkip', true)
   xhr.onload = function (e) {
     if (xhr.readyState === 4) {
+      let trafficType = 'error'
+
       if (xhr.status === 200) {
         const data = JSON.parse(xhr.responseText)
         const tag = d.createElement('meta')
         tag.setAttribute('name', 'traffic-type')
-        const trafficType = data.internal ? 'internal' : 'external'
+        trafficType = data.internal ? 'internal' : 'external'
         tag.setAttribute('content', trafficType)
 
         const metaElement = document.getElementsByTagName('head')[0]
@@ -22,10 +24,23 @@
       } else {
         w.dataLayer.push({ event: 'trafficTypeLoaded' })
       }
+
+      const event = new CustomEvent('towa-gdpr-ipcheck-finished', {
+        detail: {
+          trafficType: trafficType
+        }
+      })
+      w.dispatchEvent(event)
     }
   }
   xhr.onerror = function (e) {
     w.dataLayer.push({ event: 'trafficTypeLoaded' })
+    const event = new CustomEvent('towa-gdpr-ipcheck-finished', {
+      detail: {
+        trafficType: 'error'
+      }
+    })
+    w.dispatchEvent(event)
   }
   xhr.send(null);
 })(document, window)

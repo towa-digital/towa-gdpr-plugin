@@ -189,11 +189,9 @@ class Plugin
      */
     private function loadDependencies(): void
     {
-        $dependencies = new DependencyManager($this->config->getSubConfig('Settings.submenu_pages.0.dependencies'));
-        add_action('init', [$dependencies, 'register']);
-        if (\get_field('tagmanager', 'option')) {
-            $tagmanagerDependencies = new DependencyManager($this->config->getSubConfig('Settings.tagmanager.dependencies'));
-            add_action('init', [$tagmanagerDependencies, 'register']);
+        if (!\is_admin()) {
+            $dependencies = new DependencyManager($this->config->getSubConfig('Settings.frontend.dependencies'));
+            add_action('init', [$dependencies, 'register']);
         }
     }
 
