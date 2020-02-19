@@ -96,7 +96,7 @@ if (file_exists(Plugin::getJsonFileName())) {
         'handle' => 'towa-gdpr-plugin-checkip-js',
         'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/checkTrafficType.js',
         'ver' => TOWA_GDPR_PLUGIN_VERSION,
-        'in_footer' => true,
+        'in_footer' => false,
     ]);
 
     $towa_gdpr_plugin_settings['submenu_pages'][0]['dependencies']['scripts'] = $scripts;

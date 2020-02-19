@@ -1,4 +1,9 @@
-(function (d) {
+(function (d, w) {
+  // eslint-disable-next-line no-prototype-builtins
+  if (!w.hasOwnProperty(w, 'dataLayer')) {
+    w.dataLayer = [];
+  }
+  // eslint-disable-next-line no-undef
   const xhr = new XMLHttpRequest()
   xhr.open('GET', '/towa/gdpr/checkip', true)
   xhr.onload = function (e) {
@@ -12,8 +17,15 @@
 
         const metaElement = document.getElementsByTagName('head')[0]
         metaElement.insertBefore(tag, metaElement.childNodes[0])
+        w.dataLayer.push({ 'traffic-type': trafficType })
+        w.dataLayer.push({ event: 'trafficTypeLoaded' })
+      } else {
+        w.dataLayer.push({ event: 'trafficTypeLoaded' })
       }
     }
   }
+  xhr.onerror = function(e) {
+    w.dataLayer.push({ event: 'trafficTypeLoaded' })
+  }
   xhr.send(null);
-})(document)
+})(document, window)
