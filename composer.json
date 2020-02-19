@@ -33,12 +33,12 @@
 		"infection/infection": "^0.14",
 		"paulthewalton/acf-pro-stubs": "^5.8",
 		"php-stubs/wordpress-stubs": "^5.3",
-		"phpstan/phpstan": "^0.11",
 		"phpunit/phpunit": "^8",
 		"roave/security-advisories": "dev-master",
 		"sllh/composer-versions-check": "^2.0",
 		"squizlabs/php_codesniffer": "^3.4.0",
 		"symfony/var-dumper": "*",
+		"szepeviktor/phpstan-wordpress": "^0.6.0",
 		"wp-coding-standards/wpcs": "^2"
 	},
 	"config": {
@@ -68,13 +68,15 @@
 		"test": [
 			"@lint",
 			"@unit",
-			"@phpcs"
+			"@phpcs",
+			"@phpstan analyze --no-progress"
 		],
 		"test-full": [
 			"@unit",
 			"@infection",
 			"@integration",
-			"@phpcs"
+			"@phpcs",
+			"@phpstan analyze --no-progress"
 		],
 		"unit": "phpunit --testsuite unit"
 	}

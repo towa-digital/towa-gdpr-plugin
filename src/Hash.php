@@ -53,6 +53,6 @@ class Hash
      */
     private function generateHash(): void
     {
-        $this->hash = md5((new DateTime('now'))->getTimestamp());
+        $this->hash = md5((string)(new DateTime('now'))->getTimestamp());
     }
 }

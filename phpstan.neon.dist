@@ -1,0 +1,18 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+parameters:
+    level: max
+    inferPrivatePropertyTypeFromConstructor: true
+    # TODO Tell PHPStan what is inside arrays! array<int, string>  or  array{name:string, id:int}
+    checkMissingIterableValueType: false
+    autoload_files:
+        - acf-pro-stubs.php
+        - init.php
+    paths:
+        - init.php
+        - src/
+    ignoreErrors:
+        # TODO Should use core functions instead of core constants - I know: cannot call a function in const = definition
+        - '#^Constant WP_CONTENT_DIR not found\.$#'
+        # TODO Specify all return typehints
+        - '# has no return typehint specified\.$#'

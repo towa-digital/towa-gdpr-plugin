@@ -1,0 +1,20 @@
+#
+# Bitbucket Pipelines configuration for Towa GDPR Plugin.
+#
+# DOCS          :https://confluence.atlassian.com/bitbucket/configure-bitbucket-pipelines-yml-792298910.html
+# DOCS          :https://confluence.atlassian.com/bitbucket/environment-variables-794502608.html
+# DOCS          :https://confluence.atlassian.com/bitbucket/yaml-anchors-960154027.html
+# VALIDATOR     :https://bitbucket-pipelines.prod.public.atl-paas.net/validator
+# PHP           :https://confluence.atlassian.com/bitbucket/php-with-bitbucket-pipelines-873907835.html
+
+image: php:7.2.27-buster
+
+pipelines:
+  default:
+    - step:
+        script:
+          - apt-get update && apt-get install -y wget libxml2-utils
+          - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+          - composer install --prefer-dist --no-suggest
+          - composer run-script test
+          #- composer run-script test-full
