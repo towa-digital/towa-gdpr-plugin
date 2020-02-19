@@ -1,22 +1,18 @@
 #!/usr/bin/env bash
 #
-# Lint the PHP files against parse errors.
+# Check PHP files for syntax errors.
 #
-# The find utility recursively descends the directory tree for each path listed.
-#
-# find . = Start with all files in this package
-# -path ./vendor -prune = But remove those in the vendor directory
-# -o -path ./bin -prune = And remove those in the bin directory
-# -o -path ./.git -prune = And remove those in the .git directory
-# -o -name "*.php" = And only consider those with a .php extension
-# -exec php -l {} = Run PHP linter on the remaining files
-# | grep "^[Parse error|Fatal error]" = Look in the results for any parse or fatal errors.
-#
-# EXAMPLE TO RUN LOCALLY:
+# Usage:
 #
 #   ./bin/php-lint
-#
 
-if find . -path ./vendor -prune -o -path ./bin -prune -o -path ./.git -prune -o -name "*.php" -exec php -l -f {} \; | grep "^[Errors parsing]"; then
-exit 1;
-fi
+set -e
+
+# Find all files
+#     exclude vendor, bin, .git
+#     only .php files
+# Run syntax check for each file
+find ./ \
+    -path ./vendor -prune -o -path ./bin -prune -o -path ./.git -prune -o \
+    -name "*.php" -print0 \
+    | xargs -0 -L 1 -P 4 -- php -l -f
