@@ -1,6 +1,6 @@
 (function (d, w) {
   // eslint-disable-next-line no-prototype-builtins
-  if (!w.hasOwnProperty(w, 'dataLayer')) {
+  if (!w.hasOwnProperty('dataLayer')) {
     w.dataLayer = [];
   }
   // eslint-disable-next-line no-undef
@@ -24,7 +24,7 @@
       }
     }
   }
-  xhr.onerror = function(e) {
+  xhr.onerror = function (e) {
     w.dataLayer.push({ event: 'trafficTypeLoaded' })
   }
   xhr.send(null);
