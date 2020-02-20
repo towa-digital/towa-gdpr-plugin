@@ -29,7 +29,6 @@ $towa_gdpr_plugin_settings = [
             'redirect' => false,
         ],
     ],
-    'settings' => [],
     'frontend' => [
         'dependencies' => [
             'styles' => [
