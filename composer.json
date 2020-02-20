@@ -15,6 +15,7 @@
 	],
 	"require": {
 		"php": "^7.2",
+		"ext-sockets": "*",
 		"brightnucleus/config": "^0.4",
 		"brightnucleus/dependencies": "^0.3.2",
 		"cedaro/wp-plugin": "^0.4",

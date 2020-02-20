@@ -16,6 +16,9 @@ use BrightNucleus\Config\ConfigInterface;
 use BrightNucleus\Config\ConfigTrait;
 use BrightNucleus\Config\Exception\FailedToProcessConfigException;
 use BrightNucleus\Dependency\DependencyManager;
+use Symfony\Component\HttpFoundation\IpUtils;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Towa\GdprPlugin\Acf\AcfCookies;
 use Towa\GdprPlugin\Acf\AcfSettings;
 use Towa\GdprPlugin\Rest\Rest;
@@ -32,6 +35,8 @@ if (!defined('ABSPATH')) {
 class Plugin
 {
     use ConfigTrait;
+
+    const TOWA_GDPR_AJAX_URL = 'towa/gdpr/checkip';
 
     /**
      * Static instance of the plugin.
@@ -67,12 +72,15 @@ class Plugin
      */
     public function run(): void
     {
+        add_action('plugins_loaded', [$this, 'handleCheckIpRequest'], 0);
         add_action('activate_towa-gdpr-plugin.php', [$this, 'activatePlugin']);
         add_action('acf/save_post', [$this, 'saveOptionsHook'], 20);
         add_action('acf/init', [$this, 'init']);
         add_action('acf/input/admin_head', [$this, 'registerCustomMetaBox'], 10);
         add_action('rest_api_init', [$this, 'initRest']);
         add_action('wp_head', [$this, 'addMetaTagNoCookieSite']);
+        add_action('acf/validate_value/key=towa_gdpr_settings_towa_gdpr_ip', [$this, 'validateIp'], 10, 2);
+        add_action('admin_init', [$this, 'syncJsonFile']);
     }
 
     /**
@@ -181,11 +189,9 @@ class Plugin
      */
     private function loadDependencies(): void
     {
-        $dependencies = new DependencyManager($this->config->getSubConfig('Settings.submenu_pages.0.dependencies'));
-        add_action('init', [$dependencies, 'register']);
-        if (\get_field('tagmanager', 'option')) {
-            $tagmanagerDependencies = new DependencyManager($this->config->getSubConfig('Settings.tagmanager.dependencies'));
-            add_action('init', [$tagmanagerDependencies, 'register']);
+        if (!\is_admin()) {
+            $dependencies = new DependencyManager($this->config->getSubConfig('Settings.frontend.dependencies'));
+            add_action('init', [$dependencies, 'register']);
         }
     }
 
@@ -230,8 +236,77 @@ class Plugin
                 \update_field('towa_gdpr_settings_hash', (new Hash())->getHash(), 'option');
             }
             \delete_transient(self::TRANSIENT_KEY . get_locale());
+
+            $ips = [];
+            if (isset($_POST['acf']['towa_gdpr_settings_towa_gdpr_internal']) && $internalIps = $_POST['acf']['towa_gdpr_settings_towa_gdpr_internal']) {
+                foreach ($internalIps as $ip) {
+                    $ips[] = trim($ip['towa_gdpr_settings_towa_gdpr_ip']);
+                }
+            }
+
+            if ($ips) {
+                $this->writeJsonFile($ips);
+            }
         }
         (new SettingsTableAdapter())->save();
+    }
+
+    /**
+     * returns path for json file
+     *
+     * @return string
+     */
+    public static function getJsonFileName() :string
+    {
+        $uploadDir = wp_get_upload_dir();
+
+        return implode('/', [$uploadDir['basedir'], 'towa-gdpr-plugin', 'ip.json']);
+    }
+
+    /**
+     * writes IPs to JsonFile for better performance
+     *
+     * @param array $ips
+     */
+    private function writeJsonFile(array $ips)
+    {
+        $fileName = self::getJsonFileName();
+
+        if (file_exists($fileName) && !$ips) {
+            @unlink($fileName);
+        } elseif ($ips) {
+            $pathParts = pathinfo($fileName);
+
+            if (!@mkdir($concurrentDirectory = $pathParts['dirname']) && !is_dir($concurrentDirectory)) {
+                global $errors;
+                $errors->add(500, sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
+
+            @file_put_contents($fileName, json_encode($ips));
+        }
+    }
+
+    /**
+     * checks if jsonFile is missing or should be deleted on admin_init
+     */
+    public function syncJsonFile() :void
+    {
+        if (defined('DOING_AJAX') && !DOING_AJAX) {
+            $fields = false;
+
+            if (!file_exists(self::getJsonFileName()) && $fields = get_field('towa_gdpr_internal', 'option')) {
+                $ips = [];
+                foreach ($fields as $field) {
+                    $ips[] = $field['towa_gdpr_ip'];
+                }
+
+                if ($ips) {
+                    $this->writeJsonFile($ips);
+                }
+            } elseif (!$fields && file_exists(self::getJsonFileName())) {
+                @unlink(self::getJsonFileName());
+            }
+        }
     }
 
     /**
@@ -309,6 +384,67 @@ class Plugin
         $cookie_pages = get_field('towa_gdpr_settings_no_cookie_pages', 'options', false);
         if (is_array($cookie_pages) && in_array($post->ID, $cookie_pages)) {
             echo '<meta name="towa-gdpr-no-cookies" content="true"/>';
+        }
+    }
+
+    /**
+     * performs validation for towa_gdpr_ip
+     *
+     * @param mixed $valid
+     * @param mixed $value
+     * @return mixed
+     */
+    public function validateIp($valid, $value)
+    {
+        if ($valid) {
+            $address = $value;
+            $netmask = null;
+
+            if (false !== strpos($address, '/')) {
+                list($address, $netmask) = explode('/', $address, 2);
+            }
+
+            if (false !== strpos($address, ':')) {
+                if ($netmask && ($netmask < 1 || $netmask > 128)) {
+                    return sprintf('%s %s', $netmask, __('is not a valid netmask', 'towa-gdpr-plugin'));
+                }
+            } elseif ($netmask && ($netmask < 0 || $netmask > 32)) {
+                return sprintf('%s %s', $netmask, __('is not a valid netmask', 'towa-gdpr-plugin'));
+            }
+
+            if (!filter_var($address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                return sprintf('%s %s', $value, __('is not a valid IP', 'towa-gdpr-plugin'));
+            }
+        }
+
+        return $valid;
+    }
+
+    /**
+     * handles Requests for TOWA_GDPR_AJAX_URL and checks if request is internal
+     */
+    public function handleCheckIpRequest()  :void
+    {
+        $request = Request::createFromGlobals();
+        $request::setTrustedProxies(['127.0.0.1', 'REMOTE_ADDR'], Request::HEADER_X_FORWARDED_ALL);
+        $uri = trim($request->getRequestUri(), '/');
+        $clientIp = $request->getClientIp();
+        $internal = false;
+
+        if ($uri === self::TOWA_GDPR_AJAX_URL) {
+            if (!filter_var($clientIp, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                $internal = true;
+            }
+
+            if (!$internal && file_exists(self::getJsonFileName())) {
+                $ips = file_get_contents(self::getJsonFileName());
+                $internal = IpUtils::checkIp($clientIp, array_values(json_decode($ips, true)));
+            }
+
+            $response = (new JsonResponse(['internal' => $internal]))->setPrivate()->setMaxAge(0)->setSharedMaxAge(0);
+            $response->send();
+
+            exit();
         }
     }
 }

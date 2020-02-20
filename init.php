@@ -30,6 +30,11 @@ if (!defined('TOWA_GDPR_PLUGIN_URL')) {
 if (!defined('TOWA_GDPR_PLUGIN_FILE')) {
     define('TOWA_GDPR_PLUGIN_FILE', plugin_dir_path(__FILE__) . 'towa-gdpr-plugin.php');
 }
+
+if (!defined('TOWA_GDPR_PLUGIN_VERSION')) {
+    define('TOWA_GDPR_PLUGIN_VERSION', '1.0.10');
+}
+
 // Load Composer autoloader.
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
