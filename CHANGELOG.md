@@ -1,7 +1,17 @@
 # Change Log for Towa GDPR Plugin
 
 All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](http://semver.org/).  
+This project adheres to [Semantic Versioning](http://semver.org/).
+
+## [1.0.11](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.11) - 20.02.2020
+
+### fixed
+- ios button styling bug
+
+## [1.0.10](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.10) - 17.02.2020
+
+### fixed
+- acf_format_values_function ignored for no cookie pages
 
 ## unreleased
 
@@ -37,7 +47,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.4](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.4) - 21.01.2020
 
-### Fixed 
+### Fixed
 - cookie expire set to expire on set date
 
 ## [1.0.3](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.3) - 21.01.2020
