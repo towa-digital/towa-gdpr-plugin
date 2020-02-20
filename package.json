@@ -1,6 +1,6 @@
 {
   "name": "towa-gdpr-plugin",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Gdpr Compliance Plugin for Wordpress",
   "main": "src/js/main.js",
   "directories": {

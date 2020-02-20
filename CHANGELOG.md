@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.12](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.12) - 20.02.2020
+
+### fixed
+- ios fix lower scrolling issue
+
 ## [1.0.11](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.11) - 20.02.2020
 
 ### fixed

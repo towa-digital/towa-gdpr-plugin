@@ -6,15 +6,19 @@
 	position: fixed;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-start;
 	height: 100vh;
 	width: 100vw;
-	top: 0;
+	top: 20px;
 	z-index: 900;
 	visibility: hidden;
 	opacity: 0;
 	transition: opacity 0.3s;
 
+	@include media('>xs') {
+		justify-content: center;
+		top:0;
+	}
 	&.show{
 		visibility: visible;
 		opacity: 1;
@@ -41,8 +45,10 @@
 		max-width: $grid-max-width;
 		background: $color-white;
 		width: calc(100% - 20px);
-		max-height: calc(100vh - 20px);
+		max-height: calc(100vh - 70px);
 		overflow-y: auto;
+		display:flex;
+		flex-direction:column;
 		box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.3);
 		@include media('>=sm'){
 			overflow-y: hidden;
@@ -197,6 +203,7 @@
 		flex-direction: column;
 		margin-top: auto;
 		padding:10px;
+		flex-shrink:0;
 		@include media('>=md'){
 			padding: 0 20px 20px;
 			flex-direction: row;
