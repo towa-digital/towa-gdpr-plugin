@@ -146,4 +146,14 @@ class AcfSettings implements AcfGroupInterface
             ),
         ];
     }
+
+    /*
+     * removes all ACF Settings Fields from Database
+     */
+    public static function deleteFields(): void
+    {
+        collect((new AcfSettings())->buildFields())->each(function ($field) {
+            AcfUtility::deleteAcfFieldRecursively($field, 'option');
+        });
+    }
 }

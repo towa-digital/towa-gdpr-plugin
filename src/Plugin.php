@@ -81,6 +81,12 @@ class Plugin
         add_action('wp_head', [$this, 'addMetaTagNoCookieSite']);
         add_action('acf/validate_value/key=towa_gdpr_settings_towa_gdpr_ip', [$this, 'validateIp'], 10, 2);
         add_action('admin_init', [$this, 'syncJsonFile']);
+        if (!function_exists('acf_add_options_page')) {
+            add_action('admin_notices', [$this, 'myAcfNotice']);
+        }
+        if (!\is_admin() && function_exists('get_fields')) {
+            add_action('wp_footer', [$this, 'loadFooter']);
+        }
     }
 
     /**
@@ -91,9 +97,6 @@ class Plugin
         $this->loadTextdomain();
         $this->registerMenupages();
         $this->loadDependencies();
-        if (!\is_admin() && function_exists('get_fields')) {
-            \add_action('wp_footer', [$this, 'loadFooter']);
-        }
         $this->activatePlugin();
     }
 
@@ -120,6 +123,9 @@ class Plugin
      */
     public static function uninstallPlugin(): void
     {
+        \delete_transient(self::TRANSIENT_KEY . get_locale());
+        AcfSettings::deleteFields();
+        AcfCookies::deleteFields();
         SettingsTableAdapter::destroyTable();
     }
 
@@ -154,9 +160,7 @@ class Plugin
      */
     private function registerMenupages(): void
     {
-        if (!function_exists('acf_add_options_page')) {
-            \add_action('admin_notices', [$this, 'myAcfNotice']);
-        } else {
+        if (function_exists('acf_add_options_page')) {
             collect($this->config->getSubConfig('Settings.submenu_pages')->getAll())->map(
                 function ($menupage) {
                     [   //phpcs:ignore
@@ -256,7 +260,7 @@ class Plugin
      *
      * @return string
      */
-    public static function getJsonFileName() :string
+    public static function getJsonFileName(): string
     {
         $uploadDir = wp_get_upload_dir();
 
@@ -289,7 +293,7 @@ class Plugin
     /**
      * checks if jsonFile is missing or should be deleted on admin_init
      */
-    public function syncJsonFile() :void
+    public function syncJsonFile(): void
     {
         if (defined('DOING_AJAX') && !DOING_AJAX) {
             $fields = false;
@@ -423,7 +427,7 @@ class Plugin
     /**
      * handles Requests for TOWA_GDPR_AJAX_URL and checks if request is internal
      */
-    public function handleCheckIpRequest()  :void
+    public function handleCheckIpRequest(): void
     {
         $request = Request::createFromGlobals();
         $request::setTrustedProxies(['127.0.0.1', 'REMOTE_ADDR'], Request::HEADER_X_FORWARDED_ALL);
