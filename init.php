@@ -32,7 +32,7 @@ if (!defined('TOWA_GDPR_PLUGIN_FILE')) {
 }
 
 if (!defined('TOWA_GDPR_PLUGIN_VERSION')) {
-    define('TOWA_GDPR_PLUGIN_VERSION', '1.0.11');
+    define('TOWA_GDPR_PLUGIN_VERSION', '1.0.12');
 }
 
 // Load Composer autoloader.

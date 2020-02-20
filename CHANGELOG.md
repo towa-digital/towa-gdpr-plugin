@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## unreleased
+
+### Added
+- Settings saved to database
+- Uninstall / install hooks
+- safeguards
+
+## [1.0.12](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.12) - 20.02.2020
+
+### fixed
+- ios fix lower scrolling issue
+
 ## [1.0.11](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.11) - 20.02.2020
 
 ### fixed
@@ -12,13 +24,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### fixed
 - acf_format_values_function ignored for no cookie pages
-
-## unreleased
-
-### Added
-- Settings saved to database
-- Uninstall / install hooks
-- safeguards
 
 ## [1.0.9](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.9) - 14.02.2020
 
