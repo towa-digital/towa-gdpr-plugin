@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin configuration file.
  *
@@ -24,23 +25,23 @@ $towa_gdpr_plugin_settings = array(
             'menu_title' => __('Towa GDPR', 'towa-gdpr-plugin'),
             'capability' => 'manage_options',
             'menu_slug' => 'towa-gdpr-plugin',
-            'view' => TOWA_GDPR_PLUGIN_DIR.'views/admin-page.twig',
+            'view' => TOWA_GDPR_PLUGIN_DIR . 'views/admin-page.twig',
             'redirect' => false,
             'dependencies' => array(
                 'styles' => array(
                     array(
                         'handle' => 'towa-gdpr-plugin-css',
-                        'src' => TOWA_GDPR_PLUGIN_URL.'dist/css/main.css',
+                        'src' => TOWA_GDPR_PLUGIN_URL . 'dist/css/main.css',
                         'deps' => '',
-                        'ver' => '1.0.10',
+                        'ver' => '1.0.11',
                         'media' => 'all',
                     ),
                 ),
                 'scripts' => array(
                     array(
                         'handle' => 'towa-gdpr-plugin-js',
-                        'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/main.js',
-                        'ver' => '1.0.10',
+                        'src' => TOWA_GDPR_PLUGIN_URL . 'dist/js/main.js',
+                        'ver' => '1.0.11',
                         'in_footer' => true,
                         'localize' => array(
                             'name' => 'towaGdprContext',
@@ -66,8 +67,8 @@ $towa_gdpr_plugin_settings = array(
             'scripts' => array(
                 array(
                     'handle' => 'towa-gdpr-plugin-tagmanager',
-                    'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/tagmanager.js',
-                    'ver' => '1.0.10',
+                    'src' => TOWA_GDPR_PLUGIN_URL . 'dist/js/tagmanager.js',
+                    'ver' => '1.0.11',
                     'in_footer' => false,
                     'localize' => array(
                         'name' => 'towaTagmanager ',

@@ -40,8 +40,6 @@
 		margin: 0 auto;
 		max-width: $grid-max-width;
 		background: $color-white;
-		display: flex;
-		flex-direction: column;
 		width: calc(100% - 20px);
 		max-height: calc(100vh - 20px);
 		overflow-y: auto;
