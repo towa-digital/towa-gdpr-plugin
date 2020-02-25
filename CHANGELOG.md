@@ -5,6 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## unreleased
 
+### fixed
+- ios fix height/scrolling issue
+
 ### Added
 - Settings saved to database
 - Uninstall / install hooks
