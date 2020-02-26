@@ -13,6 +13,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Uninstall / install hooks
 - safeguards
 
+### Added
+- Optional Accordion functionality
+
 ## [1.0.12](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.0.12) - 20.02.2020
 
 ### fixed

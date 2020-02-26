@@ -7,7 +7,8 @@ export default class CookieGroup {
     this.state = {
       id: domEl.closest('li').getAttribute('aria-controls'),
       cookies: [],
-      active: false
+      active: false,
+      accordionOpen: false
     }
     this.ref = {
       root: root,
@@ -46,6 +47,10 @@ export default class CookieGroup {
 
   render () {
     this.ref.domEl.checked = this.state.active.value
+    if(this.ref.accordionBtn){
+      this.ref.accordionBtn.classList.toggle('active', this.state.accordionOpen)
+      this.ref.panel.style.maxHeight = this.state.accordionOpen ? this.ref.panel.scrollHeight + "px"  : null 
+    }
   }
 
   toggle () {
@@ -72,13 +77,13 @@ export default class CookieGroup {
     if(this.ref.accordionBtn){
         this.ref.accordionBtn.addEventListener('click', () => {
           this.toggleAccordion()
-        })
+      })
     }
   }
 
   toggleAccordion(){
-    this.ref.accordionBtn.classList.toggle('active')
-    this.ref.panel.style.maxHeight = this.ref.panel.style.maxHeight ? null : this.ref.panel.scrollHeight + "px";
+    this.state.accordionOpen = !this.state.accordionOpen;
+    this.render();
   }
 
   acceptWholeGroup () {
