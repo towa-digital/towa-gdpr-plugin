@@ -13,7 +13,8 @@ export default class CookieGroup {
       root: root,
       domEl: domEl,
       li: domEl.closest('li'),
-      accordionBtn: domEl.closest('li').querySelector('.Towa-Gdpr-Plugin__accordion-btn')
+      accordionBtn: domEl.closest('li').querySelector('.Towa-Gdpr-Plugin__accordion-btn'),
+      panel: domEl.closest('li').querySelector('.Towa-Gdpr-Plugin__group-panel')
     }
     this.toggleGroupClickedEvent = new CustomEvent('toggleGroupClicked', { detail: { id: this.state.id } })
     this.getCookies(group)
@@ -69,12 +70,15 @@ export default class CookieGroup {
     })
     
     if(this.ref.accordionBtn){
-      this.ref.accordionBtn.addEventListener('click', () => {
-        this.ref.accordionBtn.classList.toggle('active')
-        const panel = this.ref.li.querySelector('.Towa-Gdpr-Plugin__group-panel')
-        panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + "px";
-      })
+        this.ref.accordionBtn.addEventListener('click', () => {
+          this.toggleAccordion()
+        })
     }
+  }
+
+  toggleAccordion(){
+    this.ref.accordionBtn.classList.toggle('active')
+    this.ref.panel.style.maxHeight = this.ref.panel.style.maxHeight ? null : this.ref.panel.scrollHeight + "px";
   }
 
   acceptWholeGroup () {
