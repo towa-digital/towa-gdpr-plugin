@@ -13,12 +13,16 @@
 				{% include 'partial_cookie_group.twig' with {
 							loop:{index:0},
 							group: essential_group,
-							essential: true
+							essential: true,
+							accordion: activate_accordion,
+							accordionText: accordion_text
 						} %}
 				{% for group in cookie_groups %}
 				{% include 'partial_cookie_group.twig' with {
 								index : loop.index,
 								group: group,
+								accordion: activate_accordion,
+								accordionText: accordion_text
 							} %}
 				{% endfor %}
 			</ul>
