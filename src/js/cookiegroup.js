@@ -7,12 +7,15 @@ export default class CookieGroup {
     this.state = {
       id: domEl.closest('li').getAttribute('aria-controls'),
       cookies: [],
-      active: false
+      active: false,
+      accordionOpen: false
     }
     this.ref = {
       root: root,
       domEl: domEl,
-      li: domEl.closest('li')
+      li: domEl.closest('li'),
+      accordionBtn: domEl.closest('li').querySelector('.Towa-Gdpr-Plugin__accordion-btn'),
+      panel: domEl.closest('li').querySelector('.Towa-Gdpr-Plugin__group-panel')
     }
     this.toggleGroupClickedEvent = new CustomEvent('toggleGroupClicked', { detail: { id: this.state.id } })
     this.getCookies(group)
@@ -44,6 +47,10 @@ export default class CookieGroup {
 
   render () {
     this.ref.domEl.checked = this.state.active.value
+    if(this.ref.accordionBtn){
+      this.ref.accordionBtn.classList.toggle('active', this.state.accordionOpen)
+      this.ref.panel.style.maxHeight = this.state.accordionOpen ? this.ref.panel.scrollHeight + "px"  : null 
+    }
   }
 
   toggle () {
@@ -66,6 +73,17 @@ export default class CookieGroup {
     this.ref.li.addEventListener('click', () => {
       this.ref.root.dispatchEvent(this.toggleGroupClickedEvent, this.state.id)
     })
+    
+    if(this.ref.accordionBtn){
+        this.ref.accordionBtn.addEventListener('click', () => {
+          this.toggleAccordion()
+      })
+    }
+  }
+
+  toggleAccordion(){
+    this.state.accordionOpen = !this.state.accordionOpen;
+    this.render();
   }
 
   acceptWholeGroup () {

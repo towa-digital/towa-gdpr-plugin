@@ -15,6 +15,7 @@ use Towa\Acf\Fields\Relation;
 use Towa\Acf\Fields\Repeater;
 use Towa\Acf\Fields\Tab;
 use Towa\Acf\Fields\Text;
+use Towa\Acf\Fields\TrueFalse;
 use Towa\Acf\Fields\Wysiwyg;
 
 if (!defined('ABSPATH')) {
@@ -137,7 +138,16 @@ class AcfSettings implements AcfGroupInterface
                     'instructions' => __('The hash is used to verify the current version of the consent message. if this differs with a users hash, the consent notification will be shown again', 'towa-gdpr-plugin'),
                 ]
             ),
-
+            (new TrueFalse($this->name, 'activate_accordion', __('Akkordion aktivieren', 'towa-gdpr-plugin')) )-> build(),
+            (new Text($this->name, 'accordion_text', __('Text für Akkordion', 'towa-gdpr-plugin')))->build([
+                'conditional_logic' => [
+                    [
+                        'field' => $this->name.'_activate_accordion',
+                        'operator' => '==',
+                        'value' => 1,
+                    ],
+                ],
+            ]),
             (new Tab($this->name, 'no_cookie_pages_tab', __('No Cookie Pages', 'towa-gdpr-plugin')))->build(),
             (new Relation($this->name, 'no_cookie_pages', __('Pages', 'towa-gdpr-plugin')))->build(
                 [

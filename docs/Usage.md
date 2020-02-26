@@ -12,5 +12,9 @@ To guarantee users have to consent again if cookies change, a hashing functional
 Define Pages where the cookie notice isn't shown and won't set the cookies.
 
 ## Consent Logging
-- Settings made by Admin will be saved into Database Table `tableprefix_towa_gdpr_settings` 
+- Settings made by Admin will be saved into Database Table `tableprefix_towa_gdpr_settings`
+
+## Accordion
+- (Optional) Accordion functionality can be activated in the Plugin settings. When active each cookie group will be wrapped by an accordion. Setting is global for all cookies. 
+- Accordion toggle button text is also set in the plugin settings.
 
