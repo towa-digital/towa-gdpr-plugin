@@ -89,20 +89,17 @@
 		&.with-accordion{
 			.Towa-Gdpr-Plugin{
 				 &__group-panel{
-					padding: 0 18px;
-					background-color: $color-white;
-					max-height: 0px;
-					overflow: hidden;
-					transition: max-height 0.2s ease-out;
-				} 
-	
+					display: none;
+					&.open{
+						display: block;
+					}
+				}
 			}
-
 		}
 	}
 	&__accordion-btn{
 		@include font-accordion;
-		
+
 		background: none;
 		margin-left: 10px;
 		border: none;
