@@ -86,10 +86,49 @@
 		&.essential .Towa-Gdpr-Plugin__switch-wrapper{
 			opacity: 0.5;
 		}
+		&.with-accordion{
+
+			.Towa-Gdpr-Plugin{
+				&__accordion{
+					font-size: 10px;
+					background: none;
+					margin-left: 10px;
+					padding: 0;
+					color: #444;
+					cursor: pointer;
+					transition: 0.4s;
+
+					&:after {
+						content: '\02795';
+						font-size: 8px;
+						color: #777;
+						float: right;
+						margin-left: 3px;
+					  }
+
+					&.active:after {
+						content: "\2796";
+					}
+				}
+				 &__group-panel{
+					padding: 0 18px;
+					background-color: white;
+					max-height: 0px;
+					overflow: hidden;
+					transition: max-height 0.2s ease-out;
+				} 
+	
+			}
+
+		}
 	}
 	&__group-title{
 		@include font-h3;
 		box-sizing: border-box;
+	}
+	&__left-section{
+		display: flex;
+		flex: 1;
 	}
 	&__cookie{
 		display: flex;
