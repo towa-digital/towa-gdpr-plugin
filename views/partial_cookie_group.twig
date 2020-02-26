@@ -1,12 +1,14 @@
 <li class="Towa-Gdpr-Plugin__group {{essential ? 'essential'}} {{accordion ? 'with-accordion'}}">
 
 	<div class="Towa-Gdpr-Plugin__switch-wrapper">
+	 {% if accordion %}
 		<div class="Towa-Gdpr-Plugin__left-section">
 		<label>{{group.title}}</label>
-		{% if accordion %}
-		<button class="Towa-Gdpr-Plugin__accordion">{{ accordionText }}</button>
-		{% endif %}
+		<button class="Towa-Gdpr-Plugin__accordion-btn">{{ accordionText }}</button>
 		</div>
+	 {% else %}
+		<label>{{group.title}}</label>
+	{% endif %}
 		<div class="Towa-Gdpr-Plugin__switch">
 			<input class="Towa-Gdpr-Plugin__cookie-group__checkbox" data-groupname="{{group.title}}" type="checkbox" {{essential ? 'checked="checked" disabled="disabled"' }} />
 			<span class="slider"></span>

@@ -87,32 +87,10 @@
 			opacity: 0.5;
 		}
 		&.with-accordion{
-
 			.Towa-Gdpr-Plugin{
-				&__accordion{
-					font-size: 10px;
-					background: none;
-					margin-left: 10px;
-					padding: 0;
-					color: #444;
-					cursor: pointer;
-					transition: 0.4s;
-
-					&:after {
-						content: '\02795';
-						font-size: 8px;
-						color: #777;
-						float: right;
-						margin-left: 3px;
-					  }
-
-					&.active:after {
-						content: "\2796";
-					}
-				}
 				 &__group-panel{
 					padding: 0 18px;
-					background-color: white;
+					background-color: $color-white;
 					max-height: 0px;
 					overflow: hidden;
 					transition: max-height 0.2s ease-out;
@@ -120,6 +98,31 @@
 	
 			}
 
+		}
+	}
+	&__accordion-btn{
+		@include font-accordion;
+		
+		background: none;
+		margin-left: 10px;
+		border: none;
+		outline: none;
+		padding: 0;
+		color: $color-ui-elements;
+		cursor: pointer;
+		transition: 0.4s;
+
+		&:after {
+			@include font-accordion;
+
+			content: '\02795';
+			color: $color-ui-elements;
+			float: right;
+			margin-left: 3px;
+		  }
+
+		&.active:after {
+			content: "\2796";
 		}
 	}
 	&__group-title{
