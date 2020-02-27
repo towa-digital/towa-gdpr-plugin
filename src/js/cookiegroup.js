@@ -47,9 +47,9 @@ export default class CookieGroup {
 
   render () {
     this.ref.domEl.checked = this.state.active.value
-    if(this.ref.accordionBtn){
+    if (this.ref.accordionBtn) {
       this.ref.accordionBtn.classList.toggle('active', this.state.accordionOpen)
-      this.ref.panel.style.maxHeight = this.state.accordionOpen ? this.ref.panel.scrollHeight + "px"  : null 
+      this.ref.panel.classList.toggle('open', this.state.accordionOpen)
     }
   }
 
@@ -73,17 +73,17 @@ export default class CookieGroup {
     this.ref.li.addEventListener('click', () => {
       this.ref.root.dispatchEvent(this.toggleGroupClickedEvent, this.state.id)
     })
-    
-    if(this.ref.accordionBtn){
-        this.ref.accordionBtn.addEventListener('click', () => {
-          this.toggleAccordion()
+
+    if (this.ref.accordionBtn) {
+      this.ref.accordionBtn.addEventListener('click', () => {
+        this.toggleAccordion()
       })
     }
   }
 
-  toggleAccordion(){
-    this.state.accordionOpen = !this.state.accordionOpen;
-    this.render();
+  toggleAccordion () {
+    this.state.accordionOpen = !this.state.accordionOpen
+    this.render()
   }
 
   acceptWholeGroup () {
