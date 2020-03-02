@@ -262,9 +262,7 @@ class Plugin
      */
     public static function getJsonFileName(): string
     {
-        $uploadDir = wp_get_upload_dir();
-
-        return implode('/', [$uploadDir['basedir'], 'towa-gdpr-plugin', 'ip.json']);
+       return implode('/', [TOWA_GDPR_DATA, 'ip', 'ip.json']);
     }
 
     /**

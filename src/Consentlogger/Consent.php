@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
  */
 class Consent
 {
-    const LOG_DIR = WP_CONTENT_DIR . '/uploads/towa-gdpr/';
+    const LOG_DIR = TOWA_GDPR_DATA . '/consents/';
 
     /**
      * @var \DateTime
@@ -79,8 +79,7 @@ class Consent
     public function save(): void
     {
         if (!file_exists(self::LOG_DIR)) {
-            $uploadpermissions = fileperms(WP_CONTENT_DIR . '/uploads/');
-            mkdir(self::LOG_DIR, $uploadpermissions);
+            $this->createLogDirectory();
         }
         $filename = self::LOG_DIR . $this->timestamp->format('Y-m-d') . '.csv';
         $writemode = file_exists($filename) ? 'a' : 'w';
@@ -100,5 +99,15 @@ class Consent
             'cookies' => $this->config,
             'hash' => $this->hash,
         ];
+    }
+
+    /**
+     * creates the Log directory
+     */
+    private function createLogDirectory():void {
+        $uploadpermissions = 0600;
+        mkdir(self::LOG_DIR, $uploadpermissions);
+        @file_put_contents(self::LOG_DIR . '/index.php', "<?php \r\n// Silence is golden.");
+        @file_put_contents(self::LOG_DIR . '/.htaccess', "Options -Indexes\r\nDeny from all");
     }
 }
