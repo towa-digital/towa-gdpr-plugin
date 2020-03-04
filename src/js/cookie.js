@@ -1,7 +1,7 @@
-
 import Cookies from 'js-cookie'
 import Observable from './observable'
 import { setCssClass } from './helpers'
+
 export default class TowaGdprCookie {
   constructor (cookie, root) {
     this.state = { ...cookie }
@@ -20,7 +20,7 @@ export default class TowaGdprCookie {
 
   init () {
     this.defineObservables()
-    this.setUpListeners()
+    this.setListeners()
     this.render()
   }
 
@@ -43,7 +43,7 @@ export default class TowaGdprCookie {
     })
   }
 
-  setUpListeners () {
+  setListeners () {
     this.ref.domEls.forEach(domEl => {
       domEl.addEventListener('click', () => {
         this.toggle()
@@ -84,5 +84,9 @@ export default class TowaGdprCookie {
       expires: parseInt(towaGdprContext.settings.cookieTime),
       sameSite: 'lax'
     })
+  }
+
+  getCookieForLog () {
+    return { [this.state.name]: this.state.active.value }
   }
 }

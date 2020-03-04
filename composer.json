@@ -15,11 +15,15 @@
 	],
 	"require": {
 		"php": "^7.2",
+		"ext-sockets": "*",
 		"brightnucleus/config": "^0.4",
 		"brightnucleus/dependencies": "^0.3.2",
 		"cedaro/wp-plugin": "^0.4",
 		"composer/installers": "^1",
 		"illuminate/support": "^6",
+		"league/csv": "^9.5",
+		"league/flysystem": "^1.0",
+		"symfony/http-foundation": "^5.0",
 		"towa/towa-acf-fields": "^1.1",
 		"twig/twig": "^2"
 	},
@@ -55,25 +59,24 @@
 	"prefer-stable": true,
 	"scripts": {
 		"install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
-		"integration": "./vendor/bin/phpunit --testsuite integration",
+		"integration": "phpunit --testsuite integration",
 		"lint": [
 			"bin/php-lint",
 			"bin/xml-lint"
 		],
-		"phpcbf": "phpcbf && phpcbf ./towa-gdpr-plugin.php -sp --standard=.phpcs.xml.dist --runtime-set testVersion 7.2 --config-show",
-		"phpcs": "phpcs && phpcs ./towa-gdpr-plugin.php -sp --standard=.phpcs.xml.dist --runtime-set testVersion 7.2",
+		"phpcbf": "phpcbf && phpcbf ./towa-gdpr-plugin.php --runtime-set testVersion 7.2 --config-show",
+		"phpcs": "phpcs && phpcs ./towa-gdpr-plugin.php --runtime-set testVersion 7.2",
 		"test": [
 			"@lint",
 			"@unit",
 			"@phpcs"
 		],
 		"test-full": [
-			"@lint",
 			"@unit",
 			"@infection",
 			"@integration",
 			"@phpcs"
 		],
-		"unit": "./vendor/bin/phpunit --testsuite unit"
+		"unit": "phpunit --testsuite unit"
 	}
 }

@@ -1,27 +1,31 @@
 import Cookie from './cookie'
 import Observable from './observable'
+
 export default class CookieGroup {
   constructor (group, root) {
     const domEl = root.querySelector(`[data-groupname="${group.title}"]`)
     this.state = {
       id: domEl.closest('li').getAttribute('aria-controls'),
       cookies: [],
-      active: false
+      active: false,
+      accordionOpen: false
     }
     this.ref = {
       root: root,
       domEl: domEl,
-      li: domEl.closest('li')
+      li: domEl.closest('li'),
+      accordionBtn: domEl.closest('li').querySelector('.Towa-Gdpr-Plugin__accordion-btn'),
+      panel: domEl.closest('li').querySelector('.Towa-Gdpr-Plugin__group-panel')
     }
     this.toggleGroupClickedEvent = new CustomEvent('toggleGroupClicked', { detail: { id: this.state.id } })
-    this.getCookies(group, root)
+    this.getCookies(group)
     this.init()
   }
 
-  getCookies (group, root) {
+  getCookies (group) {
     if (group.cookies instanceof Object) {
       this.state.cookies = group.cookies.map(cookie => {
-        return new Cookie(cookie, root)
+        return new Cookie(cookie, this.ref.root)
       })
     }
   }
@@ -29,7 +33,7 @@ export default class CookieGroup {
   init () {
     this.state.active = this.isGroupActive()
     this.defineObservables()
-    this.setUpListeners()
+    this.setListeners()
     this.render()
   }
 
@@ -43,6 +47,10 @@ export default class CookieGroup {
 
   render () {
     this.ref.domEl.checked = this.state.active.value
+    if (this.ref.accordionBtn) {
+      this.ref.accordionBtn.classList.toggle('active', this.state.accordionOpen)
+      this.ref.panel.classList.toggle('open', this.state.accordionOpen)
+    }
   }
 
   toggle () {
@@ -52,7 +60,7 @@ export default class CookieGroup {
     })
   }
 
-  setUpListeners () {
+  setListeners () {
     this.ref.domEl.addEventListener('render', () => {
       this.render()
     })
@@ -65,6 +73,17 @@ export default class CookieGroup {
     this.ref.li.addEventListener('click', () => {
       this.ref.root.dispatchEvent(this.toggleGroupClickedEvent, this.state.id)
     })
+
+    if (this.ref.accordionBtn) {
+      this.ref.accordionBtn.addEventListener('click', () => {
+        this.toggleAccordion()
+      })
+    }
+  }
+
+  toggleAccordion () {
+    this.state.accordionOpen = !this.state.accordionOpen
+    this.render()
   }
 
   acceptWholeGroup () {
@@ -82,6 +101,12 @@ export default class CookieGroup {
   saveWholeGroup () {
     this.state.cookies.forEach((cookie) => {
       cookie.save()
+    })
+  }
+
+  getCookiesForLog () {
+    return this.state.cookies.map(cookie => {
+      return cookie.getCookieForLog()
     })
   }
 }
