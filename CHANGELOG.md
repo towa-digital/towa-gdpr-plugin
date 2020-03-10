@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### fixed
 
+- polyfill custom events for in check trafic type
 - directory creation recursively if neccessary
 
 ## [1.1.0](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.1.0) - 04.03.2020
