@@ -22,6 +22,7 @@ if (!defined('ABSPATH')) {
 class Consent
 {
     const LOG_DIR = TOWA_GDPR_DATA . '/consents/';
+    const TOWA_LOG_DIR_UPLOADPERMISSIONS = 0600;
 
     /**
      * @var \DateTime
@@ -105,8 +106,7 @@ class Consent
      * creates the Log directory
      */
     private function createLogDirectory():void {
-        $uploadpermissions = 0600;
-        mkdir(self::LOG_DIR, $uploadpermissions, true);
+        mkdir(self::LOG_DIR, self::TOWA_LOG_DIR_UPLOADPERMISSIONS, true);
         @file_put_contents(self::LOG_DIR . '/index.php', "<?php \r\n// Silence is golden.");
         @file_put_contents(self::LOG_DIR . '/.htaccess', "Options -Indexes\r\nDeny from all");
     }

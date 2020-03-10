@@ -37,6 +37,7 @@ class Plugin
     use ConfigTrait;
 
     const TOWA_GDPR_AJAX_URL = 'towa/gdpr/checkip';
+    const TOWA_IP_DIR_UPLOADPERMISSIONS = 0600;
 
     /**
      * Static instance of the plugin.
@@ -278,9 +279,8 @@ class Plugin
             @unlink($fileName);
         } elseif ($ips) {
             $pathParts = pathinfo($fileName);
-            $uploadpermissions = 0600;
 
-            if (!@mkdir($concurrentDirectory = $pathParts['dirname'], $uploadpermissions, true) && !is_dir($concurrentDirectory)) {
+            if (!@mkdir($concurrentDirectory = $pathParts['dirname'], self::TOWA_IP_DIR_UPLOADPERMISSIONS, true) && !is_dir($concurrentDirectory)) {
                 global $errors;
                 $errors->add(500, sprintf('Directory "%s" was not created', $concurrentDirectory));
             }
