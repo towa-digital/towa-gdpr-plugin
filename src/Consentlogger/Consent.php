@@ -106,7 +106,7 @@ class Consent
      */
     private function createLogDirectory():void {
         $uploadpermissions = 0600;
-        mkdir(self::LOG_DIR, $uploadpermissions);
+        mkdir(self::LOG_DIR, $uploadpermissions, true);
         @file_put_contents(self::LOG_DIR . '/index.php', "<?php \r\n// Silence is golden.");
         @file_put_contents(self::LOG_DIR . '/.htaccess', "Options -Indexes\r\nDeny from all");
     }

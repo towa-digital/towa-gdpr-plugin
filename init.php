@@ -38,7 +38,7 @@ if (!defined('TOWA_GDPR_PLUGIN_VERSION')) {
 if (!defined('TOWA_GDPR_DATA')) {
     $uploadPath = \wp_get_upload_dir();
     if (isset($uploadPath['basedir'])) {
-        $path = implode('/', [$uploadPath['basedir'], '/towa-gdpr']);
+        $path = implode('/', [$uploadPath['basedir'], 'towa-gdpr']);
         define('TOWA_GDPR_DATA', $path);
     }
 }

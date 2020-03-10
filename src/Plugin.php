@@ -278,8 +278,9 @@ class Plugin
             @unlink($fileName);
         } elseif ($ips) {
             $pathParts = pathinfo($fileName);
+            $uploadpermissions = 0600;
 
-            if (!@mkdir($concurrentDirectory = $pathParts['dirname']) && !is_dir($concurrentDirectory)) {
+            if (!@mkdir($concurrentDirectory = $pathParts['dirname'], $uploadpermissions, true) && !is_dir($concurrentDirectory)) {
                 global $errors;
                 $errors->add(500, sprintf('Directory "%s" was not created', $concurrentDirectory));
             }

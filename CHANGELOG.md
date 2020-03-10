@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.1](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.1.1) - 10.03.2020
+
+### fixed
+
+- directory creation recursively if neccessary
+
 ## [1.1.0](https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/tags/1.1.0) - 04.03.2020
 
 ### Added
