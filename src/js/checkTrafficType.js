@@ -1,7 +1,10 @@
+import 'custom-event-polyfill'
+import 'new-event-polyfill'
+
 (function (d, w) {
   // eslint-disable-next-line no-prototype-builtins
   if (!w.hasOwnProperty('dataLayer')) {
-    w.dataLayer = [];
+    w.dataLayer = []
   }
   // eslint-disable-next-line no-undef
   const xhr = new XMLHttpRequest()
@@ -42,5 +45,5 @@
     })
     w.dispatchEvent(event)
   }
-  xhr.send(null);
+  xhr.send(null)
 })(document, window)
