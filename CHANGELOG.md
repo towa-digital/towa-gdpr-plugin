@@ -1,5 +1,10 @@
 # Change Log for Towa GDPR Plugin
 
+## unreleased
+### fixed
+- changed folder permissons
+- fixed an exception which occurred when global error variable was not defined 
+
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
