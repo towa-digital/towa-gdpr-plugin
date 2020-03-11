@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
 class Consent
 {
     const LOG_DIR = TOWA_GDPR_DATA . '/consents/';
-    const TOWA_LOG_DIR_UPLOADPERMISSIONS = 0600;
+    const TOWA_LOG_DIR_UPLOADPERMISSIONS = 0750;
 
     /**
      * @var \DateTime
