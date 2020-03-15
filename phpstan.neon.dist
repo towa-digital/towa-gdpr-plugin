@@ -6,7 +6,7 @@ parameters:
     # TODO Tell PHPStan what is inside arrays! array<int, string>  or  array{name:string, id:int}
     checkMissingIterableValueType: false
     autoload_files:
-        - acf-pro-stubs.php
+        - vendor/paulthewalton/acf-pro-stubs/acf-pro-stubs.php
         - init.php
     paths:
         - init.php
