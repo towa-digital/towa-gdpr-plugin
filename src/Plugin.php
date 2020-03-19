@@ -36,8 +36,22 @@ class Plugin
 {
     use ConfigTrait;
 
-    const TOWA_GDPR_AJAX_URL = 'towa/gdpr/checkip';
-    const TOWA_IP_DIR_UPLOADPERMISSIONS = 0750;
+    /**
+     * @var string
+     */
+    public const TOWA_GDPR_AJAX_URL = 'towa/gdpr/checkip';
+
+    /**
+     * @var int
+     */
+    public const TOWA_IP_DIR_UPLOADPERMISSIONS = 0750;
+
+    /**
+     * Transient used for settings key.
+     *
+     * @var string
+     */
+    public const TRANSIENT_KEY_PREFIX = 'towa_gdpr_plugin_settings_';
 
     /**
      * Static instance of the plugin.
@@ -45,13 +59,6 @@ class Plugin
      * @var self
      */
     protected static $instance;
-
-    /**
-     * Transient used for settings key.
-     *
-     * @var string
-     */
-    private const TRANSIENT_KEY = __CLASS__ . '_settings';
 
     /**
      * Instantiate a Plugin object.
@@ -124,7 +131,7 @@ class Plugin
      */
     public static function uninstallPlugin(): void
     {
-        \delete_transient(self::TRANSIENT_KEY . get_locale());
+        self::deleteTransients();
         AcfSettings::deleteFields();
         AcfCookies::deleteFields();
         SettingsTableAdapter::destroyTable();
@@ -237,13 +244,21 @@ class Plugin
     {
         $screen = \get_current_screen();
         if (false !== strpos($screen->id, 'towa-gdpr-plugin')) {
-            if (!isset($_POST['acf']['towa_gdpr_settings_hash']) || '' === $_POST['acf']['towa_gdpr_settings_hash'] || isset($_POST['save_and_hash'])) {
+            if (
+                !isset($_POST['acf']['towa_gdpr_settings_hash'])
+                || '' === $_POST['acf']['towa_gdpr_settings_hash']
+                || isset($_POST['save_and_hash'])
+            ) {
                 \update_field('towa_gdpr_settings_hash', (new Hash())->getHash(), 'option');
             }
-            \delete_transient(self::TRANSIENT_KEY . get_locale());
+
+            self::deleteTransients();
 
             $ips = [];
-            if (isset($_POST['acf']['towa_gdpr_settings_towa_gdpr_internal']) && $internalIps = $_POST['acf']['towa_gdpr_settings_towa_gdpr_internal']) {
+            if (
+                isset($_POST['acf']['towa_gdpr_settings_towa_gdpr_internal'])
+                && $internalIps = $_POST['acf']['towa_gdpr_settings_towa_gdpr_internal']
+            ) {
                 foreach ($internalIps as $ip) {
                     $ips[] = trim($ip['towa_gdpr_settings_towa_gdpr_ip']);
                 }
@@ -257,13 +272,46 @@ class Plugin
     }
 
     /**
+     * @param string|null $languageCode
+     * @return string
+     */
+    public static function getTransientKey(string $languageCode = null): string
+    {
+        if ($languageCode) {
+            return self::TRANSIENT_KEY_PREFIX . $languageCode;
+        }
+
+        if (defined('ICL_LANGUAGE_CODE')) {
+            return self::TRANSIENT_KEY_PREFIX . ICL_LANGUAGE_CODE;
+        }
+
+        return self::TRANSIENT_KEY_PREFIX;
+    }
+
+    /**
+     * deletes transients for all Languages
+     */
+    protected static function deleteTransients(): void
+    {
+        if (defined('ICL_LANGUAGE_CODE')) {
+            $languages = array_keys(apply_filters('wpml_active_languages', null, []));
+
+            foreach ($languages as $language) {
+                \delete_transient(self::getTransientKey($language));
+            }
+        } else {
+            \delete_transient(self::getTransientKey());
+        }
+    }
+
+    /**
      * returns path for json file
      *
      * @return string
      */
     public static function getJsonFileName(): string
     {
-       return implode('/', [TOWA_GDPR_DATA, 'ip', 'ip.json']);
+        return implode('/', [TOWA_GDPR_DATA, 'ip', 'ip.json']);
     }
 
     /**
@@ -280,7 +328,10 @@ class Plugin
         } elseif ($ips) {
             $pathParts = pathinfo($fileName);
 
-            if (!@mkdir($concurrentDirectory = $pathParts['dirname'], self::TOWA_IP_DIR_UPLOADPERMISSIONS, true) && !is_dir($concurrentDirectory)) {
+            if (
+                !@mkdir($concurrentDirectory = $pathParts['dirname'], self::TOWA_IP_DIR_UPLOADPERMISSIONS, true)
+                && !is_dir($concurrentDirectory)
+            ) {
                 global $errors;
                 if (!$errors) {
                     $errors = new \WP_Error();
@@ -361,11 +412,12 @@ class Plugin
      */
     public static function getData(): array
     {
-        $data = \get_transient(self::TRANSIENT_KEY . get_locale());
+        $transientKey = self::getTransientKey();
+        $data = \get_transient($transientKey);
         if (!$data) {
             $data = \get_fields('options');
             // transient valid for one month
-            \set_transient(self::TRANSIENT_KEY . get_locale(), $data, 60 * 60 * 24 * 30);
+            \set_transient($transientKey, $data, 60 * 60 * 24 * 30);
         }
         // modify data to have uniform groups reason: acf doesn't work if they are named the same way
         if (isset($data['essential_group'])) {
