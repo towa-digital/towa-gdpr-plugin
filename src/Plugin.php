@@ -285,6 +285,10 @@ class Plugin
             return self::TRANSIENT_KEY_PREFIX . ICL_LANGUAGE_CODE;
         }
 
+        if (function_exists('pll_current_language')) {
+            return self::TRANSIENT_KEY_PREFIX . pll_current_language('locale');
+        }
+
         return self::TRANSIENT_KEY_PREFIX;
     }
 
@@ -293,9 +297,23 @@ class Plugin
      */
     protected static function deleteTransients(): void
     {
+        $languages = null;
         if (defined('ICL_LANGUAGE_CODE')) {
             $languages = array_keys(apply_filters('wpml_active_languages', null, []));
+        }
 
+        if (function_exists('pll_languages_list')) {
+            $languages = pll_languages_list([
+                'hide_empty' => 0,
+                'fields' => 'locale'
+            ]);
+        }
+
+        if ($languages && is_string($languages)) {
+            $languages = [$languages];
+        }
+
+        if ($languages && is_iterable($languages)) {
             foreach ($languages as $language) {
                 \delete_transient(self::getTransientKey($language));
             }
