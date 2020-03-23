@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name
+ * Towa Gdpr Plugin
  *
  * This file should only use syntax available in PHP 5.2.4 or later.
  *
