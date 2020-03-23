@@ -13,7 +13,7 @@
  * Plugin Name:       Towa Gdpr Plugin
  * Plugin URI:        https://github.com/towa-digital/towa-gdpr-plugin/
  * Description:       GDPR conform Plugin to control custom Javscript snippets in Frontend.
- * Version:           1.1.2
+ * Version:           1.1.3
  * Author:            Martin Welte
  * Author URI:        https://www.towa-digital.com/
  * Text Domain:       towa-gdpr-plugin
