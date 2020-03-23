@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name
+ * Towa Gdpr Plugin
  *
  * This file should only use syntax available in PHP 5.2.4 or later.
  *
@@ -11,15 +11,15 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Towa Gdpr Plugin
- * Plugin URI:        https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/
+ * Plugin URI:        https://github.com/towa-digital/towa-gdpr-plugin/
  * Description:       GDPR conform Plugin to control custom Javscript snippets in Frontend.
- * Version:           1.1.2
+ * Version:           1.1.3
  * Author:            Martin Welte
  * Author URI:        https://www.towa-digital.com/
  * Text Domain:       towa-gdpr-plugin
  * License:           GPL-2.0-or-later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Bitbucket Plugin URI: https://bitbucket.org/towa_gmbh/towa-gdpr-plugin/
+ * Github Plugin URI: https://github.com/towa-digital/towa-gdpr-plugin/
  * Requires PHP:      7.2
  * Requires WP:       >=4.7
  */

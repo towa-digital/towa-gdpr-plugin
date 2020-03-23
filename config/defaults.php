@@ -46,6 +46,12 @@ $towa_gdpr_plugin_settings = [
                     'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/main.js',
                     'ver' => TOWA_GDPR_PLUGIN_VERSION,
                     'in_footer' => true,
+                ],
+                [
+                    'handle' => 'towa-gdpr-plugin-settings-js',
+                    'ver' => TOWA_GDPR_PLUGIN_VERSION,
+                    'src' => '',
+                    'in_footer' => false,
                     'localize' => [
                         'name' => 'towaGdprContext',
                         // phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- Mixed type
