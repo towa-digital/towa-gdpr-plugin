@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Towa\GdprPlugin\Acf\AcfCookies;
 use Towa\GdprPlugin\Acf\AcfSettings;
+use Towa\GdprPlugin\Helper\PluginHelper;
 use Towa\GdprPlugin\Rest\Rest;
 
 if (!defined('ABSPATH')) {
@@ -242,26 +243,18 @@ class Plugin
      */
     public function saveOptionsHook(): void
     {
-        $screen = \get_current_screen();
-        if (false !== strpos($screen->id, 'towa-gdpr-plugin')) {
-            if (
-                !isset($_POST['acf']['towa_gdpr_settings_hash'])
-                || '' === $_POST['acf']['towa_gdpr_settings_hash']
-                || isset($_POST['save_and_hash'])
-            ) {
+        if (PluginHelper::isGdprPluginAdminScreen()) {
+            if (PluginHelper::shouldRenewHash()) {
                 \update_field('towa_gdpr_settings_hash', (new Hash())->getHash(), 'option');
             }
 
             self::deleteTransients();
 
             $ips = [];
-            if (
-                isset($_POST['acf']['towa_gdpr_settings_towa_gdpr_internal'])
-                && $internalIps = $_POST['acf']['towa_gdpr_settings_towa_gdpr_internal']
-            ) {
-                foreach ($internalIps as $ip) {
-                    $ips[] = trim($ip['towa_gdpr_settings_towa_gdpr_ip']);
-                }
+            $internalIps = PluginHelper::getInternalIpsFromPostRequest();
+
+            foreach ($internalIps as $ip) {
+                $ips[] = trim($ip['towa_gdpr_settings_towa_gdpr_ip']);
             }
 
             if ($ips) {
@@ -281,15 +274,7 @@ class Plugin
             return self::TRANSIENT_KEY_PREFIX . $languageCode;
         }
 
-        if (defined('ICL_LANGUAGE_CODE')) {
-            return self::TRANSIENT_KEY_PREFIX . ICL_LANGUAGE_CODE;
-        }
-
-        if (function_exists('pll_current_language')) {
-            return self::TRANSIENT_KEY_PREFIX . pll_current_language('locale');
-        }
-
-        return self::TRANSIENT_KEY_PREFIX;
+        return self::TRANSIENT_KEY_PREFIX . PluginHelper::getCurrentLocale();
     }
 
     /**
@@ -297,21 +282,7 @@ class Plugin
      */
     protected static function deleteTransients(): void
     {
-        $languages = null;
-        if (defined('ICL_LANGUAGE_CODE')) {
-            $languages = array_keys(apply_filters('wpml_active_languages', null, []));
-        }
-
-        if (function_exists('pll_languages_list')) {
-            $languages = pll_languages_list([
-                'hide_empty' => 0,
-                'fields' => 'locale'
-            ]);
-        }
-
-        if ($languages && is_string($languages)) {
-            $languages = [$languages];
-        }
+        $languages = PluginHelper::getActiveLanguages();
 
         if ($languages && is_iterable($languages)) {
             foreach ($languages as $language) {
