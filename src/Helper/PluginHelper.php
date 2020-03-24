@@ -99,4 +99,16 @@ class PluginHelper
     {
         return function_exists('pll_current_language');
     }
+
+    /**
+     * @return string
+     */
+    public static function getDataPath()
+    {
+        $uploadPath = \wp_get_upload_dir();
+        if (isset($uploadPath['basedir'])) {
+            return implode('/', [$uploadPath['basedir'], 'towa-gdpr']);
+        }
+        throw new \Exception("Can't find upload directory");
+    }
 }

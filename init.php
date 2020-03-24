@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Towa\GdprPlugin;
 
 use BrightNucleus\Config\ConfigFactory;
+use Towa\GdprPlugin\Helper\PluginHelper;
 
 // If this file is called directly, abort.
 // phpcs:disable PSR1.Files.SideEffects
@@ -36,17 +37,13 @@ if (!defined('TOWA_GDPR_PLUGIN_VERSION')) {
     define('TOWA_GDPR_PLUGIN_VERSION', '1.1.3');
 }
 
-if (!defined('TOWA_GDPR_DATA')) {
-    $uploadPath = \wp_get_upload_dir();
-    if (isset($uploadPath['basedir'])) {
-        $path = implode('/', [$uploadPath['basedir'], 'towa-gdpr']);
-        define('TOWA_GDPR_DATA', $path);
-    }
-}
-
 // Load Composer autoloader.
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
+}
+
+if (!defined('TOWA_GDPR_DATA')) {
+    define('TOWA_GDPR_DATA', PluginHelper::getDataPath());
 }
 
 // Initialize the plugin.
