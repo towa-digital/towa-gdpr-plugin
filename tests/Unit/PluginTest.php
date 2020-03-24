@@ -38,6 +38,39 @@ class PluginTest extends TestCase
     private $mock_config;
 
     /**
+     * Test that method that calls load_plugin_textdomain is hooked in to to the correct hook.
+     */
+    public function testLoadPluginTextdomainMethodIsHookedInCorrectly()
+    {
+        // Create an instance of the class under test.
+        $plugin = new Testee($this->mock_config);
+        $plugin->run();
+
+        // Check the plugin method that loads the text domain is hooked into the right filter.
+        static::assertNotFalse(
+            has_action(
+                'plugins_loaded',
+                [$plugin, $this->load_textdomain_callback]
+            ),
+            'Loading textdomain is not hooked in correctly.'
+        );
+    }
+
+    /**
+     * Test that load_plugin_textdomain() is called with the correct configurable arguments.
+     */
+    public function testLoadPluginTextdomainCalledWithCorrectArgs()
+    {
+        Functions\expect('load_plugin_textdomain')
+            ->once()
+            ->with('apple', false, 'apple/banana');
+
+        // Create an instance of the class under test.
+        $plugin = new Testee($this->mock_config);
+        $plugin->{$this->load_textdomain_callback}();
+    }
+
+    /**
      * Prepares the test environment before each test.
      *
      * @return void
@@ -59,32 +92,5 @@ class PluginTest extends TestCase
         $this->mock_config = ConfigFactory::createFromArray($mock_config);
 
         parent::setUp();
-    }
-
-    /**
-     * Test that method that calls load_plugin_textdomain is hooked in to to the correct hook.
-     */
-    public function testLoadPluginTextdomainMethodIsHookedInCorrectly()
-    {
-        // Create an instance of the class under test.
-        $plugin = new Testee($this->mock_config);
-        $plugin->run();
-
-        // Check the plugin method that loads the text domain is hooked into the right filter.
-        static::assertNotFalse(has_action('plugins_loaded', [$plugin, $this->load_textdomain_callback]), 'Loading textdomain is not hooked in correctly.');
-    }
-
-    /**
-     * Test that load_plugin_textdomain() is called with the correct configurable arguments.
-     */
-    public function testLoadPluginTextdomainCalledWithCorrectArgs()
-    {
-        Functions\expect('load_plugin_textdomain')
-            ->once()
-            ->with('apple', false, 'apple/banana');
-
-        // Create an instance of the class under test.
-        $plugin = new Testee($this->mock_config);
-        $plugin->{$this->load_textdomain_callback}();
     }
 }

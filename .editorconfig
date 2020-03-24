@@ -16,9 +16,12 @@ trim_trailing_whitespace = true
 indent_style = space
 indent_size = 2
 
+
 [*.{php,html,twig}]
 indent_style = space
 indent_size = 4
+max_line_length = 120
+end_of_line = lf
 
 [*.md]
 max_line_length = 80

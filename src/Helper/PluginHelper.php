@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Towa\GdprPlugin\Helper;
-
 
 use Illuminate\Support\Str;
 

@@ -12,9 +12,11 @@ namespace Towa\GdprPlugin;
 
 use DateTime;
 
+// phpcs:disable PSR1.Files.SideEffects
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
+// phpcs:enable
 
 /**
  * Hash class.

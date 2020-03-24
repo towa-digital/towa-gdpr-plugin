@@ -17,6 +17,7 @@ namespace Towa\GdprPlugin;
 use BrightNucleus\Config\ConfigFactory;
 
 // If this file is called directly, abort.
+// phpcs:disable PSR1.Files.SideEffects
 if (!defined('WPINC')) {
     die;
 }
@@ -49,5 +50,6 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 }
 
 // Initialize the plugin.
-$GLOBALS['towa_gdpr_plugin'] = new Plugin(ConfigFactory::create(__DIR__ . '/config/defaults.php')->getSubConfig('Towa\GdprPlugin'));
+$GLOBALS['towa_gdpr_plugin'] = new Plugin(ConfigFactory::create(__DIR__ . '/config/defaults.php')
+    ->getSubConfig('Towa\GdprPlugin'));
 $GLOBALS['towa_gdpr_plugin']->run();

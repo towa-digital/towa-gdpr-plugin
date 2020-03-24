@@ -10,9 +10,11 @@
 
 namespace Towa\GdprPlugin\Acf;
 
+// phpcs:disable PSR1.Files.SideEffects
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
+// phpcs:enable
 
 /**
  * Class AcfUtility

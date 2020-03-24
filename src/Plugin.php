@@ -24,9 +24,11 @@ use Towa\GdprPlugin\Acf\AcfSettings;
 use Towa\GdprPlugin\Helper\PluginHelper;
 use Towa\GdprPlugin\Rest\Rest;
 
+// phpcs:disable PSR1.Files.SideEffects
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
+// phpcs:enable
 
 /**
  * Main plugin class.
@@ -213,6 +215,7 @@ class Plugin
      */
     public function myAcfNotice(): void
     {
+        //phpcs:disable Generic.Files.LineLength
         ?>
         <div class="error">
             <p>
@@ -222,6 +225,7 @@ class Plugin
             </p>
         </div>
         <?php
+        //phpcs:enable
     }
 
     /**

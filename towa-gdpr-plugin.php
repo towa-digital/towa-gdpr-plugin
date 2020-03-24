@@ -24,10 +24,13 @@
  * Requires WP:       >=4.7
  */
 
+// phpcs:disable PSR1.Files.SideEffects
+
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
     die;
 }
+
 
 if (version_compare(PHP_VERSION, '7.2', '<')) {
     add_action('plugins_loaded', 'towa_gdpr_plugin_init_deactivation');
@@ -56,11 +59,13 @@ if (version_compare(PHP_VERSION, '7.2', '<')) {
      */
     function towa_gdpr_plugin_deactivation_notice()
     {
+        //phpcs:disable Generic.Files.LineLength
         $notice = sprintf(
             '<strong>Towa Gdpr Plugin</strong> requires PHP %1$s to run. This site uses %2$s, so the plugin has been <strong>deactivated</strong>.',
             '7.2',
             PHP_VERSION
         );
+        // phpcs:enable
         ?>
         <div class="updated"><p><?php echo wp_kses_post($notice); ?></p></div>
         <?php
