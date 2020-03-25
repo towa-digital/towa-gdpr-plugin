@@ -19,3 +19,5 @@ You will find the steps required for the usage in the [`docs`](/docs/) folder.
 
 ## Contributors
 - [Towa Digital Agency](https://www.towa.at)
+- [Martin-Welte](https://github.com/Martin-Welte)
+- [szepeviktor](https://github.com/szepeviktor)

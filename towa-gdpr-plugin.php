@@ -3,18 +3,18 @@
 /**
  * Towa Gdpr Plugin
  *
- * This file should only use syntax available in PHP 5.2.4 or later.
+ * This file should only use syntax available in PHP 7.2 or later.
  *
- * @author       Martin Welte
+ * @author       TOWA GmbH
  * @copyright    2019 Towa
  * @license      GPL-2.0-or-later
  *
  * @wordpress-plugin
  * Plugin Name:       Towa Gdpr Plugin
  * Plugin URI:        https://github.com/towa-digital/towa-gdpr-plugin/
- * Description:       GDPR conform Plugin to control custom Javscript snippets in Frontend.
+ * Description:       GDPR conform plugin to control custom Javscript snippets in Frontend.
  * Version:           1.1.3
- * Author:            Martin Welte
+ * Author:            TOWA GmbH
  * Author URI:        https://www.towa-digital.com/
  * Text Domain:       towa-gdpr-plugin
  * License:           GPL-2.0-or-later
