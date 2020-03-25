@@ -1,13 +1,5 @@
 <?php
 
-/**
- * AcfUtility File
- *
- * @author Martin Welte
- * @copyright 2020 Towa
- * @license GPL-2.0+
- */
-
 namespace Towa\GdprPlugin\Acf;
 
 // phpcs:disable PSR1.Files.SideEffects

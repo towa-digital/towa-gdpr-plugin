@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Unit tests for Plugin
- *
- * @author       Martin Welte
- * @copyright    2019 Towa
- * @license      GPL-2.0+
- */
-
 declare(strict_types=1);
 
 namespace Towa\GdprPlugin\Tests\Unit;

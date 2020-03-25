@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Consent File.
- *
- * @author       Martin Welte
- * @copyright    2019 Towa
- * @license      GPL-2.0+
- */
-
 namespace Towa\GdprPlugin\Consentlogger;
 
 use League\Csv\Writer;

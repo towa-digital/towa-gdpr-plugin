@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Acf Settings File.
- *
- * @author  Martin Welte
- * @copyright Towa 2019
- */
-
 namespace Towa\GdprPlugin\Acf;
 
 use Towa\Acf\Fields\ColorPicker;

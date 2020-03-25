@@ -1,12 +1,5 @@
 <?php
 
-/**
- * AcfCokies File.
- *
- * @author Martin Welte
- * @copyright 2019 Towa
- */
-
 namespace Towa\GdprPlugin\Acf;
 
 use Towa\Acf\Fields\Group;

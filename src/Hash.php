@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Hash class file.
- *
- * @author Martin Welte <martin.welte@towa.at>
- * @copyright 2019 Towa
- * @license GPL-2.0+
- */
-
 namespace Towa\GdprPlugin;
 
 use DateTime;
@@ -20,6 +12,8 @@ if (!defined('ABSPATH')) {
 
 /**
  * Hash class.
+ *
+ * Class to generate Hashes based on the current date
  *
  * @author Martin Welte <martin.welte@towa.at>
  */

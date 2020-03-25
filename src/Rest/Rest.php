@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Rest Controller File.
- *
- * @author    Martin Welte
- * @copyright 2020 Towa
- * @license   GPL-2.0+
- */
-
 namespace Towa\GdprPlugin\Rest;
 
 use Towa\GdprPlugin\Consentlogger\Consent;
