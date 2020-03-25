@@ -3,8 +3,6 @@
 /**
  * Initialise the plugin
  *
- * This file can use syntax from the required level of PHP or later.
- *
  * @author       Martin Welte
  * @copyright    2019 Towa
  * @license      GPL-2.0+

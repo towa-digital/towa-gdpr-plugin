@@ -57,7 +57,7 @@ final class SettingsTableAdapter
     }
 
     /**
-     * get the Wordpress Database Object
+     * get the WordPress Database Object
      *
      * @return \wpdb
      */
