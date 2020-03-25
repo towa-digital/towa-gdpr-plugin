@@ -1,11 +1,7 @@
 <?php
 
 /**
- * Initialise the plugin
- *
- * @author       Martin Welte
- * @copyright    2019 Towa
- * @license      GPL-2.0+
+ * Initialise the plugin and set up necessary variables
  */
 
 declare(strict_types=1);
