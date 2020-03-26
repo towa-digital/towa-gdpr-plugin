@@ -1,6 +1,7 @@
 # Towa GDPR Plugin
 
-This Plugin is a cookie notice plugin conforming with the GDPR regulation, implemented by the EU. 
+This Plugin is a cookie notice plugin conforming with the GDPR ([General Data Protection Regulation](https://eur-lex.europa.eu/eli/reg/2016/679/oj)), implemented by the EU. 
+
 - Backend-user can define different tracker with custom js code, description, name, and a link to the vendors privacy policies.
 - Frontend-users can customize what trackers they want and which they don't. These settings can be revoked at anytime.
 - Consents given by users are logged on the filesystem.
