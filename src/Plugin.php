@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Main plugin file.
- *
- * @author       Martin Welte
- * @copyright    2019 Towa
- * @license      GPL-2.0+
- */
-
 declare(strict_types=1);
 
 namespace Towa\GdprPlugin;
@@ -24,9 +16,11 @@ use Towa\GdprPlugin\Acf\AcfSettings;
 use Towa\GdprPlugin\Helper\PluginHelper;
 use Towa\GdprPlugin\Rest\Rest;
 
+// phpcs:disable PSR1.Files.SideEffects
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
+// phpcs:enable
 
 /**
  * Main plugin class.
@@ -213,6 +207,7 @@ class Plugin
      */
     public function myAcfNotice(): void
     {
+        //phpcs:disable Generic.Files.LineLength
         ?>
         <div class="error">
             <p>
@@ -222,6 +217,7 @@ class Plugin
             </p>
         </div>
         <?php
+        //phpcs:enable
     }
 
     /**

@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Rest Controller File.
- *
- * @author    Martin Welte
- * @copyright 2020 Towa
- * @license   GPL-2.0+
- */
-
 namespace Towa\GdprPlugin\Rest;
 
 use Towa\GdprPlugin\Consentlogger\Consent;
@@ -15,16 +7,19 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
 
+// phpcs:disable PSR1.Files.SideEffects
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
+// phpcs:enable
+
 /**
  * Class Rest.
  */
 class Rest
 {
-    const TOWA_GDPR_REST_NAMESPACE = 'towa-gdpr/';
-    const CONSENT_ENDPOINT = 'consent/';
+    public const TOWA_GDPR_REST_NAMESPACE = 'towa-gdpr/';
+    public const CONSENT_ENDPOINT = 'consent/';
 
     /**
      * register rest endpoints of towa-gdpr-plugin.

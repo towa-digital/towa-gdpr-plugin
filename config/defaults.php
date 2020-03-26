@@ -43,7 +43,7 @@ $towa_gdpr_plugin_settings = [
             'scripts' => [
                 [
                     'handle' => 'towa-gdpr-plugin-js',
-                    'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/main.js',
+                    'src' => TOWA_GDPR_PLUGIN_URL . 'dist/js/main.js',
                     'ver' => TOWA_GDPR_PLUGIN_VERSION,
                     'in_footer' => true,
                 ],
@@ -65,7 +65,7 @@ $towa_gdpr_plugin_settings = [
                 ],
                 [
                     'handle' => 'towa-gdpr-plugin-checkip-js',
-                    'src' => TOWA_GDPR_PLUGIN_URL.'dist/js/checkTrafficType.js',
+                    'src' => TOWA_GDPR_PLUGIN_URL . 'dist/js/checkTrafficType.js',
                     'ver' => TOWA_GDPR_PLUGIN_VERSION,
                     'in_footer' => false,
                     'is_needed' => function ($context) {

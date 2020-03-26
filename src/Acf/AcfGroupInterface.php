@@ -1,12 +1,5 @@
 <?php
 
-/**
- * AcfGroup interface File.
- *
- * @author  Martin Welte
- * @copyright 2019 Towa
- */
-
 namespace Towa\GdprPlugin\Acf;
 
 /**

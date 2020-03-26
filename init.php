@@ -1,13 +1,7 @@
 <?php
 
 /**
- * Initialise the plugin
- *
- * This file can use syntax from the required level of PHP or later.
- *
- * @author       Martin Welte
- * @copyright    2019 Towa
- * @license      GPL-2.0+
+ * Initialise the plugin and set up necessary variables
  */
 
 declare(strict_types=1);
@@ -15,8 +9,10 @@ declare(strict_types=1);
 namespace Towa\GdprPlugin;
 
 use BrightNucleus\Config\ConfigFactory;
+use Towa\GdprPlugin\Helper\PluginHelper;
 
 // If this file is called directly, abort.
+// phpcs:disable PSR1.Files.SideEffects
 if (!defined('WPINC')) {
     die;
 }
@@ -35,19 +31,16 @@ if (!defined('TOWA_GDPR_PLUGIN_VERSION')) {
     define('TOWA_GDPR_PLUGIN_VERSION', '1.1.3');
 }
 
-if (!defined('TOWA_GDPR_DATA')) {
-    $uploadPath = \wp_get_upload_dir();
-    if (isset($uploadPath['basedir'])) {
-        $path = implode('/', [$uploadPath['basedir'], 'towa-gdpr']);
-        define('TOWA_GDPR_DATA', $path);
-    }
-}
-
 // Load Composer autoloader.
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
+if (!defined('TOWA_GDPR_DATA')) {
+    define('TOWA_GDPR_DATA', PluginHelper::getDataPath());
+}
+
 // Initialize the plugin.
-$GLOBALS['towa_gdpr_plugin'] = new Plugin(ConfigFactory::create(__DIR__ . '/config/defaults.php')->getSubConfig('Towa\GdprPlugin'));
+$GLOBALS['towa_gdpr_plugin'] = new Plugin(ConfigFactory::create(__DIR__ . '/config/defaults.php')
+    ->getSubConfig('Towa\GdprPlugin'));
 $GLOBALS['towa_gdpr_plugin']->run();
