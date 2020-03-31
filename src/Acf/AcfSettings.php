@@ -1,24 +1,21 @@
 <?php
 
-/**
- * Acf Settings File.
- *
- * @author  Martin Welte
- * @copyright Towa 2019
- */
-
 namespace Towa\GdprPlugin\Acf;
 
 use Towa\Acf\Fields\ColorPicker;
 use Towa\Acf\Fields\Number;
 use Towa\Acf\Fields\Relation;
+use Towa\Acf\Fields\Repeater;
 use Towa\Acf\Fields\Tab;
 use Towa\Acf\Fields\Text;
+use Towa\Acf\Fields\TrueFalse;
 use Towa\Acf\Fields\Wysiwyg;
 
+// phpcs:disable PSR1.Files.SideEffects
 if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly.
+    die(); // Exit if accessed directly.
 }
+// phpcs:enable
 
 /**
  * Class AcfSettings.
@@ -72,6 +69,7 @@ class AcfSettings implements AcfGroupInterface
      */
     public function buildFields(): array
     {
+        //phpcs:disable Generic.Files.LineLength
         return [
             (new Tab($this->name, 'general_settings_tab', __('general Settings', 'towa-gdpr-plugin')))->build(),
             (new Text($this->name, 'tagmanager', __('Tagmanager ID', 'towa-gdpr-plugin')))->build(
@@ -79,6 +77,15 @@ class AcfSettings implements AcfGroupInterface
                     'instructions' => __('this will add the tagmanager installation script to the header of the page (be aware that it will not support the noscript iframe)', 'towa-gdpr-plugin'),
                 ]
             ),
+            (new Repeater($this->name, 'towa_gdpr_internal', __('Don\'t Track following IPs', 'towa-gdpr-plugin')))->build([
+                'instructions' => 'IP4, IP6 or CDIR subnet (eg 172.17.0.0/17 or 2001:0DB8:0:CD30::1/60)',
+                'required' => false,
+                'sub_fields' => [
+                    (new Text($this->name, 'towa_gdpr_ip', __('IP', 'towa-gdpr-plugin')))->build([
+                        'required' => true,
+                    ])
+                ]
+            ]),
             (new Wysiwyg($this->name, 'cookie_wysiwyg', __('Cookie Notice general Information', 'towa-gdpr-plugin')))->build(),
             (new Text($this->name, 'accept_label', __('accept all Cookies text', 'towa-gdpr-plugin')))->build(
                 [
@@ -127,7 +134,16 @@ class AcfSettings implements AcfGroupInterface
                     'instructions' => __('The hash is used to verify the current version of the consent message. if this differs with a users hash, the consent notification will be shown again', 'towa-gdpr-plugin'),
                 ]
             ),
-
+            (new TrueFalse($this->name, 'activate_accordion', __('Akkordion aktivieren', 'towa-gdpr-plugin')) )-> build(),
+            (new Text($this->name, 'accordion_text', __('Text für Akkordion', 'towa-gdpr-plugin')))->build([
+                'conditional_logic' => [
+                    [
+                        'field' => $this->name . '_activate_accordion',
+                        'operator' => '==',
+                        'value' => 1,
+                    ],
+                ],
+            ]),
             (new Tab($this->name, 'no_cookie_pages_tab', __('No Cookie Pages', 'towa-gdpr-plugin')))->build(),
             (new Relation($this->name, 'no_cookie_pages', __('Pages', 'towa-gdpr-plugin')))->build(
                 [
@@ -135,5 +151,16 @@ class AcfSettings implements AcfGroupInterface
                 ]
             ),
         ];
+        //phpcs:enable
+    }
+
+    /*
+     * removes all ACF Settings Fields from Database
+     */
+    public static function deleteFields(): void
+    {
+        collect((new AcfSettings())->buildFields())->each(function ($field) {
+            AcfUtility::deleteAcfFieldRecursively($field, 'option');
+        });
     }
 }

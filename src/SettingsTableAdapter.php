@@ -1,18 +1,12 @@
 <?php
 
-/**
- * Settings Table Adapter File
- *
- * @author Martin Welte
- * @copyright 2020 Towa
- * @license GPL-2.0+
- */
-
 namespace Towa\GdprPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
+// phpcs:enable
 
 /**
  * Class SettingsTableAdapter
@@ -63,7 +57,7 @@ final class SettingsTableAdapter
     }
 
     /**
-     * get the Wordpress Database Object
+     * get the WordPress Database Object
      *
      * @return \wpdb
      */

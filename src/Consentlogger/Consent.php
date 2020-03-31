@@ -1,27 +1,23 @@
 <?php
 
-/**
- * Consent File.
- *
- * @author       Martin Welte
- * @copyright    2019 Towa
- * @license      GPL-2.0+
- */
-
 namespace Towa\GdprPlugin\Consentlogger;
 
 use League\Csv\Writer;
 use Symfony\Component\HttpFoundation\Request;
 
+// phpcs:disable PSR1.Files.SideEffects
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
+// phpcs:enable
+
 /**
  * Class Consent.
  */
 class Consent
 {
-    const LOG_DIR = WP_CONTENT_DIR . '/uploads/towa-gdpr/';
+    private const LOG_DIR = TOWA_GDPR_DATA . '/consents/';
+    private const TOWA_LOG_DIR_UPLOADPERMISSIONS = 0750;
 
     /**
      * @var \DateTime
@@ -77,8 +73,7 @@ class Consent
     public function save(): void
     {
         if (!file_exists(self::LOG_DIR)) {
-            $uploadpermissions = fileperms(WP_CONTENT_DIR . '/uploads/');
-            mkdir(self::LOG_DIR, $uploadpermissions);
+            $this->createLogDirectory();
         }
         $filename = self::LOG_DIR . $this->timestamp->format('Y-m-d') . '.csv';
         $writemode = file_exists($filename) ? 'a' : 'w';
@@ -98,5 +93,15 @@ class Consent
             'cookies' => $this->config,
             'hash' => $this->hash,
         ];
+    }
+
+    /**
+     * creates the Log directory
+     */
+    private function createLogDirectory(): void
+    {
+        mkdir(self::LOG_DIR, self::TOWA_LOG_DIR_UPLOADPERMISSIONS, true);
+        @file_put_contents(self::LOG_DIR . '/index.php', "<?php \r\n// Silence is golden.");
+        @file_put_contents(self::LOG_DIR . '/.htaccess', "Options -Indexes\r\nDeny from all");
     }
 }

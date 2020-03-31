@@ -15,6 +15,7 @@
 	],
 	"require": {
 		"php": "^7.2",
+		"ext-sockets": "*",
 		"brightnucleus/config": "^0.4",
 		"brightnucleus/dependencies": "^0.3.2",
 		"cedaro/wp-plugin": "^0.4",
@@ -65,8 +66,8 @@
 			"./bin/php-lint",
 			"./bin/xml-lint"
 		],
-		"phpcbf": "phpcbf && phpcbf ./towa-gdpr-plugin.php -sp --standard=.phpcs.xml.dist --runtime-set testVersion 7.2 --config-show",
-		"phpcs": "phpcs && phpcs ./towa-gdpr-plugin.php -sp --standard=.phpcs.xml.dist --runtime-set testVersion 7.2",
+		"phpcbf": "phpcbf && phpcbf ./towa-gdpr-plugin.php --runtime-set testVersion 7.2 --config-show",
+		"phpcs": "phpcs && phpcs ./towa-gdpr-plugin.php --runtime-set testVersion 7.2",
 		"test": [
 			"@lint",
 			"@unit",

@@ -1,12 +1,5 @@
 <?php
 
-/**
- * AcfGroup interface File.
- *
- * @author  Martin Welte
- * @copyright 2019 Towa
- */
-
 namespace Towa\GdprPlugin\Acf;
 
 /**
@@ -25,4 +18,9 @@ interface AcfGroupInterface
      * Declare all used Fields within the group.
      */
     public function buildFields(): array;
+
+    /**
+     * deletes all fields of group
+     */
+    public static function deleteFields(): void;
 }
