@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.4](https://github.com/towa-digital/towa-gdpr-plugin/tree/1.1.4) - 31.03.2020
+
+### Updated
+
+- composer dependencies
+- npm dependencies
+
 ## [1.1.3](https://github.com/towa-digital/towa-gdpr-plugin/tree/1.1.3) - 23.03.2020
 
 ### fixed
