@@ -32,6 +32,6 @@ xmllint --noout --schema tmp/phpcs.xsd "$RULESET"
 diff -B "$RULESET" <(XMLLINT_INDENT="	" xmllint --format "$RULESET")
 
 xmllint --noout --schema tmp/XMLSchema.xsd tmp/phpunit.xsd
-xmllint --noout --schema tmp/phpcs.xsd "$UNIT_TEST_CONFIG"
+xmllint --noout --schema tmp/phpunit.xsd "$UNIT_TEST_CONFIG"
 diff -B "$UNIT_TEST_CONFIG" <(XMLLINT_INDENT="	" xmllint --format "$UNIT_TEST_CONFIG")
 
