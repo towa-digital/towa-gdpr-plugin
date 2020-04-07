@@ -23,4 +23,9 @@ interface AcfGroupInterface
      * deletes all fields of group
      */
     public static function deleteFields(): void;
+
+    /**
+     * get all field names of group
+     */
+    public static function getFieldNames(): array;
 }

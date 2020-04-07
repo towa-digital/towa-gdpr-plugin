@@ -150,4 +150,14 @@ class AcfCookies implements AcfGroupInterface
             AcfUtility::deleteAcfFieldRecursively($field, 'option');
         });
     }
+
+    /**
+     * get Field Names of Group
+     *
+     * @return array
+     */
+    public static function getFieldNames(): array
+    {
+        return collect((new AcfCookies())->buildFields())->pluck('name')->all();
+    }
 }
