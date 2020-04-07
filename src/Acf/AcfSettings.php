@@ -142,7 +142,7 @@ class AcfSettings implements AcfGroupInterface
             (new Text($this->name, 'accordion_text', __('Text für Akkordion', 'towa-gdpr-plugin')))->build([
                 'conditional_logic' => [
                     [
-                        'field' => $this->name.'_activate_accordion',
+                        'field' => $this->name . '_activate_accordion',
                         'operator' => '==',
                         'value' => 1,
                     ],

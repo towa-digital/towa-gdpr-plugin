@@ -263,7 +263,7 @@ class Plugin
      */
     public static function getJsonFileName(): string
     {
-       return implode('/', [TOWA_GDPR_DATA, 'ip', 'ip.json']);
+        return implode('/', [TOWA_GDPR_DATA, 'ip', 'ip.json']);
     }
 
     /**

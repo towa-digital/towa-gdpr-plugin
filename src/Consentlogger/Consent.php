@@ -105,7 +105,8 @@ class Consent
     /**
      * creates the Log directory
      */
-    private function createLogDirectory():void {
+    private function createLogDirectory(): void
+    {
         mkdir(self::LOG_DIR, self::TOWA_LOG_DIR_UPLOADPERMISSIONS, true);
         @file_put_contents(self::LOG_DIR . '/index.php', "<?php \r\n// Silence is golden.");
         @file_put_contents(self::LOG_DIR . '/.htaccess', "Options -Indexes\r\nDeny from all");
