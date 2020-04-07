@@ -68,18 +68,22 @@
 		],
 		"phpcbf": "phpcbf && phpcbf ./towa-gdpr-plugin.php --runtime-set testVersion 7.2 --config-show",
 		"phpcs": "phpcs && phpcs ./towa-gdpr-plugin.php --runtime-set testVersion 7.2",
+		"phpstan": "phpstan analyze --no-progress",
 		"test": [
+			"@composer validate --strict",
 			"@lint",
 			"@unit",
 			"@phpcs",
-			"@phpstan analyze --no-progress"
+			"@phpstan"
 		],
 		"test-full": [
+			"@composer validate --strict",
+			"@lint",
 			"@unit",
 			"@infection",
 			"@integration",
 			"@phpcs",
-			"@phpstan analyze --no-progress"
+			"@phpstan"
 		],
 		"unit": "phpunit --testsuite unit"
 	}

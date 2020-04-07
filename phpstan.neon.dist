@@ -7,12 +7,11 @@ parameters:
     checkMissingIterableValueType: false
     autoload_files:
         - vendor/paulthewalton/acf-pro-stubs/acf-pro-stubs.php
+        - tests/phpstan/bootstrap.php
         - init.php
     paths:
         - init.php
         - src/
     ignoreErrors:
-        # TODO Should use core functions instead of core constants - I know: cannot call a function in const = definition
-        - '#^Constant WP_CONTENT_DIR not found\.$#'
         # TODO Specify all return typehints
         - '# has no return typehint specified\.$#'
