@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable PSR1.Files.SideEffects
+
 /**
  * Initialise the plugin and set up necessary variables
  */
