@@ -11,6 +11,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Removed unnecessary file Docblocks
 - Added contributors
 
+## [1.1.4](https://github.com/towa-digital/towa-gdpr-plugin/tree/1.1.4) - 31.03.2020
+
+### Updated
+
+- composer dependencies
+- npm dependencies
+
 ## [1.1.3](https://github.com/towa-digital/towa-gdpr-plugin/tree/1.1.3) - 23.03.2020
 
 ### Fixed
