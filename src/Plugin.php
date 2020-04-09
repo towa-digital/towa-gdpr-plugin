@@ -405,7 +405,14 @@ class Plugin
         echo $template->render(); // phpcs:ignore
     }
 
-    public function displayImportExportAcfMetabox()
+    /**
+     * Renders import/export Acf Metabox from Twig file.
+     *
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function displayImportExportAcfMetabox(): void
     {
         $loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR . '/views/');
         $twig = new \Twig\Environment($loader);
