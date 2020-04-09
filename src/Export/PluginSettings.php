@@ -55,7 +55,7 @@ class PluginSettings
                 AcfCookies::getFieldNames(),
                 AcfSettings::getFieldNames()
             );
-            $settings = collect($fieldNames)->map(function ($fieldname) use ($language) {
+            $settings[$language] = collect($fieldNames)->map(function ($fieldname) use ($language) {
                 return get_field($fieldname, 'options_' . $language);
             })->toArray();
         });
