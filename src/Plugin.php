@@ -358,18 +358,20 @@ class Plugin
     {
         $screen = \get_current_screen();
 
-        if (false !== strpos($screen->id, 'towa-gdpr-plugin')) {
-            \add_meta_box(
-                'towa-gdpr-plugin-meta',
-                __(
-                    'publish & force new consent',
-                    'towa-gdpr-plugin'
-                ),
-                [$this, 'displayAcfMetabox'],
-                'acf_options_page',
-                'side'
-            );
+        if (! $screen instanceof \WP_Screen || false === strpos($screen->id, 'towa-gdpr-plugin')) {
+            return;
         }
+
+        \add_meta_box(
+            'towa-gdpr-plugin-meta',
+            __(
+                'publish & force new consent',
+                'towa-gdpr-plugin'
+            ),
+            [$this, 'displayAcfMetabox'],
+            'acf_options_page',
+            'side'
+        );
     }
 
     /**
@@ -480,7 +482,7 @@ class Plugin
             }
 
             if (!$internal && file_exists(self::getJsonFileName())) {
-                $ips = file_get_contents(self::getJsonFileName());
+                $ips = (string)file_get_contents(self::getJsonFileName());
                 $internal = IpUtils::checkIp($clientIp, array_values(json_decode($ips, true)));
             }
 

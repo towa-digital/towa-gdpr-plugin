@@ -25,7 +25,7 @@ class PluginHelper
     {
         $screen = \get_current_screen();
 
-        return ($screen && Str::contains($screen, 'towa-gdpr-plugin'));
+        return ($screen instanceof \WP_Screen && Str::contains($screen->id, 'towa-gdpr-plugin'));
     }
 
     /**

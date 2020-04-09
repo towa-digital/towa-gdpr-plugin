@@ -81,7 +81,7 @@ final class SettingsTableAdapter
         if (isset($plugindata['cookie_groups'])) {
             $settings['cookie_groups'] = $plugindata['cookie_groups'];
         }
-        $this->settings = json_encode($settings);
+        $this->settings = (string)json_encode($settings);
     }
 
     /**
@@ -110,7 +110,7 @@ final class SettingsTableAdapter
      */
     private function setDateTime(): void
     {
-        $this->datetime = current_time('mysql');
+        $this->datetime = (string)current_time('mysql');
     }
 
     /**

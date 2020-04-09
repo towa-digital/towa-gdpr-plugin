@@ -13,5 +13,7 @@ parameters:
         - init.php
         - src/
     ignoreErrors:
+        # Uses func_get_args()
+        - '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
         # TODO Specify all return typehints
-        - '# has no return typehint specified\.$#'
+        - '# (has|with) no return typehint specified\.$#'
