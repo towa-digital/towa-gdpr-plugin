@@ -393,6 +393,19 @@ class Plugin
     }
 
     /**
+     * Get all Plugin ACF Options
+     */
+    public static function getAcfOptions(): array
+    {
+        $data = \get_fields('options');
+        $fieldNames = array_merge(
+            AcfCookies::getFieldNames(),
+            AcfSettings::getFieldNames()
+        );
+        return collect($data)->only($fieldNames)->all();
+    }
+
+    /**
      * Return Settings.
      */
     public static function getData(): array
@@ -400,7 +413,8 @@ class Plugin
         $transientKey = self::getTransientKey();
         $data = \get_transient($transientKey);
         if (!$data) {
-            $data = \get_fields('options');
+            $data = self::getAcfOptions();
+
             // transient valid for one month
             \set_transient($transientKey, $data, 60 * 60 * 24 * 30);
         }

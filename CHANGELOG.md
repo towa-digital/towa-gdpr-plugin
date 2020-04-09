@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+### Fixed
+
+- Potential Dataleak prevented
+
 ### Refactor
 
 - Fixed typos in multiple files
