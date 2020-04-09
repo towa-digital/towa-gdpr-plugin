@@ -114,8 +114,7 @@ final class SettingsTableAdapter
     }
 
     /**
-     * Get the full Tablename
-     * @return string
+     * Get the full table-name.
      */
     public static function getTableName(): string
     {
@@ -124,7 +123,7 @@ final class SettingsTableAdapter
     }
 
     /**
-     * save the current Configuration to the database
+     * save the current configuration to the database
      */
     public function save()
     {
@@ -135,7 +134,21 @@ final class SettingsTableAdapter
     }
 
     /**
-     * Update Table Sructure if neccessary
+     * Get all settings ever made.
+     */
+    public static function getAllSettings(): array
+    {
+        if (! current_user_can('manage_options')) {
+            new \Exception('Settings can only be accessed by users with manage_options permissions');
+        }
+        $wpdb = self::getDb();
+        $tablename = self::getTableName();
+        $sql =  "SELECT * from $tablename";
+        return $wpdb->get_results($sql);
+    }
+
+    /**
+     * Update table structure if necessary
      */
     public static function updateTableStructure(): void
     {
