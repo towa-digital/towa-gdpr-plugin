@@ -242,6 +242,7 @@ class Plugin
             if (PluginHelper::shouldExport()) {
                 $exporter = new Exporter();
                 $exporter->exportToJsonFile();
+                exit;
             }
             if (PluginHelper::shouldRenewHash()) {
                 \update_field('towa_gdpr_settings_hash', (new Hash())->getHash(), 'option');

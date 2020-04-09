@@ -145,6 +145,7 @@ final class SettingsTableAdapter
         $wpdb = self::getDb();
         $tablename = self::getTableName();
         $sql =  "SELECT * from $tablename";
+
         return $wpdb->get_results($sql);
     }
 

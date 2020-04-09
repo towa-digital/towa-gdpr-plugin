@@ -3,6 +3,11 @@
 namespace Towa\GdprPlugin\Export;
 
 // phpcs:disable PSR1.Files.SideEffects
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
@@ -30,13 +35,13 @@ class Exporter
 
         $pluginSettings = new PluginSettings();
 
-        nocache_headers();
-        header('Content-Type: application/json; charset=utf-8');
-        header('Content-Disposition: attachment; filename=' . self::EXPORT_FILENAME . '-' . date('m-d-Y') . '.json');
-        header("Expires: 0");
+        $response = new Response(json_encode($pluginSettings), 200, ['Content-Type: application/json; charset=utf-8']);
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            self::EXPORT_FILENAME . '-' . date('m-d-Y') . '.json'
+        );
+        $response->headers->set('Content-Disposition', $disposition);
 
-        echo json_encode($pluginSettings);
-
-        exit;
+        $response->send();
     }
 }

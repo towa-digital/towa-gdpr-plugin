@@ -17,36 +17,37 @@ if (!defined('ABSPATH')) {
 /**
  * Gets all plugin settings as well as Acf settings in all Languages
  */
-class PluginSettings
+class PluginSettings implements \JsonSerializable
 {
     /**
      * All Acf Settings in all Languages.
      *
      * @var array
      */
-    public $acfSettings;
+    private $acfSettings = [];
 
     /**
      * All Settings saved in the plugin settings table.
      *
      * @var array
      */
-    public $pluginSettings;
+    private $pluginSettings = [];
 
     public function __construct()
     {
-        $this->acfSettings = $this->getAcfSettings();
-        $this->pluginSettings = $this->getPluginSettings();
+        $this->setAcfSettingsFromDatabase();
+        $this->setPluginSettingsFromDatbase();
     }
 
     /**
-     * Get all Acf settings, in all languages.
+     * Set Acf settings, in all languages.
      */
-    private function getAcfSettings(): array
+    private function setAcfSettingsFromDatabase(): void
     {
         $languages = PluginHelper::getActiveLanguages();
         if (!$languages || !is_iterable($languages)) {
-            return Plugin::getAcfOptions();
+            $this->setAcfSettings(Plugin::getAcfOptions());
+            return;
         }
 
         $settings = [];
@@ -60,15 +61,45 @@ class PluginSettings
             })->toArray();
         });
 
-        return $settings;
+        $this->setAcfSettings($settings);
+    }
+
+    /**
+     * Set Plugin Settings
+     *
+     * @param array $settings
+     */
+    public function setPluginSettings(array $settings): void
+    {
+        $this->pluginSettings = $settings;
+    }
+
+    /**
+     * Set Acf Settings
+     *
+     * @param array $settings
+     */
+    public function setAcfSettings(array $settings): void
+    {
+        $this->acfSettings = $settings;
     }
 
     /*
-     * Get historic plugin settings. The whole settings table.
+     * Set historic plugin settings. The whole settings table.
      */
-    private function getPluginSettings(): array
+    private function setPluginSettingsFromDatbase(): void
     {
-        $settingsTable = new SettingsTableAdapter();
-        return $settingsTable->getAllSettings();
+        $this->setPluginSettings((new SettingsTableAdapter())->getAllSettings());
+    }
+
+    /*
+     * Serialize Class data for JSON use
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'acfSettings' => $this->acfSettings,
+            'pluginSettings' => $this->pluginSettings
+        ];
     }
 }
