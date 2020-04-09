@@ -7,9 +7,9 @@ use Illuminate\Support\Str;
 class PluginHelper
 {
     /**
-     * @return bool
+     * Returns if the hash should be regenerated.
      */
-    public static function shouldRenewHash()
+    public static function shouldRenewHash(): bool
     {
         return (
             !isset($_POST['acf']['towa_gdpr_settings_hash'])
@@ -19,19 +19,27 @@ class PluginHelper
     }
 
     /**
-     * @return bool
+     * Returns if the export settings button was hit.
      */
-    public static function isGdprPluginAdminScreen()
+    public static function shouldExport(): bool
     {
-        $screen = \get_current_screen();
-
-        return ($screen && Str::contains($screen, 'towa-gdpr-plugin'));
+        return isset($_POST['export_settings']);
     }
 
     /**
-     * @return array
+     * Is the current screen, the towa-gdpr screen.
      */
-    public static function getInternalIpsFromPostRequest()
+    public static function isGdprPluginAdminScreen(): bool
+    {
+        $screen = \get_current_screen();
+
+        return ($screen && Str::contains($screen->id, 'towa-gdpr-plugin'));
+    }
+
+    /**
+     * Get IPs from POST.
+     */
+    public static function getInternalIpsFromPostRequest(): array
     {
         if (
             isset($_POST['acf']['towa_gdpr_settings_towa_gdpr_internal'])
@@ -44,9 +52,9 @@ class PluginHelper
     }
 
     /**
-     * @return string
+     * Get current language code
      */
-    public static function getCurrentLocale()
+    public static function getCurrentLocale(): string
     {
         if (self::isWpmlActive()) {
             return ICL_LANGUAGE_CODE;
@@ -60,9 +68,9 @@ class PluginHelper
     }
 
     /**
-     * @return array|string
+     * Get the currently active Language
      */
-    public static function getActiveLanguages()
+    public static function getActiveLanguages(): array
     {
         $languages = [];
 
@@ -85,15 +93,15 @@ class PluginHelper
     }
 
     /**
-     * @return bool
+     * Returns true if Wpml is active.
      */
-    public static function isWpmlActive()
+    public static function isWpmlActive(): bool
     {
         return defined('ICL_LANGUAGE_CODE');
     }
 
     /**
-     * @return bool
+     * Returns true if Polylang is active.
      */
     public static function isPolylangActive()
     {
@@ -101,10 +109,11 @@ class PluginHelper
     }
 
     /**
-     * @return string
+     * Get towa-gdpr Data Path.
+     *
      * @throws \Exception
      */
-    public static function getDataPath()
+    public static function getDataPath(): string
     {
         $uploadPath = \wp_get_upload_dir();
         if (isset($uploadPath['basedir'])) {

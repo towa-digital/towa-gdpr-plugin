@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Towa\GdprPlugin\Acf\AcfCookies;
 use Towa\GdprPlugin\Acf\AcfSettings;
+use Towa\GdprPlugin\Export\Exporter;
 use Towa\GdprPlugin\Helper\PluginHelper;
 use Towa\GdprPlugin\Rest\Rest;
 
@@ -238,6 +239,10 @@ class Plugin
     public function saveOptionsHook(): void
     {
         if (PluginHelper::isGdprPluginAdminScreen()) {
+            if (PluginHelper::shouldExport()) {
+                $exporter = new Exporter();
+                $exporter->exportToJsonFile();
+            }
             if (PluginHelper::shouldRenewHash()) {
                 \update_field('towa_gdpr_settings_hash', (new Hash())->getHash(), 'option');
             }

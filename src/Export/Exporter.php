@@ -20,11 +20,12 @@ class Exporter
 
     /**
      * Exports all Settings to a .json File.
+     * @throws \Exception
      */
     public function exportToJsonFile(): void
     {
         if (! current_user_can('manage_options')) {
-            new \Exception('Exports can only be made by user with manage_options permissions');
+            throw new \Exception('Exports can only be made by user with manage_options permissions');
         }
 
         $pluginSettings = new PluginSettings();
