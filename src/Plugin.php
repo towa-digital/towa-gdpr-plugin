@@ -24,8 +24,6 @@ if (!defined('ABSPATH')) {
 
 /**
  * Main plugin class.
- *
- * @author  Martin Welte <martin.welte@towa.at>
  */
 class Plugin
 {
@@ -369,6 +367,16 @@ class Plugin
                 'acf_options_page',
                 'side'
             );
+            \add_meta_box(
+                'towa-gdpr-plugin-import-export',
+                __(
+                    'import & export Settings',
+                    'towa-gdpr-plugin'
+                ),
+                [$this, 'displayImportExportAcfMetabox'],
+                'acf_options_page',
+                'side'
+            );
         }
     }
 
@@ -389,6 +397,23 @@ class Plugin
         $twig->addFunction($function);
 
         $template = $twig->load('meta-box.twig');
+        echo $template->render(); // phpcs:ignore
+    }
+
+    public function displayImportExportAcfMetabox()
+    {
+        $loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR . '/views/');
+        $twig = new \Twig\Environment($loader);
+        $function = new \Twig\TwigFunction(
+            '__',
+            function (string $string, string $textdomain = 'towa-gdpr-plugin') {
+                return __($string, $textdomain); //phpcs:ignore
+            }
+        );
+
+        $twig->addFunction($function);
+
+        $template = $twig->load('import-export-meta-box.twig');
         echo $template->render(); // phpcs:ignore
     }
 
