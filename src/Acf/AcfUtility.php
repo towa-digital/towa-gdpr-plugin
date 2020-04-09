@@ -19,8 +19,11 @@ class AcfUtility
      *
      * If Field contains sub fields, they will be deleted too.
      */
-    public static function deleteAcfFieldRecursively(array $field, string $postId = null, bool $isSubField = false): void
-    {
+    public static function deleteAcfFieldRecursively(
+        array $field,
+        string $postId = null,
+        bool $isSubField = false
+    ): void {
         if ($postId === null) {
             return;
         }
