@@ -135,11 +135,12 @@ final class SettingsTableAdapter
 
     /**
      * Get all settings ever made.
+     * @throws \Exception
      */
     public static function getAllSettings(): array
     {
         if (! current_user_can('manage_options')) {
-            new \Exception('Settings can only be accessed by users with manage_options permissions');
+            throw new \Exception('Settings can only be accessed by users with manage_options permissions');
         }
         $wpdb = self::getDb();
         $tablename = self::getTableName();
