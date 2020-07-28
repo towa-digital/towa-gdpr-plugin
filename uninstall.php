@@ -4,10 +4,6 @@
  * Uninstall the Plugin
  *
  * This file is used to deinstall the towa-gdpr-cookie notice Plugin
- *
- * @author       Martin Welte
- * @copyright    2019 Towa
- * @license      GPL-2.0+
  */
 
 if (!defined('WP_UNINSTALL_PLUGIN')) {

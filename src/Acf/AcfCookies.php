@@ -1,12 +1,5 @@
 <?php
 
-/**
- * AcfCokies File.
- *
- * @author Martin Welte
- * @copyright 2019 Towa
- */
-
 namespace Towa\GdprPlugin\Acf;
 
 use Towa\Acf\Fields\Group;
@@ -15,9 +8,11 @@ use Towa\Acf\Fields\Repeater;
 use Towa\Acf\Fields\Text;
 use Towa\Acf\Fields\Textarea;
 
+// phpcs:disable PSR1.Files.SideEffects
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
+// phpcs:enable
 
 /**
  * Class AcfCookies: registers Acf Group for Cookies.
@@ -69,6 +64,7 @@ class AcfCookies implements AcfGroupInterface
      */
     public function buildFields(): array
     {
+        //phpcs:disable Generic.Files.LineLength
         return [
             (new Group($this->name, 'essential_group', __('Essential Cookies', 'towa-gdpr-plugin')))->build([
                 'sub_fields' => [
@@ -142,6 +138,7 @@ class AcfCookies implements AcfGroupInterface
                 'layout' => 'block',
             ]),
         ];
+        //phpcs:enable
     }
 
     /**
@@ -152,5 +149,15 @@ class AcfCookies implements AcfGroupInterface
         collect((new AcfCookies())->buildFields())->map(function ($field) {
             AcfUtility::deleteAcfFieldRecursively($field, 'option');
         });
+    }
+
+    /**
+     * get Field Names of Group
+     *
+     * @return array
+     */
+    public static function getFieldNames(): array
+    {
+        return collect((new AcfCookies())->buildFields())->pluck('name')->all();
     }
 }
