@@ -44,6 +44,7 @@
     "cross-env": "^6.0.3",
     "custom-event-polyfill": "^1.0.7",
     "dotenv": "^8.2.0",
+    "eclint": "^2.8.1",
     "element-closest-polyfill": "^1.0.0",
     "eslint": "^6.8.0",
     "husky": "^3.1.0",
@@ -62,7 +63,6 @@
   "dependencies": {
     "array-flat-polyfill": "^1.0.1",
     "axios": "^0.19.2",
-    "eclint": "^2.8.1",
     "es6-promise": "^4.2.8"
   }
 }
