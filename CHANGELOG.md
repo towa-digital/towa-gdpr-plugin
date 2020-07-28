@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [v1.1.6]
 
 ### Fixed
 
@@ -143,3 +143,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added Backend Options for Cookies
 - Setup Automatic deployment on development branch
 - Setup Composer
+
+
+[v1.1.6]: https://github.com/towa-digital/towa-gdpr-plugin/tree/v1.1.6
