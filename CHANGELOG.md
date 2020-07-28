@@ -145,4 +145,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Setup Composer
 
 
-[v1.0.6]: https://github.com/towa-digital/towa-gdpr-plugin/tree/v1.1.6
+[v1.1.6]: https://github.com/towa-digital/towa-gdpr-plugin/tree/v1.1.6
