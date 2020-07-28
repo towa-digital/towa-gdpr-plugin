@@ -149,4 +149,6 @@ class TowaGdprPlugin {
 }
 
 // eslint-disable-next-line
-const towagdpr = new TowaGdprPlugin()
+document.addEventListener("DOMContentLoaded", () =>{
+  const towagdpr = new TowaGdprPlugin()
+});
