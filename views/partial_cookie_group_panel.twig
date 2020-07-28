@@ -1,26 +1,26 @@
 <div class="Towa-Gdpr-Plugin__group-panel" role="tabpanel" id="TowaGdpr-{{loop.index}}{{mobile ? '-mobile'}}">
 
-	<ul class="Towa-Gdpr-Plugin__cookies">
-		{% set groupindex = loop.index %}
-		{% for cookie in group.cookies %}
-		<li class="Towa-Gdpr-Plugin__cookie">
-			<div class="Towa-Gdpr-Plugin__switch-wrapper">
-				<div class="Towa-Gdpr-Plugin__switch small">
-					<input id="Towa-Gdpr-Plugin-cookie-{{groupindex}}-{{loop.index}}" class="Towa-Gdpr-Plugin__cookie__checkbox"
-						data-cookiename="{{cookie.name}}" type="checkbox" {{essential ? 'checked="checked" disabled="disabled"' }} />
-					<span class="slider"></span>
-				</div>
-			</div>
-			<div class="Towa-Gdpr-Plugin__cookie-text">
-				<label for="Towa-Gdpr-Plugin-cookie-{{groupindex}}-{{loop.index}}"
-					class="Towa-Gdpr-Plugin__cookie__headline">{{ cookie.name }}</label>
-				<p class="Towa-Gdpr-Plugin__cookie__description">{{ cookie.description }}</p>
-				{% if cookie.link.url != '#' and cookie.link.title %}
-					<a href="{{ cookie.link.url }}"
-						target="_blank">{{ cookie.link.title }}</a>
-				{% endif %}
-			</div>
-		</li>
-		{% endfor %}
-	</ul>
+    <ul class="Towa-Gdpr-Plugin__cookies">
+        {% set groupindex = loop.index %}
+        {% for cookie in group.cookies %}
+        <li class="Towa-Gdpr-Plugin__cookie">
+            <div class="Towa-Gdpr-Plugin__switch-wrapper">
+                <div class="Towa-Gdpr-Plugin__switch small">
+                    <input id="Towa-Gdpr-Plugin-cookie-{{groupindex}}-{{loop.index}}" class="Towa-Gdpr-Plugin__cookie__checkbox"
+                        data-cookiename="{{cookie.name}}" type="checkbox" {{essential ? 'checked="checked" disabled="disabled"' }} />
+                    <span class="slider"></span>
+                </div>
+            </div>
+            <div class="Towa-Gdpr-Plugin__cookie-text">
+                <label for="Towa-Gdpr-Plugin-cookie-{{groupindex}}-{{loop.index}}"
+                    class="Towa-Gdpr-Plugin__cookie__headline">{{ cookie.name }}</label>
+                <p class="Towa-Gdpr-Plugin__cookie__description">{{ cookie.description }}</p>
+                {% if cookie.link.url != '#' and cookie.link.title %}
+                    <a href="{{ cookie.link.url }}"
+                        target="_blank">{{ cookie.link.title }}</a>
+                {% endif %}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
 </div>

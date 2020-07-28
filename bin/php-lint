@@ -18,5 +18,5 @@
 #
 
 if find . -path ./vendor -prune -o -path ./bin -prune -o -path ./.git -prune -o -name "*.php" -exec php -l -f {} \; | grep "^[Errors parsing]"; then
-exit 1;
+    exit 1;
 fi

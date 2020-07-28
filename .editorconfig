@@ -11,6 +11,9 @@ charset = utf-8
 end_of_line = LF
 insert_final_newline = true
 trim_trailing_whitespace = true
+block_comment_start = /*
+block_comment = *
+block_comment_end = */
 
 [*.yml]
 indent_style = space
@@ -20,11 +23,11 @@ indent_size = 2
 [*.{php,html,twig}]
 indent_style = space
 indent_size = 4
-max_line_length = 120
+max_line_length = 216
 end_of_line = lf
 
 [*.md]
-max_line_length = 80
+max_line_length = 120
 trim_trailing_whitespace = false
 
 [COMMIT_EDITMSG]
