@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Towa\GdprPlugin\Acf\AcfCookies;
 use Towa\GdprPlugin\Acf\AcfSettings;
+use Towa\GdprPlugin\Export\Exporter;
 use Towa\GdprPlugin\Helper\PluginHelper;
 use Towa\GdprPlugin\Rest\Rest;
 
@@ -24,8 +25,6 @@ if (!defined('ABSPATH')) {
 
 /**
  * Main plugin class.
- *
- * @author  Martin Welte <martin.welte@towa.at>
  */
 class Plugin
 {
@@ -240,6 +239,11 @@ class Plugin
     public function saveOptionsHook(): void
     {
         if (PluginHelper::isGdprPluginAdminScreen()) {
+            if (PluginHelper::shouldExport()) {
+                $exporter = new Exporter();
+                $exporter->exportToJsonFile();
+                exit;
+            }
             if (PluginHelper::shouldRenewHash()) {
                 \update_field('towa_gdpr_settings_hash', (new Hash())->getHash(), 'option');
             }
@@ -369,6 +373,16 @@ class Plugin
                 'acf_options_page',
                 'side'
             );
+            \add_meta_box(
+                'towa-gdpr-plugin-import-export',
+                __(
+                    'import & export Settings',
+                    'towa-gdpr-plugin'
+                ),
+                [$this, 'displayImportExportAcfMetabox'],
+                'acf_options_page',
+                'side'
+            );
         }
     }
 
@@ -389,6 +403,30 @@ class Plugin
         $twig->addFunction($function);
 
         $template = $twig->load('meta-box.twig');
+        echo $template->render(); // phpcs:ignore
+    }
+
+    /**
+     * Renders import/export Acf Metabox from Twig file.
+     *
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function displayImportExportAcfMetabox(): void
+    {
+        $loader = new \Twig\Loader\FilesystemLoader(TOWA_GDPR_PLUGIN_DIR . '/views/');
+        $twig = new \Twig\Environment($loader);
+        $function = new \Twig\TwigFunction(
+            '__',
+            function (string $string, string $textdomain = 'towa-gdpr-plugin') {
+                return __($string, $textdomain); //phpcs:ignore
+            }
+        );
+
+        $twig->addFunction($function);
+
+        $template = $twig->load('import-export-meta-box.twig');
         echo $template->render(); // phpcs:ignore
     }
 

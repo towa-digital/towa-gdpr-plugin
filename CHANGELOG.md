@@ -11,6 +11,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [v1.1.6]
 
+### Added
+
+- Export Feature
+
 ### Fixed
 
 - Potential Dataleak prevented
