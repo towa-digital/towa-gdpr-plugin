@@ -40,7 +40,7 @@ class Rest
     public function logConsent(WP_REST_Request $request): WP_REST_Response
     {
         $hash = sanitize_key($request->get_param('hash'));
-        $config = json_encode($request->get_param('config'));
+        $config = (string)json_encode($request->get_param('config'));
         $url = sanitize_url($request->get_param('url'));
         try {
             (new Consent($config, $hash, $url))->save();

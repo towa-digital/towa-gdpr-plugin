@@ -63,8 +63,6 @@ class Consent
         $this->hash = $hash;
         $this->config = $config;
         $this->url = $url;
-
-        return $this;
     }
 
     /**
