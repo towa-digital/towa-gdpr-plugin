@@ -1,5 +1,5 @@
 # What to do after changes were made
 
 - run `npm install`
-- run `commit the changes`
+- run `composer install`
 - commit the changes
