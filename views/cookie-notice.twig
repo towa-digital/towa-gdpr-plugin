@@ -1,33 +1,33 @@
 <div class="Towa-Gdpr-Plugin" id="Towa-Gdpr-Plugin">
-	<div class="Towa-Gdpr-Plugin__wrapper">
-		<div class="Towa-Gdpr-Plugin__wysiwyg">
-			{{ cookie_wysiwyg|raw }}
-		</div>
-		<div class="Towa-Gdpr-Plugin__buttons">
-			<button class="Towa-Gdpr-Plugin__accept-all {{ custom_accept_classes }}">{{ accept_label }}</button>
-			<button class="Towa-Gdpr-Plugin__save {{ custom_save_classes }}">{{ save_label }}</button>
-			<button class="Towa-Gdpr-Plugin__decline-all {{ custom_decline_classes }}">{{ decline_label }}</button>
-		</div>
-		<nav class="Towa-Gdpr-Plugin__groups">
-			<ul>
-				{% include 'partial_cookie_group.twig' with {
-							loop:{index:0},
-							group: essential_group,
-							essential: true,
-							accordion: activate_accordion,
-							accordionText: accordion_text
-						} %}
-				{% for group in cookie_groups %}
-				{% include 'partial_cookie_group.twig' with {
-								index : loop.index,
-								group: group,
-								accordion: activate_accordion,
-								accordionText: accordion_text
-							} %}
-				{% endfor %}
-			</ul>
-		</nav>
-	</div>
+    <div class="Towa-Gdpr-Plugin__wrapper">
+        <div class="Towa-Gdpr-Plugin__wysiwyg">
+            {{ cookie_wysiwyg|raw }}
+        </div>
+        <div class="Towa-Gdpr-Plugin__buttons">
+            <button class="Towa-Gdpr-Plugin__accept-all {{ custom_accept_classes }}">{{ accept_label }}</button>
+            <button class="Towa-Gdpr-Plugin__save {{ custom_save_classes }}">{{ save_label }}</button>
+            <button class="Towa-Gdpr-Plugin__decline-all {{ custom_decline_classes }}">{{ decline_label }}</button>
+        </div>
+        <nav class="Towa-Gdpr-Plugin__groups">
+            <ul>
+                {% include 'partial_cookie_group.twig' with {
+                            loop:{index:0},
+                            group: essential_group,
+                            essential: true,
+                            accordion: activate_accordion,
+                            accordionText: accordion_text
+                        } %}
+                {% for group in cookie_groups %}
+                {% include 'partial_cookie_group.twig' with {
+                                index : loop.index,
+                                group: group,
+                                accordion: activate_accordion,
+                                accordionText: accordion_text
+                            } %}
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
 </div>
 <div id="TowaGdprScripts"></div>
 
