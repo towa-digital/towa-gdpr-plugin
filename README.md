@@ -8,8 +8,8 @@ This Plugin is a cookie notice plugin conforming with the GDPR ([General Data Pr
 
 ## Requirements
 
-- PHP 7.2+
-- [Composer](https://getcomposer.org/) (for now. working on version without Composer)
+- PHP 8.0+
+- [Composer 2](https://getcomposer.org/) 
 - [Advanced custom fields pro 5+](https://www.advancedcustomfields.com/)
 
 ## Setup 
