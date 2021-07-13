@@ -14,7 +14,7 @@
 		}
 	],
 	"require": {
-		"php": "^7.2",
+		"php": "^7.2 || ^8.0",
 		"ext-sockets": "*",
 		"brightnucleus/config": "^0.4.0",
 		"brightnucleus/dependencies": "^0.3.2",
