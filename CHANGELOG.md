@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Updated
 
 - PHP 8.0 requirement
-- composer dependencies
+- Composer dependencies
 
 ## [v1.1.8]
 
