@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## unreleased
+## [v1.1.9]
 
 ### Removed
 
@@ -160,6 +160,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Setup Automatic deployment on development branch
 - Setup Composer
 
+[v1.1.9]: https://github.com/towa-digital/towa-gdpr-plugin/tree/v1.1.9
 [v1.1.8]: https://github.com/towa-digital/towa-gdpr-plugin/tree/v1.1.8
 [v1.1.7]: https://github.com/towa-digital/towa-gdpr-plugin/tree/v1.1.7
 [v1.1.6]: https://github.com/towa-digital/towa-gdpr-plugin/tree/v1.1.6
