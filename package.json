@@ -41,7 +41,7 @@
     "browser-sync": "^2.27.5",
     "browser-sync-webpack-plugin": "^2.3.0",
     "core-js": "^2.6.12",
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.3",
     "custom-event-polyfill": "^1.0.7",
     "dotenv": "^8.6.0",
     "element-closest-polyfill": "^1.0.4",
