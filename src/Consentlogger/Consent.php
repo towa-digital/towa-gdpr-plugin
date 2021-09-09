@@ -25,11 +25,6 @@ class Consent
     private $timestamp;
 
     /**
-     * @var string|null
-     */
-    private $ip;
-
-    /**
      * @var string
      */
     private $config;
@@ -59,7 +54,6 @@ class Consent
         $this->timestamp = new \DateTime();
         $this->request = Request::createFromGlobals();
         $this->request::setTrustedProxies(['127.0.0.1', 'REMOTE_ADDR'], Request::HEADER_X_FORWARDED_ALL);
-        $this->ip = $this->request->getClientIp();
         $this->hash = $hash;
         $this->config = $config;
         $this->url = $url;
@@ -90,7 +84,6 @@ class Consent
     {
         return [
             'time' => $this->timestamp->format('Y-m-d H:i:s'),
-            'ip' => $this->ip,
             'url' => $this->url,
             'cookies' => $this->config,
             'hash' => $this->hash,
