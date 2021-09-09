@@ -50,7 +50,7 @@
     "js-cookie": "^3.0.1",
     "laravel-mix": "^5.0.9",
     "laravel-mix-purgecss": "^4.2.0",
-    "lint-staged": "^9.5.0",
+    "lint-staged": "^11.1.2",
     "new-event-polyfill": "^1.0.1",
     "nodelist-foreach-polyfill": "^1.2.0",
     "resolve-url-loader": "^3.1.4",
