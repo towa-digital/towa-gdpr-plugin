@@ -20,7 +20,7 @@ export function setCssClass (element, className, state) {
 }
 
 export function deleteAllCookies () {
-  var cookies = document.cookie.split(';')
+  const cookies = document.cookie.split(';')
   cookies.forEach(cookie => {
     const equalPos = cookie.indexOf('=')
     const name = equalPos > -1 ? cookie.substr(0, equalPos) : cookie
