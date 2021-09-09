@@ -43,7 +43,7 @@
     "core-js": "^2.6.12",
     "cross-env": "^7.0.3",
     "custom-event-polyfill": "^1.0.7",
-    "dotenv": "^8.6.0",
+    "dotenv": "^10.0.0",
     "element-closest-polyfill": "^1.0.4",
     "eslint": "^6.8.0",
     "husky": "^3.1.0",
