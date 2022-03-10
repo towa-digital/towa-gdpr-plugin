@@ -5,5 +5,8 @@
 /phpcs.xml
 /phpunit.xml
 /.idea/*
+
 !composer.lock
 !composer.json
+
+*.phpunit.result.cache
