@@ -12,7 +12,7 @@ This Plugin is a cookie notice plugin conforming with the GDPR ([General Data Pr
 - [Composer](https://getcomposer.org/) (for now. working on version without Composer)
 - [Advanced custom fields pro 5+](https://www.advancedcustomfields.com/)
 
-## Setup 
+## Setup
 
 You will find the steps for the installation in the [`docs`](/docs/) folder.
 
