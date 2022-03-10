@@ -60,8 +60,7 @@
 		"install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
 		"integration": "phpunit --testsuite integration",
 		"lint": [
-			"bin/php-lint",
-			"bin/xml-lint"
+			"bin/php-lint"
 		],
 		"phpcbf": "phpcbf && phpcbf ./towa-gdpr-plugin.php --runtime-set testVersion 7.2 --config-show",
 		"phpcs": "phpcs && phpcs ./towa-gdpr-plugin.php --runtime-set testVersion 7.2",
