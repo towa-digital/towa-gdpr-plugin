@@ -20,7 +20,7 @@
 		"brightnucleus/dependencies": "^0.3.2",
 		"cedaro/wp-plugin": "^0.4.0",
 		"composer/installers": "^1 || ^2",
-		"illuminate/support": "^8.60",
+		"illuminate/support": "^9.23.0",
 		"league/csv": "^9.5.0",
 		"league/flysystem": "^1.0.0",
 		"symfony/http-foundation": "^5.0.0",
@@ -42,7 +42,13 @@
 		"wp-coding-standards/wpcs": "^2"
 	},
 	"config": {
-		"sort-packages": true
+		"sort-packages": true,
+		"allow-plugins": {
+			"composer/installers": true,
+			"infection/extension-installer": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"sllh/composer-versions-check": true
+		}
 	},
 	"autoload": {
 		"psr-4": {
