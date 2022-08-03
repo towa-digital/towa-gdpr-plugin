@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [unreleased] - 03.06.2022
+
+### Updated
+
+- added php 8 to the composer requirements
+- added the installer plugins to the list of allowed composer plugins
+
 ## [v1.1.11] - 28.07.2022
 
 ### Fix
