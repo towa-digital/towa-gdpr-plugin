@@ -25,7 +25,7 @@
     "league/flysystem": "^1.0.0",
     "symfony/http-foundation": "^5.0.0",
     "towa/towa-acf-fields": "^2.0.0",
-    "twig/twig": "^2.7.0"
+    "twig/twig": "^3.4"
   },
   "require-dev": {
     "automattic/vipwpcs": "^2.0",
