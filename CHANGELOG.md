@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v1.2.0] - 04.06.2022
+
+### Updated
+
+- added php 8 to the composer requirements
+- added the installer plugins to the list of allowed composer plugins
+
 ## [v1.1.11] - 28.07.2022
 
 ### Fix
@@ -55,13 +62,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.1.3](https://github.com/towa-digital/towa-gdpr-plugin/tree/1.1.3) - 23.03.2020
 
 ### Fixed
+
 - Fixed updating/deleting transients
 
 ## [1.1.2](https://github.com/towa-digital/towa-gdpr-plugin/tree/1.1.2) - 11.03.2020
 
 ### Fixed
+
 - Changed folder permissons
-- Fixed an exception which occurred when global error variable was not defined 
+- Fixed an exception which occurred when global error variable was not defined
 
 ## [1.1.1](https://github.com/towa-digital/towa-gdpr-plugin/tree/1.1.1) - 10.03.2020
 
@@ -173,6 +182,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Setup Automatic deployment on development branch
 - Setup Composer
 
+[v1.2.0]: https://github.com/towa-digital/towa-gdpr-plugin/tree/v1.2.0
 [v1.1.11]: https://github.com/towa-digital/towa-gdpr-plugin/tree/v1.1.11
 [v1.1.10]: https://github.com/towa-digital/towa-gdpr-plugin/tree/v1.1.10
 [v1.1.9]: https://github.com/towa-digital/towa-gdpr-plugin/tree/v1.1.9
